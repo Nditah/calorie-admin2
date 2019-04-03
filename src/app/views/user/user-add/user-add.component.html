@@ -1,0 +1,141 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>{{ page || "Add New Record" }}</strong>
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="card-body"></div>
+        <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+          
+
+            <div class="animated fadeIn">
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card">
+                <div class="card-header bg-info">
+                  <strong>User Form </strong>
+                </div>
+
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-sm-4">
+                      <input type="text" class="form-control" formControlName="title" id="title"
+                             placeholder="Title">
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <input type="text" class="form-control" formControlName="fullname" id="fullname"
+                             placeholder="Full name">
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <input type="text" class="form-control" formControlName="username" id="username"
+                             placeholder="Username">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <input type="text" class="form-control" formControlName="password" id="password"
+                        placeholder="Password">
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <input type="text" class="form-control" formControlName="confirm_password" id="confirm_password"
+                        placeholder="Confirm Password">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-sm-4">
+                      <input type="tel" class="form-control" id="phone" formControlName="phone" name="phone"
+                      placeholder="Phone (official line)">
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <input type="tel" class="form-control" id="phone_personal" formControlName="phone_personal" name="phone_personal"
+                      placeholder="Phone (home line)">
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <input class="form-control" list="gender_list" id="gender" formControlName="gender" type="text"
+                             name="gender" placeholder="Gender">
+                      <datalist id="gender_list">
+                        <option value="MALE">
+                        <option value="FEMALE">
+                      </datalist>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-sm-4">
+                      <select id="type" class="form-control" formControlName="type" name="type" >
+                      <option value="">Select Interest*</option>
+                        <option value="WRITER">WRITER</option>
+                        <option value="EDITOR">EDITOR</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm-8">
+                      <input type="text" class="form-control" id="referer" formControlName="referer" name="referer"
+                        placeholder="How you found us?">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                  <div class="form-group col-sm-4">
+                      <ng-select id="bank" formControlName="bank" name="bank" placeholder="No Bank selected"
+                      [items]="banks"
+                      bindLabel="text"
+                      [virtualScroll]="true"
+                      bindValue="id">
+                      </ng-select>
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <input type="text" class="form-control" id="bank_account_name" formControlName="bank_account_name" name="bank_account_name"
+                        placeholder="Bank Account Name">
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <input type="text" class="form-control" id="bank_account_number" formControlName="bank_account_number" name="bank_account_number"
+                          placeholder="Bank Account Number">
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="form-group col-sm-8">
+                        <input type="text" class="form-control" id="address" formControlName="address" name="address"
+                          placeholder="Address">
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <select id="country_iso2" formControlName="country_iso2" name="country_iso2" class="form-control">
+                          <option value="">Select Country</option>
+                          <option value="NG">Nigeria</option>
+                          <option value="CM">Cameroon</option>
+                        </select>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="form-group col-sm-12  text-center">
+                      <button class="btn btn-danger" (click)="reset()">Reset</button>   
+                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="addForm.pristine || !addForm.valid">Submit</button>
+                      </div>
+                    </div>
+                
+                </div>
+
+              </div> <!-- card-->           
+            </div>
+            <!--/.row-12-->
+
+          </div>
+
+      </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+</div>

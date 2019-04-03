@@ -1,0 +1,81 @@
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          {{ record.name + ' | ' + record.exercises_required || ' Food Detail' }}
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
+            &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+
+            <div class="col-sm-12">
+              <!-- <div class="card-body"> -->
+              <div class="callout callout-success">
+                <h6 class="text-muted">Description</h6>
+                <br>
+                <h6>{{ record.description || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Exercises</h6>
+                <br>
+                <h6>{{ record.exercises ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Logs</h6>
+                <br>
+                <h6>{{ record.logs ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Editors</h6>
+                <br>
+                <h6>{{ record.editors ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Writers</h6>
+                <br>
+                <h6>{{ record.writers ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+</div>
+
+
+

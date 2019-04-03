@@ -1,0 +1,52 @@
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          {{ record.user ? record.user.fullname : ' Notification Detail' }}
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
+            &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+
+            <div class="col-sm-12">
+              <!-- <div class="card-body"> -->
+              <div class="callout callout-success">
+                <h6 class="text-muted">Message</h6>
+                <br>
+                <h6>{{ record.message || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Status</h6>
+                <br>
+                <h6>{{ record.notification_status }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+</div>
+
+
+

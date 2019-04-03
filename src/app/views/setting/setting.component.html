@@ -1,0 +1,47 @@
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          ERP Settings
+        </div>
+        <div class="card-body">
+
+          <br>
+          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0" *ngIf="success">
+            <thead class="">
+            <tr>
+              <th class="text-center">SN</th>
+              <th>Name</th>
+              <th>Access</th>
+              <th>Value</th>
+              <th>Description</th>
+              <th width='20%' class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="records">
+            <tr  *ngFor="let record of records; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ record.name }}</td>
+              <td> <div class="small">{{ record.access }}</div></td>
+              <td class=""> <div class="small">{{ record.value }}</div></td>
+              <td>
+                <div class="small text-muted">{{ record.description }}</div>
+              </td>
+              <td class="text-center">
+                <button type="button" (click)="recordDetail(record)" class="btn btn-sm btn-ghost-success btn-info" placement="top" tooltip="View Setting">
+                  <i class="fa fa-windows"></i>
+                </button>
+                <button type="button" (click)="recordEdit(record)" class="btn btn-sm btn-ghost-info btn-warning" placement="top" tooltip="Edit Setting">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>

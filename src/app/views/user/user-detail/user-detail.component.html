@@ -1,0 +1,310 @@
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          {{ record.username + ' | ' + record.type + ' ' + record.level || ' User Detail' }}
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
+            &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+
+            <div class="col-sm-4">
+              <!-- <div class="card-body"> -->
+              <div class="callout callout-success">
+                <h6 class="text-muted">Fullname</h6>
+                <br>
+                <h6>{{ record.title + ' ' + record.fullname || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <!-- <div class="card-body"> -->
+              <div class="callout callout-success">
+                <h6 class="text-muted">Phone</h6>
+                <br>
+                <h6>{{ record.phone || '' }} {{ record.phone_personal || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <!-- <div class="card-body"> -->
+              <div class="callout callout-success">
+                <h6 class="text-muted">Email</h6>
+                <br>
+                <h6>{{ record.email || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Address</h6>
+                <br>
+                <h6>{{ record.address + ' ' + record.country_iso2 || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Gender</h6>
+                <br>
+                <h6>{{ record.gender || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Profession</h6>
+                <br>
+                <h6>{{ record.profession || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Bank</h6>
+                <br>
+                <h6>{{ record.bank ? record.bank.name : '' || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Account Number</h6>
+                <br>
+                <h6>{{ record.bank_account_number || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Account Name</h6>
+                <br>
+                <h6>{{ record.bank_account_name || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Referer</h6>
+                <br>
+                <h6>{{ record.referer || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Remark</h6>
+                <br>
+                <h6>{{ record.remark || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Photo</h6>
+                <br>
+                <h6>{{ record.photo || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Bonus</h6>
+                <br>
+                <h6>{{ record.bonus | currency }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Pay</h6>
+                <br>
+                <h6>{{ record.pay | currency }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Payment</h6>
+                <br>
+                <h6>{{ record.payments ? 'Payment(s)' : ' - ' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Payable?</h6>
+                <br>
+                <h6>{{ record.is_payable ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Approved?</h6>
+                <br>
+                <h6>{{ record.is_approved ? 'YES' : 'NO' }}</h6>
+                {{ record.approved_date | date }} by {{ record.approved_by ? record.approved_by.fullname : '' }}
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Disengaged?</h6>
+                <br>
+                <h6>{{ record.is_disengaged ? 'YES' : 'NO' }}</h6>
+                {{ record.disengaged_date | date }} by {{ record.disengaged_by ? record.disengaged_by.fullname : '' }}
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Foods</h6>
+                <br>
+                <h6>{{ record.foods ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Exercises</h6>
+                <br>
+                <h6>{{ record.exercises ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Logs</h6>
+                <br>
+                <h6>{{ record.logs ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Notifications</h6>
+                <br>
+                <h6>{{ record.notifications ? 'YES' : 'NO' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">OTP Count</h6>
+                <br>
+                <h6>{{ record.otp_count | number }} {{ record.otp_access }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Last Login</h6>
+                <br>
+                <h6>{{ record.last_login ? record.last_login.ip : '' }}
+                  {{ record.last_login ? record.last_login.date : '' }}
+                </h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Last Update</h6>
+                <br>
+                <h6>{{ record.updated_at ? record.updated_at : '' }}
+                  {{ record.updated_by ? record.updated_by.fullname : '' }}
+                </h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+</div>
+
+
+

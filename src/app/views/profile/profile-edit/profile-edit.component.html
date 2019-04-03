@@ -1,0 +1,332 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>{{ page || "User Profile" }}</strong>
+          <div class="pull-right">
+            <button class="btn btn-sm btn-info" style="width:100px" (click)="goBack()"><i
+                class="fa fa-reply"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="editProfile" (ngSubmit)="onSubmit()">
+
+
+            <div class="animated fadeIn">
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-header bg-info">
+                      <strong>User Form </strong>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control"  formControlName="username" id="username"
+                            placeholder="Surname">
+                        </div>
+                        <!-- <label for="street">Phone Person</label> -->
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control" formControlName="fullname" id="fullname:"
+                            placeholder="Other Name">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control" formControlName="email" id="email"
+                            placeholder="Email">
+                        </div>
+                        <!-- <label for="street">Phone Person</label> -->
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control" formControlName="password" id="password"
+                            placeholder="Pasword">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="date">Date of birth</label> -->
+                          <input class="form-control" id="birth_date" formControlName="birth_date" 
+                            name="date-input" placeholder="Date of Birth">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="date">Gender</label> -->
+                          <div class="col-md-9 col-form-label">
+                            <div class="form-check form-check-inline mr-1" id="gender">
+                              <input class="form-check-input" type="radio" name="inline-radios" id="inlineRadio1"
+                                value="option1">
+                              <label class="form-check-label" for="inlineRadio1">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline mr-1">
+                              <input class="form-check-input" type="radio" name="inline-radios" id="inlineRadio2"
+                                value="option2">
+                              <label class="form-check-label" for="inlineRadio2">Female</label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="street">Marital Status</label> -->
+                          <!-- <div class="col-md-9 col-form-label"> -->
+                          <select id="select1" name="select1" class="form-control">
+                            <option value="0">Marital Status</option>
+                            <option value="1">Married</option>
+                            <option value="2">Single</option>
+                            <option value="3">Divorced</option>
+                            <option value="3">Seperated</option>
+                            <option value="3">Widowed</option>
+                          </select>
+                          <!-- </div> -->
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="street">Marital Status</label> -->
+                          <!-- <div class="col-md-9 col-form-label"> -->
+                          <select id="select1" name="select1" class="form-control">
+                            <option value="0">Driver Type</option>
+                            <option value="1">Owner</option>
+                            <option value="2">DTO</option>
+                            <option value="3">PMT</option>
+                            <option value="3">Partner</option>
+                          </select>
+                          <!-- </div> -->
+                        </div>
+
+
+                        <!-- <label for="street">Phone</label> -->
+                        <div class="form-group col-sm-4">
+                          <input type="text" class="form-control" formControlName="phone" id="phone"
+                            placeholder="Phone">
+
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="city">Address</label> -->
+                          <input type="text" class="form-control" formControlName="address" id="address"
+                            placeholder="Enter your address">
+                        </div>
+
+                        <!-- <label for="street">Phone Person</label> -->
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control" formControlName="phone_personal" id="phone_personal"
+                            placeholder="Personal Phone">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="postal-code">Qualification</label> -->
+                          <input type="text" class="form-control" formControlName="qualification" id="qualification"
+                            placeholder="Qualification">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="postal-code">State</label> -->
+                          <input type="text" class="form-control" formControlName="state_id" id="state_id"
+                            placeholder="State Id">
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="postal-code">Institution</label> -->
+                          <input type="text" class="form-control" formControlName="institution" id="institution"
+                            placeholder="Institution">
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="postal-code">Country</label> -->
+                          <input type="text" class="form-control" formControlName="country_iso2" id="country_iso2"
+                            placeholder="Country_Iso2">
+                        </div>
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="postal-code">Hub Id</label> -->
+                          <input type="text" class="form-control" formControlName="hub_id" id="hub_id"
+                            placeholder="Hub Id">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <!-- <label for="vat">Kin Name</label> -->
+                        <input type="text" class="form-control" formControlName="kin" id="kin" placeholder="Kin">
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="city"> Kin Address</label> -->
+                          <input type="text" class="form-control" formControlName="kin_address" id="kin_address"
+                            placeholder="Kin Address">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control" formControlName="kin_phone" id="kin_phone"
+                            placeholder="Kin Phone">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <!-- <label for="vat">Guarantor 1</label> -->
+                        <input type="text" class="form-control" formControlName="guarantor1" id="guarantor1"
+                          placeholder="Guarantor 1 Name">
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="city"> Guarantor Address</label> -->
+                          <input type="text" class="form-control" formControlName="guarantor1_address"
+                            id="guarantor1_address" placeholder="Guarantor 1 Address">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control" formControlName="guarantor1_phone"
+                            id="guarantor1_phone" placeholder="Guarantor 1 Phone">
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+                <!--/.col-->
+
+
+
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <!-- <label for="vat">Guarantor 1</label> -->
+                        <input type="text" class="form-control" formControlName="guarantor2" id="guarantor2"
+                          placeholder="Guarantor 2 Name">
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="city"> Guarantor Address</label> -->
+                          <input type="text" class="form-control" formControlName="guarantor2_address"
+                            id="guarantor2_address" placeholder="Guarantor 2 Address">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                          <input type="text" class="form-control" formControlName="guarantor2_phone"
+                            id="guarantor2_phone" placeholder="Guarantor 2 Phone">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <!-- <label for="bank">Bank Id</label> -->
+                        <input type="text" class="form-control" formControlName="bank" id="bank"
+                          placeholder="Eg:PL167890">
+                      </div>
+                      <div class="form-group">
+                        <!-- <label for="bank_account_number">Bank Account Number</label> -->
+                        <input type="text" class="form-control" formControlName="bank_account_number"
+                          id="bank_account_number" placeholder="Bank Account Number">
+                      </div>
+                      <div class="form-group">
+                        <!-- <label for="bank_account_name">Bank Account Name</label> -->
+                        <input type="text" class="form-control" formControlName="bank_account_name"
+                          id="bank_account_name" placeholder="Bank Account Name">
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="notice">Notice</label> -->
+                          <input type="text" class="form-control" formControlName="notice" id="notice"
+                            placeholder="Notice">
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="rating">Rating</label> -->
+                          <input type="text" class="form-control" formControlName="rating" id="rating"
+                            placeholder="Rating">
+                        </div>
+                        <div class="form-group col-sm-4">
+                          <!-- <label for="bonus">Bonus</label> -->
+                          <input type="text" class="form-control" formControlName="bonus" id="bonus"
+                            placeholder="Bonus">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group">
+                          <!-- <label for="bonus">Upload Photo</label> -->
+                          <div class="col-md-9">
+                            <input type="file" id="file-input" name="file-input">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="is_document_complete">Is Document Complete</label> -->
+                          <input type="text" class="form-control" formControlName="is_document_complete"
+                            id="is_document_complete" placeholder="Is Document Complete">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="is_assigned_vechile">Is Assigned Food</label> -->
+                          <input type="text" class="form-control" formControlName="is_assigned_food"
+                            id="is_assigned_food" placeholder="Is Assigned Food">
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="approved_date">Approved Date</label> -->
+                          <input class="form-control" id="date-input" formControlName="approved_date" type="date"
+                            name="approved_date" placeholder="Approved Date">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="employment_status">Employement Status</label> -->
+                          <input type="text" class="form-control" formControlName="employment_status"
+                            id="employment_status" placeholder="Employement Status">
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="disengaged_date">Disengaged By </label> -->
+                          <input type="text" class="form-control" formControlName="disengaged_date" id="disengaged_date"
+                            placeholder="Disengaged Date ">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <!-- <label for="disengaged_date">Disengaged Date</label> -->
+                          <input class="form-control" formControlName="disengaged_date" id="disengaged_date" type="date"
+                            name="date-input" placeholder="Disengaged Date">
+                        </div>
+                      
+                      </div>
+                      <!--/.row-->
+
+                      <div class="form-group form-actions pull-right">
+                        <button type="submit" class="btn btn-md btn-primary">Submit</button>
+                      </div>
+                      <button class="btn btn-danger" (click)="reset()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!--/.col-->
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,33 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+
+// If you want to add something do it here
+@import "custom";
+
+// If you want to override variables do it here
+
+// ng-select styles
+@import "~@ng-select/ng-select/themes/default.theme.css";
+//@import "~@ng-select/ng-select/themes/material.theme.css";
+
+.customsuccess div.ui-pnotify-container {
+  background-image: none;
+  background-color: lawngreen;
+}
+.custominfo div.ui-pnotify-container {
+  background-image: none;
+  background-color: deepskyblue;
+}
+
+.customdanger div.ui-pnotify-container {
+  background-image: none;
+  background-color: orangered;
+}
+
+.customwarn div.ui-pnotify-container {
+  background-image: none;
+  background-color: coral;
+}

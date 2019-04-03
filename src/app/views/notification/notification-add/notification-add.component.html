@@ -1,0 +1,67 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>{{ page || "Add Record" }}</strong>
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="card-body"></div>
+        <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+          
+
+            <div class="animated fadeIn">
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card">
+                <div class="card-header bg-info">
+                  <strong>Notification Form </strong>
+                </div>
+
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-sm-12">
+                      <ng-select id="user" formControlName="user" name="user" placeholder="No User selected"
+                        [items]="users"
+                        bindLabel="text"
+                        [virtualScroll]="true"
+                        bindValue="id">
+                        </ng-select>
+                      </div>
+
+                    <div class="form-group col-sm-6">
+                        <input type="text" class="form-control" formControlName="notification_status" id="notification_status"
+                               placeholder="Notification status">
+                      </div>
+                    <div class="form-group col-sm-6">
+                      <input type="text" class="form-control" formControlName="message" id="message"
+                             placeholder="Message">
+                    </div>
+                  </div>
+
+                   <div class="row">
+                      <div class="form-group col-sm-12  text-center">
+                      <button class="btn btn-danger" (click)="reset()">Reset</button>   
+                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="addForm.pristine">Submit</button>
+                      </div>
+                    </div>
+                
+                </div>
+
+              </div> <!-- card-->           
+            </div>
+            <!--/.row-12-->
+
+          </div>
+
+      </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+</div>

@@ -1,0 +1,57 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header bg-teal">
+          <strong>Edit Setting</strong>
+          <small> New</small>
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <!-- form content -->
+          <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-sm-9">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="">Name: </label>
+                    <input type="text" class="form-control btn-square" id="name" name="name" formControlName="name" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Category:</label>
+                    <input type="text" class="form-control btn-square" id="category" name="category" formControlName="category" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Value* :</label>
+                    <input type="text" class="form-control btn-square" id="value" name="value" formControlName="value">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Description</label>
+                    <input type="text" class="form-control btn-square" id="description"  name="description" formControlName="description">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-pill btn-block btn-success"> Save Setting Details</button>
+                  </div>
+                </div>
+              </div>
+              <!--</div>&lt;!&ndash;/.col&ndash;&gt;-->
+
+              <div class="col-sm-3">
+                <i class="fa fa-arrow-left fa-2x"> </i> <h3><strong> Please fill the form carefully </strong></h3>
+              </div><!--/.col-->
+
+            </div><!--/.row-->
+          </form>
+          <!--/. form content -->
+
+        </div>
+      </div>
+    </div>
+  </div><!--/.row-->
+</div>
+

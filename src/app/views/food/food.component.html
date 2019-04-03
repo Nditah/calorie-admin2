@@ -1,0 +1,50 @@
+<div class="animated fadeIn">
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          {{ page || 'List of Records' }}
+          <div class="pull-right">
+            <button class="btn btn-sm btn-block btn-ghost-info active" (click)="goToAdd()"><i class="fa fa-plus-circle"></i>New Record</button>
+          </div>
+
+        </div>
+        <div class="card-body">
+          
+          <br>
+          <div class="fa-3x text-center" *ngIf="loading">
+            <i class="fa fa-spinner fa-pulse"></i> Loading records
+          </div>
+          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0"  *ngIf="success">
+            <thead class="thead-light">
+            <tr>
+              <th class="text-left">SN</th>
+              <th>Food</th>
+              <th>No.</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th width='20%' class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let record of records; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ record.name }}</td>
+              <td>{{ record.exercises_required }}</td>
+              <td>{{ record.category }}</td>
+              <td>{{ record.description }}</td>
+              <td class="text-center">
+                  <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
+                  <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>
+                  <button type="button" tooltip="Delete Record" (click)="recordDelete(record)" class="btn btn-sm btn-pill btn-danger"><i class="fa fa-trash-o"></i></button>
+              </td>
+            </tr>
+            </tbody>
+
+        </table>
+        </div>
+      </div>
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
