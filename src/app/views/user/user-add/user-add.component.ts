@@ -12,7 +12,7 @@ export class UserAddComponent implements OnInit {
 
   page = 'Add New User Record';
   addForm: FormGroup;
-  banks: SelectOptionInterface[];
+  logs: SelectOptionInterface[];
   response: ApiResponse;
   success = false;
   message = '';
@@ -27,7 +27,7 @@ export class UserAddComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    this.getBanks();
+    this.getLogs();
 
     this.addForm = this.formBuilder.group({
       type: ['', Validators.required], // ["ADMIN", "USER"]
@@ -95,18 +95,18 @@ export class UserAddComponent implements OnInit {
       });
   }
 
-  getBanks() {
-    const storedRecords = this.utilsService.getLocalStorage('banks') || [];
+  getLogs() {
+    const storedRecords = this.utilsService.getLocalStorage('logs') || [];
     if (storedRecords.length > 0) {
-      this.banks = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.banks);
+      this.logs = storedRecords.map(item => ({ id: item.id, text: item.name }));
+      console.log(this.logs);
       return;
     }
-    return this.crudService.getAuth(GetRoutes.Banks, true)
+    return this.crudService.getAuth(GetRoutes.Logs, true)
       .then((data: ApiResponse) => {
         if (data.success && data.payload.length > 0) {
-          this.banks = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.banks);
+          this.logs = data.payload.map(item => ({ id: item.id, text: item.name }));
+          console.log(this.logs);
           return;
         }
       });

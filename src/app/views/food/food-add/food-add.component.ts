@@ -27,7 +27,6 @@ export class FoodAddComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    this.getBanks();
 
     this.addForm = this.formBuilder.group({
       type: ['', Validators.required], // enum: ["DEFAULT", "CUSTOM"]
@@ -87,23 +86,6 @@ export class FoodAddComponent implements OnInit {
       }).catch( err => {
         this.loading = false;
         this.toast(err.message, 'customerror');
-      });
-  }
-
-  getBanks() {
-    const storedRecords = this.utilsService.getLocalStorage('banks') || [];
-    if (storedRecords.length > 0) {
-      this.banks = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.banks);
-      return;
-    }
-    return this.crudService.getAuth(GetRoutes.Banks, true)
-      .then((data: ApiResponse) => {
-        if (data.success && data.payload.length > 0) {
-          this.banks = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.banks);
-          return;
-        }
       });
   }
 

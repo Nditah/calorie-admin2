@@ -29,8 +29,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (!this.utilsService.getLocalStorage('banks')) {
-      this.crudService.get(GetRoutes.Banks, true)
+    if (!this.utilsService.getLocalStorage('exercises')) {
+      this.crudService.get(GetRoutes.Exercises, true)
         .then(data => console.log(data.message))
         .catch(err => console.error(err));
     }
@@ -46,6 +46,11 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     }
     if (!this.utilsService.getLocalStorage('users')) {
       this.crudService.get(GetRoutes.Users, true)
+        .then(data => console.log(data.message))
+        .catch(err => console.error(err));
+    }
+    if (!this.utilsService.getLocalStorage('logs')) {
+      this.crudService.get(GetRoutes.Logs, true)
         .then(data => console.log(data.message))
         .catch(err => console.error(err));
     }

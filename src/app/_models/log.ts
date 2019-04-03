@@ -5,8 +5,10 @@ import { Exercise } from './exercise';
 export interface Log {
     id: string;
     day: Date;
-    food: Array<{ meal: Food, quantity: number }>;
-    exercise: Array<{ activity: Exercise, duration: number }>;
+    food: Food;
+    food_quantity: number;
+    exercise: Exercise;
+    exercise_duration: number;
     remark: string;
     created_by: User;
     created_at: Date;
