@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          {{ record.food ? record.food.name : ' Log Detail' }}
+          {{ record.day || ' Log Detail' }}
           <div class="pull-right">
             <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
             &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
@@ -16,9 +16,9 @@
             <div class="col-sm-12">
               <!-- <div class="card-body"> -->
               <div class="callout callout-success">
-                <h6 class="text-muted">Writer</h6>
+                <h6 class="text-muted">Remark</h6>
                 <br>
-                <h6>{{ record.writer ? record.writer.fullname : '' }}</h6>
+                <h6>{{ record.remark }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
@@ -29,9 +29,9 @@
           <div class="row">
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Log Title</h6>
+                <h6 class="text-muted">Food</h6>
                 <br>
-                <h6>{{ record.title }}</h6>
+                <h6>{{ record.food ? record.food.name : '' }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
@@ -39,9 +39,9 @@
             </div>
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Log Body</h6>
+                <h6 class="text-muted">Food Quantity</h6>
                 <br>
-                <h6>{{ record.body }}</h6>
+                <h6>{{ record.food_quantity }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
@@ -49,9 +49,9 @@
             </div>
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Remark</h6>
+                <h6 class="text-muted">Exercise</h6>
                 <br>
-                <h6>{{ record.remark }}</h6>
+                <h6>{{ record.exercise ? record.exercise.name : '' }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
@@ -59,9 +59,9 @@
             </div>
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Score</h6>
+                <h6 class="text-muted">Exercise Duration</h6>
                 <br>
-                <h6>{{ record.score }}</h6>
+                <h6>{{ record.exercise_duration }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>

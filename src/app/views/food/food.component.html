@@ -21,9 +21,10 @@
             <tr>
               <th class="text-left">SN</th>
               <th>Food</th>
-              <th>No.</th>
+              <th>Type</th>
               <th>Category</th>
-              <th>Description</th>
+              <th>Quantity</th>
+              <th>Calories</th>
               <th width='20%' class="text-center">Action</th>
             </tr>
             </thead>
@@ -31,9 +32,10 @@
             <tr  *ngFor="let record of records; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ record.name }}</td>
-              <td>{{ record.exercises_required }}</td>
+              <td>{{ record.type }}</td>
               <td>{{ record.category }}</td>
-              <td>{{ record.description }}</td>
+              <td>{{ record.quantity }}</td>
+              <td>{{ record.calories }}</td>
               <td class="text-center">
                   <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
                   <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>

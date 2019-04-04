@@ -20,24 +20,22 @@
             <thead class="thead-light">
             <tr>
               <th class="text-left">SN</th>
+              <th>Day</th>
               <th>Food</th>
-              <th>Writer</th>
-              <th>Score</th>
-              <th>Published</th>
-              <th>Pay</th>
-              <th>Paid</th>
+              <th>Quantity</th>
+              <th>Exercise</th>
+              <th>Duration</th>
               <th width='20%' class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
             <tr  *ngFor="let record of records; let i = index">
               <td>{{ i + 1 }}</td>
+              <td>{{ record.day }}</td>
               <td>{{ record.food ? record.food.name : '' }}</td>
-              <td>{{ record.writer ? record.food.fullname : '' }}</td>
-              <td>{{ record.score }}</td>
-              <td>{{ record.is_published ? 'YES' : 'NO' }}</td>
-              <td>{{ record.pay }}</td>
-              <td>{{ record.is_pay_claimed }}</td>
+              <td>{{ record.food_quantity }}</td>
+              <td>{{ record.exercise ? record.exercise.name : '' }}</td>
+              <td>{{ record.exercise_duration }}</td>
               <td class="text-center">
                   <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
                   <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>

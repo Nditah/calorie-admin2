@@ -26,7 +26,7 @@ export class ExerciseComponent implements OnInit {
     ngOnInit() {
       this.notify = this.pNotifyService.getPNotify();
       const storedRecords = this.utilsService.getLocalStorage('exercises');
-      if (storedRecords) {
+      if (storedRecords && storedRecords.length > 0) {
           this.records = storedRecords;
           this.toast('getting saved information', 'custominfo');
           this.success = true;
@@ -40,10 +40,13 @@ export class ExerciseComponent implements OnInit {
       return this.crudService.getAuth(GetRoutes.Exercises, true)
         .then((response: ApiResponse) => {
           this.message = response.message;
+          this.loading = false;
           if (response.success) {
-            this.loading = false;
+            console.log(response);
             this.records = response.payload;
             this.success = response.success;
+          } else {
+            this.toast(response.message, 'customerror');
           }
         }).catch( err => {
           this.loading = false;

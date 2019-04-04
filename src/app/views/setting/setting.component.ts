@@ -36,13 +36,15 @@ export class SettingComponent implements OnInit {
   }
   recordRetrieve() {
     this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Settings + '?access=private', true)
+    return this.crudService.getAuth(GetRoutes.Settings, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
+        this.loading = false;
+        if (response.success) {
           this.records = response.payload;
           this.success = response.success;
+        } else {
+          this.toast(response.message, 'customerror');
         }
       }).catch( err => {
         this.loading = false;

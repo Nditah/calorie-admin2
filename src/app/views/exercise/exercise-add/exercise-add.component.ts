@@ -8,11 +8,10 @@ import {ApiResponse, SelectOptionInterface} from '../../../_models';
 @Component({
   selector: 'app-exercise-add',
   templateUrl: './exercise-add.component.html',
-  styleUrls: ['./exercise-add.component.scss']
 })
 export class ExerciseAddComponent implements OnInit {
 
-  page = 'Add New User Record';
+  page = 'Add New Exercise';
   addForm: FormGroup;
   foods: SelectOptionInterface[];
   users: SelectOptionInterface[];
@@ -31,12 +30,10 @@ export class ExerciseAddComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    this.getFoods();
-    this.getUsers();
 
     this.addForm = this.formBuilder.group({
-      type: ['', Validators.required], // ["DEFAULT", "CUSTOM"]
-      category: ['', Validators.required], // enum: ["SPORT", "WORKOUT"]
+      type: [null, Validators.required], // ["DEFAULT", "CUSTOM"]
+      category: [null, Validators.required], // ["SPORT", "WORKOUT"]
       name: ['', Validators.required],
       description: ['', Validators.required],
       calorie: ['', Validators.required],
@@ -51,7 +48,6 @@ export class ExerciseAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
-    delete payload.confirm_password;
     console.log(payload);
     return this.crudService.post(GetRoutes.Exercises, payload)
       .then((data: ApiResponse) => {
@@ -85,39 +81,6 @@ export class ExerciseAddComponent implements OnInit {
       }).catch( err => {
         this.loading = false;
         this.toast(err.message, 'customerror');
-      });
-  }
-
-  getFoods() {
-    const storedRecords = this.utilsService.getLocalStorage('foods') || [];
-    if (storedRecords.length > 0) {
-      this.foods = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.foods);
-      return;
-    }
-    return this.crudService.getAuth(GetRoutes.Foods, true)
-      .then((data: ApiResponse) => {
-        if (data.success && data.payload.length > 0) {
-          this.foods = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.foods);
-          return;
-        }
-      });
-  }
-  getUsers() {
-    const storedRecords = this.utilsService.getLocalStorage('users') || [];
-    if (storedRecords.length > 0) {
-      this.users = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.users);
-      return;
-    }
-    return this.crudService.getAuth(GetRoutes.Users, true)
-      .then((data: ApiResponse) => {
-        if (data.success && data.payload.length > 0) {
-          this.users = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.users);
-          return;
-        }
       });
   }
 

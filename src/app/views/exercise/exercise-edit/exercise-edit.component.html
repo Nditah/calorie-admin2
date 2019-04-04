@@ -1,3 +1,81 @@
-<p>
-  exercise-edit works!
-</p>
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <strong>{{ page || "Edit Record" }}</strong>
+            <div class="pull-right">
+              <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+            </div>
+          </div>
+          <div class="card-body"></div>
+          <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            
+  
+              <div class="animated fadeIn">
+  
+            <div class="row justify-content-center">
+              <div class="col-sm-10 text-center">
+                <div class="card">
+                  <div class="card-header bg-info">
+                    <strong>Exercise Form </strong>
+                  </div>
+  
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-sm-6">
+                        <input type="text" class="form-control" formControlName="name" id="name"
+                               placeholder="Exercise name">
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <select class="form-control" formControlName="type" id="type">
+                            <option value="">Select Type</option>  
+                            <option value="DEFAULT">DEFAULT</option>  
+                            <option value="CUSTOM">CUSTOM</option>  
+                          </select>
+                      </div>
+                      <div class="form-group col-sm-4">
+                          <select class="form-control" formControlName="category" id="category">
+                              <option value="">Select Category</option>  
+                              <option value="SPORT">SPORT</option>  
+                              <option value="WORKOUT">WORKOUT</option>  
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <input type="number" class="form-control" formControlName="calorie" id="calorie"
+                                   placeholder="Calorie">
+                          </div>
+                      <div class="form-group col-sm-4">
+                          <input type="number" class="form-control" formControlName="duration" id="duration"
+                                 placeholder="Duration">
+                        </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="description" id="description"
+                               placeholder="Description">
+                      </div>
+                    </div>
+  
+                     <div class="row">
+                        <div class="form-group col-sm-12  text-center">
+                        <button class="btn btn-danger" (click)="reset()">Reset</button>   
+                        &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine">Submit</button>
+                        </div>
+                      </div>
+                  
+                  </div>
+  
+                </div> <!-- card-->           
+              </div>
+              <!--/.row-12-->
+  
+            </div>
+  
+        </div>
+        </form>
+      </div>
+  
+  
+    </div>
+  </div>
+  </div>
+  

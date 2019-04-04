@@ -25,8 +25,8 @@ export class FoodComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    const storedRecords = this.utilsService.getLocalStorage('foods');
-    if (storedRecords) {
+    const storedRecords = this.utilsService.getLocalStorage('foods') || [];
+    if (storedRecords && storedRecords.length > 0) {
         this.records = storedRecords;
         this.toast('getting saved information', 'custominfo');
         this.success = true;
@@ -39,11 +39,13 @@ export class FoodComponent implements OnInit {
     this.loading = true;
     return this.crudService.getAuth(GetRoutes.Foods, true)
       .then((response: ApiResponse) => {
+        this.loading = false;
         this.message = response.message;
         if (response.success) {
-          this.loading = false;
           this.records = response.payload;
           this.success = response.success;
+        } else {
+          this.toast(response.message, 'customerror');
         }
       }).catch( err => {
         this.loading = false;

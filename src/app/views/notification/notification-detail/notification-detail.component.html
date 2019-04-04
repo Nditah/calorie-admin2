@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          {{ record.user ? record.user.fullname : ' Notification Detail' }}
+          {{ record.user ? record.user.username : ' Notification Detail' }}
           <div class="pull-right">
             <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
             &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>

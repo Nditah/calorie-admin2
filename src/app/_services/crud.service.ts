@@ -27,7 +27,7 @@ export class CrudService {
   }
 
   getAuth(url: GetRoutes | string, saveData: boolean = false) {
-    console.log('token====', this.token);
+    console.log('token is', this.token);
 
     return fetch(url, {
       method: 'GET',

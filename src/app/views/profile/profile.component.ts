@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     // this.user = Object.assign({}, this.utilsService.getLocalStorage('user'));
     if (typeof this.user.id === 'string') {
       const user = this.utilsService.cleanObject(this.getRecord(this.user.id));
-      if (typeof user.username === 'string') {
+      if (!!user) {
         this.user = Object.assign({}, user);
         this.utilsService.setLocalStorage('user', this.user, null);
       } else {
@@ -48,12 +48,13 @@ export class ProfileComponent implements OnInit {
       .then((response: ApiResponse) => {
         console.log('response ===', response);
         this.message = response.message;
+        this.loading = false;
         if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
           this.user = Object.assign({}, response.payload[0]);
           this.success = response.success;
           this.utilsService.setLocalStorage('user', this.user, null);
-          this.loading = false;
+        } else {
+          this.toast(response.message, 'customerror');
         }
       }).catch( err => {
         this.loading = false;
@@ -70,9 +71,8 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  profileEdit(user: User): void {
-    this.utilsService.removeLocalStorage('profileEditId');
-    this.utilsService.setLocalStorage('profileEditId', user.id, null);
+  goToEdit(record: any): void {
+    this.utilsService.setLocalStorage('profileEditId', record.id, null);
     this.router.navigate(['profile/edit']);
   }
   // toast notification

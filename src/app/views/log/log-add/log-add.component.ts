@@ -13,6 +13,7 @@ export class LogAddComponent implements OnInit {
   page = 'Add New Log Record';
   addForm: FormGroup;
   exercises: SelectOptionInterface[];
+  foods: SelectOptionInterface[];
   response: ApiResponse;
   success = false;
   message = '';
@@ -48,17 +49,15 @@ export class LogAddComponent implements OnInit {
     const payload = this.addForm.value;
     console.log(payload);
     return this.crudService.post(GetRoutes.Logs, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
-        if (this.response.success) {
-          this.loading = false;
+      .then((response: ApiResponse) => {
+        this.loading = false;
+        if (response.success) {
           this.reset();
           this.toast('Record added successfully', 'customsuccess');
           this.recordRetrieve();
-          this.goToDetail(this.response.payload[0]);
+          this.goToDetail(response.payload[0]);
         } else {
-          this.loading = false;
-          this.toast(this.response.message, 'customdanger');
+          this.toast(response.message, 'customdanger');
         }
       }).catch( err => {
         this.loading = false;
@@ -70,14 +69,13 @@ export class LogAddComponent implements OnInit {
     this.loading = true;
     return this.crudService.getAuth(GetRoutes.Logs, true)
       .then((response: ApiResponse) => {
+        this.loading = false;
         this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
+        if (response.success) {
           // this.records = response.payload;
           this.success = response.success;
         }
       }).catch( err => {
-        this.loading = false;
         this.toast(err.message, 'customerror');
       });
   }
@@ -94,6 +92,23 @@ export class LogAddComponent implements OnInit {
         if (data.success && data.payload.length > 0) {
           this.exercises = data.payload.map(item => ({ id: item.id, text: item.name }));
           console.log(this.exercises);
+          return;
+        }
+      });
+  }
+
+  getFoods() {
+    const storedRecords = this.utilsService.getLocalStorage('foods') || [];
+    if (storedRecords.length > 0) {
+      this.foods = storedRecords.map(item => ({ id: item.id, text: item.name }));
+      console.log(this.exercises);
+      return;
+    }
+    return this.crudService.getAuth(GetRoutes.Exercises, true)
+      .then((data: ApiResponse) => {
+        if (data.success && data.payload.length > 0) {
+          this.foods = data.payload.map(item => ({ id: item.id, text: item.name }));
+          console.log(this.foods);
           return;
         }
       });

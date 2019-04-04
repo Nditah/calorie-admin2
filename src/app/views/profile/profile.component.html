@@ -4,67 +4,51 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h3>{{ user.username || ' Profile Detail' }}</h3>
+          {{ user.username || ' Profile Detail' }}
           <div class="pull-right">
-            <button class="btn btn-sm btn-primary" style="width:100px" (click)="profileEdit(user)"> Edit</button>
+              <button type="button" tooltip="Edit Record" (click)="goToEdit(user)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>
           </div>
         </div>
         <div class="container">
           <div class="row">
 
             <div class="col-sm-4">
-              <!-- <div class="card-body"> -->
-
               <div class="callout callout-success">
-                <h6 class="text-muted">Id</h6>
+                <h6 class="text-muted">Type</h6>
                 <br>
-                <h6>{{ user.id || '' }}</h6>
+                <h6>{{ user.type || '' }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
               </div>
-
-
             </div>
+
             <div class="col-sm-4">
-              <!-- <div class="card-body"> -->
               <div class="callout callout-success">
-                <h6 class="text-muted">Surname</h6>
+                <h6 class="text-muted">Email</h6>
                 <br>
-                <h6>{{ user.username || '' }}</h6>
+                <h6>{{ user.email || '' }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
               </div>
-
-
             </div>
+
             <div class="col-sm-4">
-              <!-- <div class="card-body"> -->
               <div class="callout callout-success">
-                <h6 class="text-muted">Other Name</h6>
+                <h6 class="text-muted">Phone</h6>
                 <br>
-                <h6>{{ user.fullname || '' }}</h6>
+                <h6>{{ user.phone || '' }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
               </div>
-
-
             </div>
+
           </div>
-     
-    
-
-
-
-
         </div>
 
-
       </div>
-
-
 
     </div>
   </div>

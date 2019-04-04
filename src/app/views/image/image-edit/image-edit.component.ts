@@ -77,11 +77,7 @@ export class ImageEditComponent implements OnInit {
     const payload = this.editForm.value;
     this.loading = true;
     console.log('editForm payload ', payload);
-    // payload.staff_id = payload.staff;
-    // payload.driver_id = payload.driver;
-    //
-    // delete payload.city;
-    // delete payload.driver;
+
     return this.crudService.put(GetRoutes.Images + '/' + this.record.id, payload)
       .then((data: ApiResponse) => {
         this.response = data;

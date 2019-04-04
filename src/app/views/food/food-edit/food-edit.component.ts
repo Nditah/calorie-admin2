@@ -63,7 +63,17 @@ export class FoodEditComponent implements OnInit {
       minerals: [''],
     });
 
+    this.editForm.get('type').setValue(this.record.type || '');
+    this.editForm.get('category').setValue(this.record.category || '');
     this.editForm.get('name').setValue(this.record.name || '');
+    this.editForm.get('quantity').setValue(this.record.quantity || '');
+    this.editForm.get('water').setValue(this.record.water || '');
+    this.editForm.get('calories').setValue(this.record.calories || '');
+    this.editForm.get('carbs').setValue(this.record.carbs || '');
+    this.editForm.get('protein').setValue(this.record.protein || '');
+    this.editForm.get('fat').setValue(this.record.fat || '');
+    this.editForm.get('fiber').setValue(this.record.fiber || '');
+    this.editForm.get('vitamins').setValue(this.record.vitamins || '');
     this.editForm.get('description').setValue(this.record.description || '');
 
     console.log('\nrecord ', typeof this.record, this.record);
@@ -89,23 +99,16 @@ export class FoodEditComponent implements OnInit {
     const payload = this.editForm.value;
     this.loading = true;
     console.log('editForm payload ', payload);
-    // payload.staff_id = payload.staff;
-    // payload.driver_id = payload.driver;
-    //
-    // delete payload.city;
-    // delete payload.driver;
     return this.crudService.put(GetRoutes.Foods + '/' + this.record.id, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
-        this.record = this.response.payload;
-        if (this.response.success) {
-          this.loading = false;
+      .then((response: ApiResponse) => {
+        this.record = response.payload;
+        this.loading = false;
+        if (response.success) {
           this.toast('Record updated successfully', 'customsuccess');
           this.recordRetrieve();
           this.goBack();
         } else {
-          this.loading = false;
-          this.toast(this.response.message, 'customdanger');
+          this.toast(response.message, 'customdanger');
         }
       }).catch( err => {
         this.loading = false;
@@ -118,10 +121,12 @@ export class FoodEditComponent implements OnInit {
     return this.crudService.getAuth(GetRoutes.Foods, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
+        this.loading = false;
+        if (response.success) {
           // this.records = response.payload;
           this.success = response.success;
+        } else {
+          this.toast(response.message, 'customdanger');
         }
       }).catch( err => {
         this.loading = false;

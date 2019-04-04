@@ -34,14 +34,14 @@ export class FoodAddComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
       quantity: ['', Validators.required],
-      water: ['', Validators.required],
-      calories: ['', Validators.required],
-      carbs: ['', Validators.required],
-      protein: ['', Validators.required],
-      fat: ['', Validators.required],
-      fiber: ['', Validators.required],
-      vitamins: ['', Validators.required],
-      minerals: ['', Validators.required],
+      water: [''],
+      calories: [''],
+      carbs: [''],
+      protein: [''],
+      fat: [''],
+      fiber: [''],
+      vitamins: [''],
+      minerals: [''],
     });
 
   }
@@ -52,7 +52,6 @@ export class FoodAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
-    delete payload.confirm_password;
     console.log(payload);
     return this.crudService.post(GetRoutes.Foods, payload)
       .then((data: ApiResponse) => {

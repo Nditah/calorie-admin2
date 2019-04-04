@@ -20,22 +20,22 @@
             <thead class="thead-light">
             <tr>
               <th class="text-left">SN</th>
-              <th>Food</th>
-              <th>Title</th>
-              <th>Body</th>
-              <th>Tags</th>
-              <th>Slug</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Name</th>
+              <th>Calorie</th>
+              <th>Duration</th>
               <th width='20%' class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
             <tr  *ngFor="let record of records; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ record.food }}</td>
-              <td>{{ record.title }}</td>
-              <td>{{ record.body }}</td>
-              <td>{{ record.tags }}</td>
-              <td>{{ record.slug }}</td>
+              <td>{{ record.type }}</td>
+              <td>{{ record.category }}</td>
+              <td>{{ record.name }}</td>
+              <td>{{ record.calorie }}</td>
+              <td>{{ record.duration }}</td>
               <td class="text-center">
                   <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
                   <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>

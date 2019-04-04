@@ -49,12 +49,10 @@ export class UserEditComponent implements OnInit {
     // console.log('records ' + this.record);
 
     this.editForm = this.formBuilder.group({
-      id: [''],
       type: [''], // ["ADMIN", "USER"]
       username: [''],
       gender: [''], // ["MALE", "FEMALE"]
       phone: [''],
-      address: [''],
       country_iso2: [''],
       email: [''],
       is_email_verified: [''],
@@ -65,8 +63,6 @@ export class UserEditComponent implements OnInit {
       desired_mass: [''],
       height: [''],
       lifestyle: [''],
-      logs: [''],
-      notifications: [''],
       is_complete: [''],
     });
 
@@ -76,7 +72,16 @@ export class UserEditComponent implements OnInit {
     this.editForm.get('country_iso2').setValue(this.record.country_iso2 || '');
     this.editForm.get('password').setValue(this.record.password || '');
     this.editForm.get('email').setValue(this.record.email || '');
+    this.editForm.get('is_email_verified').setValue(this.record.is_email_verified || '');
     this.editForm.get('phone').setValue(this.record.phone || '');
+    this.editForm.get('is_phone_verified').setValue(this.record.is_phone_verified || '');
+    this.editForm.get('is_phone_verified').setValue(this.record.is_phone_verified || '');
+    this.editForm.get('original_mass').setValue(this.record.original_mass || '');
+    this.editForm.get('current_mass').setValue(this.record.current_mass || '');
+    this.editForm.get('original_mass').setValue(this.record.original_mass || '');
+    this.editForm.get('desired_mass').setValue(this.record.desired_mass || '');
+    this.editForm.get('height').setValue(this.record.height || '');
+    this.editForm.get('is_complete').setValue(this.record.is_complete || '');
     console.log('\nrecord Name', typeof this.record, this.record);
   }
 
@@ -101,16 +106,14 @@ export class UserEditComponent implements OnInit {
     this.loading = true;
     console.log('editForm payload ', payload);
     return this.crudService.put(GetRoutes.Users + '/' + this.record.id, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
+      .then((response: ApiResponse) => {
+        this.loading = false;
         this.record = this.response.payload;
-        if (this.response.success) {
-          this.loading = false;
+        if (response.success) {
           this.toast('Record updated successfully', 'customsuccess');
           this.recordRetrieve();
           this.goBack();
         } else {
-          this.loading = false;
           this.toast(this.response.message, 'customdanger');
         }
       }).catch( err => {
@@ -124,10 +127,12 @@ export class UserEditComponent implements OnInit {
     return this.crudService.getAuth(GetRoutes.Users, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
+        this.loading = false;
         if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
           // this.records = response.payload;
           this.success = response.success;
+        } else {
+          this.toast(this.response.message, 'customdanger');
         }
       }).catch( err => {
         this.loading = false;

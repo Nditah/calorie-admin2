@@ -10,7 +10,7 @@ import {ApiResponse, SelectOptionInterface} from '../../../_models';
 })
 export class UserAddComponent implements OnInit {
 
-  page = 'Add New User Record';
+  page = 'Add New User';
   addForm: FormGroup;
   logs: SelectOptionInterface[];
   response: ApiResponse;
@@ -34,20 +34,14 @@ export class UserAddComponent implements OnInit {
       username: ['', Validators.required],
       gender: ['', Validators.required], // ["MALE", "FEMALE"]
       phone: ['', Validators.required],
-      address: ['', Validators.required],
-      country_iso2: ['', Validators.required],
+      country_iso2: [''],
       email: ['', Validators.required],
-      is_email_verified: ['', Validators.required],
-      is_phone_verified: ['', Validators.required],
       password: ['', Validators.required],
-      original_mass: ['', Validators.required],
-      current_mass: ['', Validators.required],
-      desired_mass: ['', Validators.required],
-      height: ['', Validators.required],
-      lifestyle: ['', Validators.required],
-      logs: ['', Validators.required],
-      notifications: ['', Validators.required],
-      is_complete: ['', Validators.required],
+      original_mass: [''],
+      current_mass: [''],
+      desired_mass: [''],
+      height: [''],
+      lifestyle: [''],
     });
 
   }

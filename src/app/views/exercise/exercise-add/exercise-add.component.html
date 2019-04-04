@@ -3,7 +3,7 @@
     <div class="col-sm-12">
       <div class="card">
         <div class="card-header">
-          <strong>{{ page || "Add New Record" }}</strong>
+          <strong>{{ page || "Add Record" }}</strong>
           <div class="pull-right">
             <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
           </div>
@@ -14,105 +14,51 @@
 
             <div class="animated fadeIn">
 
-          <div class="row">
-            <div class="col-sm-12">
+          <div class="row justify-content-center">
+            <div class="col-sm-10 text-center">
               <div class="card">
                 <div class="card-header bg-info">
-                  <strong>User Form </strong>
+                  <strong>Exercise Form </strong>
                 </div>
 
                 <div class="card-body">
                   <div class="row">
-                      <div class="form-group col-sm-6">
-                          <ng-select id="food" formControlName="food" name="food" placeholder="No Food selected"
-                          [items]="foods"
-                          bindLabel="text"
-                          [virtualScroll]="true"
-                          bindValue="id">
-                          </ng-select>
-                        </div>
                     <div class="form-group col-sm-6">
-                      <input type="text" class="form-control" formControlName="title" id="title"
-                             placeholder="Title">
+                      <input type="text" class="form-control" formControlName="name" id="name"
+                             placeholder="Exercise name">
                     </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="form-group col-sm-12">
-                      <textarea class="form-control" formControlName="body" id="body" rows = "10" cols="6" placeholder = "Write your exercises here......"></textarea>
-                    </div>
-                   </div>
-
-                  <div class="row">
-                    <div class="form-group col-sm-4">
-                      <input type="text" class="form-control" id="tags" formControlName="tags" name="tags"
-                      placeholder="Tags">
+                    <div class="form-group col-sm-6">
+                      <select class="form-control" formControlName="type" id="type">
+                          <option value="" selected>Select Type</option>  
+                          <option value="DEFAULT">DEFAULT</option>  
+                          <option value="CUSTOM">CUSTOM</option>  
+                        </select>
                     </div>
                     <div class="form-group col-sm-4">
-                      <input type="text" class="form-control" id="slug" formControlName="slug" name="slug"
-                      placeholder="Slug">
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <ng-select id="created_by" formControlName="created_by" name="created_by" placeholder="None selected"
-                        [items]="users"
-                        bindLabel="text"
-                        [virtualScroll]="true"
-                        bindValue="id">
-                        </ng-select>
-                      </div>
-                    
-                  </div>
-
-                  <!-- <div class="row">
-                    <div class="form-group col-sm-4">
-                      <select id="type" class="form-control" formControlName="type" name="type" >
-                      <option value="">Select Interest*</option>
-                        <option value="WRITER">WRITER</option>
-                        <option value="EDITOR">EDITOR</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-sm-8">
-                      <input type="text" class="form-control" id="referer" formControlName="referer" name="referer"
-                        placeholder="How you found us?">
-                    </div>
-                  </div>
-
-                  <div class="row">
-                  <div class="form-group col-sm-4">
-                      <ng-select id="bank" formControlName="bank" name="bank" placeholder="No Bank selected"
-                      [items]="banks"
-                      bindLabel="text"
-                      [virtualScroll]="true"
-                      bindValue="id">
-                      </ng-select>
-                    </div>
-                    <div class="form-group col-sm-4">
-                      <input type="text" class="form-control" id="bank_account_name" formControlName="bank_account_name" name="bank_account_name"
-                        placeholder="Bank Account Name">
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <input type="text" class="form-control" id="bank_account_number" formControlName="bank_account_number" name="bank_account_number"
-                          placeholder="Bank Account Number">
-                      </div>
-                  </div>
-
-                  <div class="row">
-                      <div class="form-group col-sm-8">
-                        <input type="text" class="form-control" id="address" formControlName="address" name="address"
-                          placeholder="Address">
+                        <select class="form-control" formControlName="category" id="category">
+                            <option value="" selected>Select Category</option>  
+                            <option value="SPORT">SPORT</option>  
+                            <option value="WORKOUT">WORKOUT</option>  
+                          </select>
                       </div>
                       <div class="form-group col-sm-4">
-                        <select id="country_iso2" formControlName="country_iso2" name="country_iso2" class="form-control">
-                          <option value="">Select Country</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="CM">Cameroon</option>
-                        </select>
+                          <input type="number" class="form-control" formControlName="calorie" id="calorie"
+                                 placeholder="Calorie">
+                        </div>
+                    <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="duration" id="duration"
+                               placeholder="Duration">
                       </div>
-                   </div> -->
+                    <div class="form-group col-sm-12">
+                      <input type="text" class="form-control" formControlName="description" id="description"
+                             placeholder="Description">
+                    </div>
+                  </div>
+
                    <div class="row">
                       <div class="form-group col-sm-12  text-center">
                       <button class="btn btn-danger" (click)="reset()">Reset</button>   
-                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="addForm.pristine || !addForm.valid">Submit</button>
+                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="addForm.pristine">Submit</button>
                       </div>
                     </div>
                 

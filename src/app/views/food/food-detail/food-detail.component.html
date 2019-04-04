@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          {{ record.name + ' | ' + record.exercises_required || ' Food Detail' }}
+          {{ record.name + ' ' + record.type || 'Food Detail' }}
           <div class="pull-right">
             <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
             &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
@@ -25,13 +25,56 @@
               </div>
             </div>
           </div>
+ 
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Category</h6>
+                <br>
+                <h6>{{ record.category }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Quantity</h6>
+                <br>
+                <h6>{{ record.quantity }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Water</h6>
+                <br>
+                <h6>{{ record.water }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Carbs</h6>
+                <br>
+                <h6>{{ record.carbs }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div class="row">
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Exercises</h6>
+                <h6 class="text-muted">Protein</h6>
                 <br>
-                <h6>{{ record.exercises ? 'YES' : 'NO' }}</h6>
+                <h6>{{ record.protein }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
@@ -39,9 +82,9 @@
             </div>
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Logs</h6>
+                <h6 class="text-muted">Fat</h6>
                 <br>
-                <h6>{{ record.logs ? 'YES' : 'NO' }}</h6>
+                <h6>{{ record.fat }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
@@ -49,9 +92,9 @@
             </div>
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Editors</h6>
+                <h6 class="text-muted">Fiber</h6>
                 <br>
-                <h6>{{ record.editors ? 'YES' : 'NO' }}</h6>
+                <h6>{{ record.fiber }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>
@@ -59,9 +102,9 @@
             </div>
             <div class="col-sm-3">
               <div class="callout callout-success">
-                <h6 class="text-muted">Writers</h6>
+                <h6 class="text-muted">Minerals</h6>
                 <br>
-                <h6>{{ record.writers ? 'YES' : 'NO' }}</h6>
+                <h6>{{ record.minerals }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>

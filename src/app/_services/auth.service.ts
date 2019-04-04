@@ -43,7 +43,7 @@ export class AuthService {
                   this.user = this.userSubject.asObservable();
                   this.isLoginSubject.next(true);
                   localStorage.setItem('token', token);
-                  this.utilsService.setLocalStorage('user', this.user, null);
+                  this.utilsService.setLocalStorage('user', user, null);
                 }
               return data;
           }));

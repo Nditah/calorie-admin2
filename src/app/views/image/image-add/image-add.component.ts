@@ -41,20 +41,18 @@ export class ImageAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
-    delete payload.confirm_password;
     console.log(payload);
     return this.crudService.post(GetRoutes.Images, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
-        if (this.response.success) {
-          this.loading = false;
+      .then((response: ApiResponse) => {
+        this.loading = false;
+        this.response = response;
+        if (response.success) {
           this.reset();
           this.toast('Record added successfully', 'customsuccess');
           this.recordRetrieve();
           this.goToDetail(this.response.payload[0]);
         } else {
-          this.loading = false;
-          this.toast(this.response.message, 'customdanger');
+          this.toast(response.message, 'customdanger');
         }
       }).catch( err => {
         this.loading = false;
@@ -67,10 +65,12 @@ export class ImageAddComponent implements OnInit {
     return this.crudService.getAuth(GetRoutes.Images, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
+        this.loading = false;
+        if (response.success) {
           // this.records = response.payload;
           this.success = response.success;
+        } else {
+          this.toast(response.message, 'customdanger');
         }
       }).catch( err => {
         this.loading = false;
