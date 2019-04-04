@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
 export enum GetRoutes {
-  Home          = 'http://localhost:3000/api',
-  Exercises     = 'http://localhost:3000/api/exercises',
-  Foods         = 'http://localhost:3000/api/foods',
-  Images        = 'http://localhost:3000/api/images',
-  Logs          = 'http://localhost:3000/api/logs',
-  Notifications = 'http://localhost:3000/api/notifications',
-  Settings      = 'http://localhost:3000/api/settings',
-  Setup         = 'http://localhost:3000/api/setups',
-  Users         = 'http://localhost:3000/api/users',
+  Home          = 'https://calorie-api.herokuapp.com/api',
+  Exercises     = 'https://calorie-api.herokuapp.com/api/exercises',
+  Foods         = 'https://calorie-api.herokuapp.com/api/foods',
+  Images        = 'https://calorie-api.herokuapp.com/api/images',
+  Logs          = 'https://calorie-api.herokuapp.com/api/logs',
+  Notifications = 'https://calorie-api.herokuapp.com/api/notifications',
+  Settings      = 'https://calorie-api.herokuapp.com/api/settings',
+  Setup         = 'https://calorie-api.herokuapp.com/api/setups',
+  Users         = 'https://calorie-api.herokuapp.com/api/users',
 }
 
 @Injectable({
