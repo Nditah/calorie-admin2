@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService, GetRoutes, UtilsService, PNotifyService } from '../../_services';
 import { Router } from '@angular/router';
-import { Notification, ApiResponse } from '../../_models';
+import { Feedback, ApiResponse } from '../../_models';
 
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
+  selector: 'app-feedback',
+  templateUrl: './feedback.component.html',
 })
-export class NotificationComponent implements OnInit {
+export class FeedbackComponent implements OnInit {
 
-  page = 'List of Notifications';
+  page = 'List of Feedbacks';
   response: ApiResponse;
   success = false;
   message = '';
-  records: Array<Notification>;
+  records: Array<Feedback>;
   notify: any;
   loading = false;
 
@@ -25,7 +25,7 @@ export class NotificationComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    const storedRecords = this.utilsService.getLocalStorage('notifications');
+    const storedRecords = this.utilsService.getLocalStorage('feedbacks');
     if (storedRecords) {
         this.records = storedRecords;
         this.toast('getting saved information', 'custominfo');
@@ -37,7 +37,7 @@ export class NotificationComponent implements OnInit {
 
   recordRetrieve() {
     this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Notifications, true)
+    return this.crudService.getAuth(GetRoutes.Feedbacks, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
         this.loading = false;
@@ -53,13 +53,13 @@ export class NotificationComponent implements OnInit {
       });
   }
 
-  recordDelete(record: Notification): void {
+  recordDelete(record: Feedback): void {
     if (confirm('Are you sure you want to delete this record')) {
-      this.crudService.delete(GetRoutes.Notifications + '/' + record.id)
+      this.crudService.delete(GetRoutes.Feedbacks + '/' + record.id)
         .then((data: ApiResponse) => {
           if (data.success) {
             this.records = this.records.filter(i => i.id !== record.id);
-            this.utilsService.setLocalStorage('notifications', (this.records), null);
+            this.utilsService.setLocalStorage('feedbacks', (this.records), null);
           } else {
             this.toast(data.message, 'customdanger');
           }
@@ -72,19 +72,19 @@ export class NotificationComponent implements OnInit {
 
 // Navigation
   goToAdd(): void {
-    this.router.navigate(['notification/add']);
+    this.router.navigate(['feedback/add']);
   }
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('notificationDetailId', record.id, null);
-    this.router.navigate(['notification/detail']);
+    this.utilsService.setLocalStorage('feedbackDetailId', record.id, null);
+    this.router.navigate(['feedback/detail']);
     return;
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('notificationEditId', record.id, null);
-    this.router.navigate(['notification/edit']);
+    this.utilsService.setLocalStorage('feedbackEditId', record.id, null);
+    this.router.navigate(['feedback/edit']);
   }
 
-  // toast notification
+  // toast feedback
   toast (message: any, messageclass: string) {
     this.notify.alert({
       text: message,

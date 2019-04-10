@@ -3,7 +3,7 @@ export * from './exercise';
 export * from './image';
 export * from './login-response';
 export * from './login-payload';
-export * from './notification';
+export * from './feedback';
 export * from './log';
 export * from './select-option-interface';
 export * from './setting';

@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          {{ record.user ? record.user.username : ' Notification Detail' }}
+          {{ record.user ? record.user.username : ' Feedback Detail' }}
           <div class="pull-right">
             <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
             &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
@@ -31,7 +31,7 @@
               <div class="callout callout-success">
                 <h6 class="text-muted">Status</h6>
                 <br>
-                <h6>{{ record.notification_status }}</h6>
+                <h6>{{ record.status }}</h6>
                 <div class="chart-wrapper">
                   <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
                 </div>

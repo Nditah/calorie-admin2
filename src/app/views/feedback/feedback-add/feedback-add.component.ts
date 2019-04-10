@@ -5,12 +5,12 @@ import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../_se
 import {ApiResponse, SelectOptionInterface} from '../../../_models';
 
 @Component({
-  selector: 'app-notification-add',
-  templateUrl: './notification-add.component.html',
+  selector: 'app-feedback-add',
+  templateUrl: './feedback-add.component.html',
 })
-export class NotificationAddComponent implements OnInit {
+export class FeedbackAddComponent implements OnInit {
 
-  page = 'Add New Notification Record';
+  page = 'Add New Feedback Record';
   addForm: FormGroup;
   users: SelectOptionInterface[];
   response: ApiResponse;
@@ -32,7 +32,7 @@ export class NotificationAddComponent implements OnInit {
     this.addForm = this.formBuilder.group({
       user: [null, Validators.required],
       message: ['', Validators.required],
-      notification_status: [''],
+      status: [''],
     });
 
   }
@@ -44,7 +44,7 @@ export class NotificationAddComponent implements OnInit {
     this.loading = true;
     const payload = this.addForm.value;
     console.log(payload);
-    return this.crudService.post(GetRoutes.Notifications, payload)
+    return this.crudService.post(GetRoutes.Feedbacks, payload)
       .then((data: ApiResponse) => {
         this.response = data;
         if (this.response.success) {
@@ -65,7 +65,7 @@ export class NotificationAddComponent implements OnInit {
 
   recordRetrieve() {
     this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Notifications, true)
+    return this.crudService.getAuth(GetRoutes.Feedbacks, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
         if (response.success && response.payload.length > 0 ) {
@@ -98,13 +98,13 @@ export class NotificationAddComponent implements OnInit {
 
   // Navigation
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('notificationDetailId', record.id, null);
-    this.router.navigate(['notification/detail']);
+    this.utilsService.setLocalStorage('feedbackDetailId', record.id, null);
+    this.router.navigate(['feedback/detail']);
     return;
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('notificationEditId', record.id, null);
-    this.router.navigate(['notification/edit']);
+    this.utilsService.setLocalStorage('feedbackEditId', record.id, null);
+    this.router.navigate(['feedback/edit']);
   }
 
   goBack() {

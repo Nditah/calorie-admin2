@@ -1,5 +1,5 @@
 import { Log } from './log';
-import { Notification } from './notification';
+import { Feedback } from './feedback';
 
 export interface User {
     id: string;
@@ -19,7 +19,7 @@ export interface User {
     height: number;
     lifestyle: string;
     logs: Array<Log>;
-    notifications: Array<Notification>;
+    feedbacks: Array<Feedback>;
     is_complete: boolean;
     created_by: User;
     created_at: Date;

@@ -2,16 +2,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../_services';
-import { Notification, User } from '../../../_models';
+import { Feedback, User } from '../../../_models';
 
 @Component({
-  selector: 'app-notification-detail',
-  templateUrl: './notification-detail.component.html',
+  selector: 'app-feedback-detail',
+  templateUrl: './feedback-detail.component.html',
 })
-export class NotificationDetailComponent implements OnInit {
+export class FeedbackDetailComponent implements OnInit {
 
-  records: Array<Notification>;
-  record: Notification;
+  records: Array<Feedback>;
+  record: Feedback;
 
   response: any;
   success = false;
@@ -25,7 +25,7 @@ export class NotificationDetailComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('notificationDetailId');
+    const recordId = this.utilsService.getLocalStorage('feedbackDetailId');
     if (!recordId) {
       this.toast('Invalid record Id', 'customerror');
       this.goBack();
@@ -37,7 +37,7 @@ export class NotificationDetailComponent implements OnInit {
 
   getRecord(recordId) {
     console.log('\n record Id ', recordId);
-    const storedRecords = this.utilsService.getLocalStorage('notifications');
+    const storedRecords = this.utilsService.getLocalStorage('feedbacks');
     if (storedRecords) {
         this.records = storedRecords;
         this.success = true;
@@ -47,11 +47,11 @@ export class NotificationDetailComponent implements OnInit {
 
   // Navigation
   goToAdd(): void {
-    this.router.navigate(['notification/add']);
+    this.router.navigate(['feedback/add']);
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('notificationEditId', record.id, null);
-    this.router.navigate(['notification/edit']);
+    this.utilsService.setLocalStorage('feedbackEditId', record.id, null);
+    this.router.navigate(['feedback/edit']);
   }
 
   goBack() {

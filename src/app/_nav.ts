@@ -4,7 +4,7 @@ export const navItems = [
   { name: 'Food', url: '/food', icon: 'icon-calculator' },
   { name: 'Image', url: '/image', icon: 'icon-star' },
   { name: 'Activity Log', url: '/log', icon: 'icon-calculator' },
-  { name: 'Notification', url: '/notification', icon: 'icon-calculator' },
+  { name: 'Feedback', url: '/feedback', icon: 'icon-calculator' },
   { name: 'Setting', url: '/setting', icon: 'icon-calculator' },
   { name: 'User', url: '/user', icon: 'icon-calculator' },
   { divider: true },
