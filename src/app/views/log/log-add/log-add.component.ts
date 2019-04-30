@@ -29,6 +29,7 @@ export class LogAddComponent implements OnInit {
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
     this.getExercises();
+    this.getFoods();
 
     this.addForm = this.formBuilder.group({
       day: [null, Validators.required],
@@ -101,10 +102,10 @@ export class LogAddComponent implements OnInit {
     const storedRecords = this.utilsService.getLocalStorage('foods') || [];
     if (storedRecords.length > 0) {
       this.foods = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.exercises);
+      console.log(this.foods);
       return;
     }
-    return this.crudService.getAuth(GetRoutes.Exercises, true)
+    return this.crudService.getAuth(GetRoutes.Foods, true)
       .then((data: ApiResponse) => {
         if (data.success && data.payload.length > 0) {
           this.foods = data.payload.map(item => ({ id: item.id, text: item.name }));

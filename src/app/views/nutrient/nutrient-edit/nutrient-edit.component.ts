@@ -1,4 +1,4 @@
-import { Exercise } from '../../../_models';
+import { Nutrient } from '../../../_models';
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -7,15 +7,15 @@ import {ApiResponse, SelectOptionInterface} from '../../../_models';
 
 
 @Component({
-  selector: 'app-exercise-edit',
-  templateUrl: './exercise-edit.component.html',
+  selector: 'app-nutrient-edit',
+  templateUrl: './nutrient-edit.component.html',
 })
-export class ExerciseEditComponent implements OnInit {
+export class NutrientEditComponent implements OnInit {
 
-  page = 'Edit Exercise Record';
+  page = 'Edit Nutrient Record';
   editForm: FormGroup;
-  records: Array<Exercise>;
-  record: Exercise;
+  records: Array<Nutrient>;
+  record: Nutrient;
   date: any;
 
   response: ApiResponse;
@@ -24,10 +24,8 @@ export class ExerciseEditComponent implements OnInit {
   notify: any;
   loading = false;
 
-  counties: SelectOptionInterface[];
+  foodOptions: SelectOptionInterface[];
   activeCountry: SelectOptionInterface[];
-  banks: SelectOptionInterface[];
-  activeState: SelectOptionInterface[];
 
 
   constructor(private formBuilder: FormBuilder,
@@ -38,37 +36,61 @@ export class ExerciseEditComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('exerciseEditId');
+    const recordId = this.utilsService.getLocalStorage('nutrientEditId');
     if (!recordId) {
       this.toast('Invalid record Id', 'customerror');
       this.goBack();
       return;
     }
+    this.getFoods();
+
     this.record = this.utilsService.cleanObject(this.getRecord(recordId));
     // console.log('records ' + this.record);
 
     this.editForm = this.formBuilder.group({
-      type: [''], // ["DEFAULT", "CUSTOM"]
-      category: [''], // enum: ["SPORT", "WORKOUT"]
-      name: [''],
-      description: [''],
-      calorie_rate: [''],
-      image: [''],
+      type: ['', Validators.required],
+      category: ['', Validators.required],
+      symbol: ['', Validators.required],
+      name: ['', Validators.required],
+      classification: ['', Validators.required],
+      source: ['', Validators.required],
+      use: ['', Validators.required],
+      description: ['', Validators.required],
+      deficiency: ['', Validators.required],
+      excess: ['', Validators.required],
+      ear: ['', Validators.required],
+      limit: ['', Validators.required],
+      rda_male: ['', Validators.required],
+      rda_female: ['', Validators.required],
+      unit: ['', Validators.required],
+      image: ['', Validators.required],
+      foods: [''],
     });
 
     this.editForm.get('type').setValue(this.record.type || '');
     this.editForm.get('category').setValue(this.record.category || '');
     this.editForm.get('name').setValue(this.record.name || '');
-    this.editForm.get('calorie_rate').setValue(this.record.calorie_rate || '');
-    this.editForm.get('image').setValue(this.record.image || '');
+    this.editForm.get('symbol').setValue(this.record.symbol || '');
+    this.editForm.get('classification').setValue(this.record.classification || '');
+    this.editForm.get('source').setValue(this.record.source || '');
+    this.editForm.get('use').setValue(this.record.use || '');
     this.editForm.get('description').setValue(this.record.description || '');
+    this.editForm.get('deficiency').setValue(this.record.deficiency || '');
+    this.editForm.get('excess').setValue(this.record.excess || '');
+    this.editForm.get('ear').setValue(this.record.ear.toString() || '');
+    this.editForm.get('limit').setValue(this.record.limit.toString() || '');
+    this.editForm.get('rda_male').setValue(this.record.rda_male.toString() || '');
+    this.editForm.get('rda_female').setValue(this.record.rda_female.toString() || '');
+    this.editForm.get('unit').setValue(this.record.unit || '');
+    this.editForm.get('image').setValue(this.record.image || '');
+    this.editForm.get('foods').setValue(this.record.foods || '');
 
     console.log('\nrecord ', typeof this.record, this.record);
   }
 
   // new get record
   getRecord(recordId) {
-    const storedRecords = this.utilsService.getLocalStorage('exercises');
+    const storedRecords = this.utilsService.getLocalStorage('nutrients');
     if (storedRecords) {
         this.records = storedRecords;
     }
@@ -86,7 +108,7 @@ export class ExerciseEditComponent implements OnInit {
     const payload = this.editForm.value;
     this.loading = true;
     console.log('editForm payload ', payload);
-    return this.crudService.put(GetRoutes.Exercises + '/' + this.record.id, payload)
+    return this.crudService.put(GetRoutes.Nutrients + '/' + this.record.id, payload)
       .then((data: ApiResponse) => {
         this.response = data;
         this.record = this.response.payload;
@@ -107,7 +129,7 @@ export class ExerciseEditComponent implements OnInit {
 
   recordRetrieve() {
     this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Exercises, true)
+    return this.crudService.getAuth(GetRoutes.Nutrients, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
         if (response.success && response.payload.length > 0 ) {
@@ -123,11 +145,11 @@ export class ExerciseEditComponent implements OnInit {
 
   // Navigation
   goToAdd(): void {
-    this.router.navigate(['exercise/add']);
+    this.router.navigate(['nutrient/add']);
   }
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('exerciseDetailId', record.id, null);
-    this.router.navigate(['exercise/detail']);
+    this.utilsService.setLocalStorage('nutrientDetailId', record.id, null);
+    this.router.navigate(['nutrient/detail']);
     return;
   }
 
@@ -140,5 +162,16 @@ export class ExerciseEditComponent implements OnInit {
       text: message,
       addClass: messageclass
     });
+  }
+
+  getFoods() {
+    return this.crudService.getAuth(GetRoutes.Foods, true)
+      .then((data: ApiResponse) => {
+        if (data.success && data.payload.length > 0) {
+          this.foodOptions = data.payload.map(item => ({ id: item.id, text: item.name }));
+          console.log(this.foodOptions);
+          return;
+        }
+      });
   }
 }

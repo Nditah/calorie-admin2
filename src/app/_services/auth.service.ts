@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 // import { environment } from '../../environments/environment';
-import { User, LoginResponse, LoginPayload } from '../_models';
+import { User, LoginResponse } from '../_models';
 import { UtilsService } from './utils.service';
 import { GetRoutes } from './api-routes.service';
 
@@ -31,7 +31,7 @@ export class AuthService {
         return this.userSubject.value;
     }
 
-    login(loginPayload: LoginPayload): Observable<LoginResponse> {
+    login(loginPayload): Observable<LoginResponse> {
       localStorage.clear();
       console.log('\ninside Auth service', loginPayload);
       return this.http.post<LoginResponse>(`${GetRoutes.Users}/login`, loginPayload)

@@ -36,8 +36,8 @@ export class ExerciseAddComponent implements OnInit {
       category: [null, Validators.required], // ["SPORT", "WORKOUT"]
       name: ['', Validators.required],
       description: ['', Validators.required],
-      calorie: ['', Validators.required],
-      duration: ['', Validators.required],
+      calorie_rate: ['', Validators.required],
+      image: ['', Validators.required],
     });
 
   }

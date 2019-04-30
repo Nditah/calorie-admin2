@@ -55,12 +55,13 @@ export class FoodEditComponent implements OnInit {
       quantity: [''],
       water: [''],
       calories: [''],
-      carbs: [''],
+      carbohydrate: [''],
       protein: [''],
-      fat: [''],
-      fiber: [''],
-      vitamins: [''],
-      minerals: [''],
+      fats: [''],
+      fibre: [''],
+      ph: [''],
+      image: [''],
+      nutrients: [''],
     });
 
     this.editForm.get('type').setValue(this.record.type || '');
@@ -69,11 +70,13 @@ export class FoodEditComponent implements OnInit {
     this.editForm.get('quantity').setValue(this.record.quantity || '');
     this.editForm.get('water').setValue(this.record.water || '');
     this.editForm.get('calories').setValue(this.record.calories || '');
-    this.editForm.get('carbs').setValue(this.record.carbs || '');
+    this.editForm.get('carbohydrate').setValue(this.record.carbohydrate || '');
     this.editForm.get('protein').setValue(this.record.protein || '');
-    this.editForm.get('fat').setValue(this.record.fat || '');
-    this.editForm.get('fiber').setValue(this.record.fiber || '');
-    this.editForm.get('vitamins').setValue(this.record.vitamins || '');
+    this.editForm.get('fats').setValue(this.record.fats || '');
+    this.editForm.get('fibre').setValue(this.record.fibre || '');
+    this.editForm.get('ph').setValue(this.record.ph || '');
+    this.editForm.get('image').setValue(this.record.image || '');
+    this.editForm.get('nutrients').setValue(this.record.nutrients || '');
     this.editForm.get('description').setValue(this.record.description || '');
 
     console.log('\nrecord ', typeof this.record, this.record);

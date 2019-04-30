@@ -7,8 +7,8 @@ export interface Exercise {
     category: string; // enum: ["SPORT", "WORKOUT"]
     name: string;
     description: string;
-    calorie: number;
-    duration: number;
+    calorie_rate: number;
+    image: string;
     created_by: User;
     created_at: Date;
     updated_by: User;

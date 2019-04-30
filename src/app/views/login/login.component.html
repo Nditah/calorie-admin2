@@ -16,16 +16,6 @@
 
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="icon-phone"></i></span>
-                    </div>
-                    <input type="tel" class="form-control" name="phone" formControlName="phone" placeholder="080..." required>
-                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
-                        <div *ngIf="f.phone.errors.required">Phone is required</div>
-                    </div>
-                  </div>
-
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
                       <span class="input-group-text"><i class="icon-user"></i></span>
                     </div>
                     <input type="email" class="form-control" name="email" formControlName="email" placeholder="Email" required>

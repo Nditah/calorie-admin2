@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { AuthService } from '../../_services';
-import { LoginType, LoginPayload, ApiResponse, User } from '../../_models';
+import { ApiResponse, User } from '../../_models';
 import { UtilsService } from '../../_services';
 
 @Component({
@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
     submitted = false;
     invalidLogin = false;
     returnUrl: string;
-    loginType: LoginType = LoginType.EMAIL;
     success = false;
     user: User;
 
@@ -51,7 +50,6 @@ export class LoginComponent implements OnInit {
     createForm() {
         this.loginForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            phone: ['', [Validators.minLength(11)]],
             password: ['', [Validators.required, Validators.minLength(5)]]
         });
     }
@@ -61,7 +59,6 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-
         // stop here if form is invalid
         if (this.loginForm.invalid) {
             console.log('this.loginForm.invalid');
@@ -69,11 +66,9 @@ export class LoginComponent implements OnInit {
         }
         this.loading = true;
 
-        const loginPayload: LoginPayload = {
+        const loginPayload = {
             email: this.f.email.value,
-            phone: this.f.phone.value,
             password: this.f.password.value,
-            type: this.loginType,
         };
 
         // console.log('LoginComponent', loginPayload);

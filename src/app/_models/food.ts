@@ -9,12 +9,13 @@ export interface Food {
     quantity: number;
     water: number;
     calories: number;
-    carbs: number;
+    carbohydrate: number;
     protein: number;
-    fat: number;
-    fiber: number;
-    vitamins: number;
-    minerals: number;
+    fats: number;
+    fibre: number;
+    nutrients: Array<any>;
+    ph: number;
+    image: string;
     created_by: User;
     created_at: Date;
     updated_by: User;

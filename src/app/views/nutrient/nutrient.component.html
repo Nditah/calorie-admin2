@@ -20,20 +20,30 @@
             <thead class="thead-light">
             <tr>
               <th class="text-left">SN</th>
+              <th>Name</th>
               <th>Type</th>
               <th>Category</th>
-              <th>Name</th>
-              <th>Calorie</th>
+              <th>Class</th>
+              <th>EAR</th>
+              <th>RDA Male</th>
+              <th>RDA Female</th>
+              <th>Limit</th>
+              <th>Unit</th>
               <th width='20%' class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
             <tr  *ngFor="let record of records; let i = index">
               <td>{{ i + 1 }}</td>
+              <td>{{ record.name }}</td>
               <td>{{ record.type }}</td>
               <td>{{ record.category }}</td>
-              <td>{{ record.name }}</td>
-              <td>{{ record.calorie_rate }}</td>
+              <td>{{ record.classification }}</td>
+              <td>{{ record.ear }}</td>
+              <td>{{ record.rda_male }}</td>
+              <td>{{ record.rda_female }}</td>
+              <td>{{ record.limit }}</td>
+              <td>{{ record.unit }}</td>
               <td class="text-center">
                   <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
                   <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>

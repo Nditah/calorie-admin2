@@ -1,17 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../_services';
 import {ApiResponse, SelectOptionInterface} from '../../../_models';
 
-@Component({
-  selector: 'app-food-add',
-  templateUrl: './food-add.component.html',
-})
-export class FoodAddComponent implements OnInit {
 
-  page = 'Add New Food Record';
+@Component({
+  selector: 'app-nutrient-add',
+  templateUrl: './nutrient-add.component.html',
+})
+export class NutrientAddComponent implements OnInit {
+
+  page = 'Add New Nutrient';
   addForm: FormGroup;
+  foodOptions: SelectOptionInterface[];
+  users: SelectOptionInterface[];
+
   response: ApiResponse;
   success = false;
   message = '';
@@ -26,23 +30,28 @@ export class FoodAddComponent implements OnInit {
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
+    this.getFoods();
 
     this.addForm = this.formBuilder.group({
-      type: ['', Validators.required], // enum: ["DEFAULT", "CUSTOM"]
-      category: ['', Validators.required], // enum: ["FOOD", "DRINK"]
+      type: ['', Validators.required],
+      category: ['', Validators.required],
+      symbol: ['', Validators.required],
       name: ['', Validators.required],
+      classification: ['', Validators.required],
+      source: ['', Validators.required],
+      use: ['', Validators.required],
       description: ['', Validators.required],
-      quantity: ['', Validators.required],
-      water: [''],
-      calories: [''],
-      carbohydrate: [''],
-      protein: [''],
-      fats: [''],
-      fibre: [''],
-      ph: [''],
-      image: [''],
-      nutrients: [''],
+      deficiency: ['', Validators.required],
+      excess: ['', Validators.required],
+      ear: ['', Validators.required],
+      limit: ['', Validators.required],
+      rda_male: ['', Validators.required],
+      rda_female: ['', Validators.required],
+      unit: ['', Validators.required],
+      image: ['', Validators.required],
+      foods: [''],
     });
+
   }
   reset() {
     this.addForm.reset();
@@ -52,7 +61,7 @@ export class FoodAddComponent implements OnInit {
     this.loading = true;
     const payload = this.addForm.value;
     console.log(payload);
-    return this.crudService.post(GetRoutes.Foods, payload)
+    return this.crudService.post(GetRoutes.Nutrients, payload)
       .then((data: ApiResponse) => {
         this.response = data;
         if (this.response.success) {
@@ -73,7 +82,7 @@ export class FoodAddComponent implements OnInit {
 
   recordRetrieve() {
     this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Foods, true)
+    return this.crudService.getAuth(GetRoutes.Nutrients, true)
       .then((response: ApiResponse) => {
         this.message = response.message;
         if (response.success && response.payload.length > 0 ) {
@@ -89,13 +98,13 @@ export class FoodAddComponent implements OnInit {
 
   // Navigation
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('foodDetailId', record.id, null);
-    this.router.navigate(['food/detail']);
+    this.utilsService.setLocalStorage('nutrientDetailId', record.id, null);
+    this.router.navigate(['nutrient/detail']);
     return;
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('foodEditId', record.id, null);
-    this.router.navigate(['food/edit']);
+    this.utilsService.setLocalStorage('nutrientEditId', record.id, null);
+    this.router.navigate(['nutrient/edit']);
   }
 
   goBack() {
@@ -108,8 +117,16 @@ export class FoodAddComponent implements OnInit {
       addClass: messageclass
     });
   }
+
+
+  getFoods() {
+    return this.crudService.getAuth(GetRoutes.Foods, true)
+      .then((data: ApiResponse) => {
+        if (data.success && data.payload.length > 0) {
+          this.foodOptions = data.payload.map(item => ({ id: item.id, text: item.name }));
+          console.log(this.foodOptions);
+          return;
+        }
+      });
+  }
 }
-
-
-
-

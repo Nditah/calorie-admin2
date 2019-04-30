@@ -7,6 +7,7 @@ export enum GetRoutes {
   Images        = 'https://calorie-api.herokuapp.com/api/images',
   Logs          = 'https://calorie-api.herokuapp.com/api/logs',
   Feedbacks     = 'https://calorie-api.herokuapp.com/api/feedbacks',
+  Nutrients     = 'https://calorie-api.herokuapp.com/api/nutrients',
   Settings      = 'https://calorie-api.herokuapp.com/api/settings',
   Setup         = 'https://calorie-api.herokuapp.com/api/setups',
   Users         = 'https://calorie-api.herokuapp.com/api/users',
