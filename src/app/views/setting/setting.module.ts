@@ -11,7 +11,7 @@ import { SettingComponent } from './setting.component';
 import { SettingDetailComponent } from './setting-detail/setting-detail.component';
 import { SettingEditComponent } from './setting-edit/setting-edit.component';
 
-import { JwtInterceptor, ErrorInterceptor } from '../../_helpers';
+import { JwtInterceptor, ErrorInterceptor } from '../../helpers';
 
 
 @NgModule({

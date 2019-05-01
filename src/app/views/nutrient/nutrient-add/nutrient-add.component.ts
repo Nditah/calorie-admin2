@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../_services';
-import {ApiResponse, SelectOptionInterface} from '../../../_models';
+import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
+import {ApiResponse, SelectOptionInterface} from '../../../models';
 
 
 @Component({

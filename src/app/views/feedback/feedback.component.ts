@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CrudService, GetRoutes, UtilsService, PNotifyService } from '../../_services';
+import { CrudService, GetRoutes, UtilsService, PNotifyService } from '../../services';
 import { Router } from '@angular/router';
-import { Feedback, ApiResponse } from '../../_models';
+import { Feedback, ApiResponse } from '../../models';
 
 
 @Component({

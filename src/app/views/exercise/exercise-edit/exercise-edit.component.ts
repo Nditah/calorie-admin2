@@ -1,9 +1,9 @@
-import { Exercise } from '../../../_models';
+import { Exercise } from '../../../models';
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../_services';
-import {ApiResponse, SelectOptionInterface} from '../../../_models';
+import { PNotifyService, CrudService, GetRoutes, UtilsService, DataService } from '../../../services';
+import {ApiResponse, SelectOptionInterface} from '../../../models';
 
 
 @Component({
@@ -18,7 +18,6 @@ export class ExerciseEditComponent implements OnInit {
   record: Exercise;
   date: any;
 
-  response: ApiResponse;
   success = false;
   message = '';
   notify: any;
@@ -85,39 +84,20 @@ export class ExerciseEditComponent implements OnInit {
   onSubmit() {
     const payload = this.editForm.value;
     this.loading = true;
-    console.log('editForm payload ', payload);
     return this.crudService.put(GetRoutes.Exercises + '/' + this.record.id, payload)
       .then((data: ApiResponse) => {
-        this.response = data;
-        this.record = this.response.payload;
-        if (this.response.success) {
+        console.log('editForm response ', data);
+        if (data.success) {
           this.loading = false;
           this.toast('Record updated successfully', 'customsuccess');
-          this.recordRetrieve();
           this.goBack();
         } else {
           this.loading = false;
-          this.toast(this.response.message, 'customdanger');
+          this.toast(data.message, 'customdanger');
         }
       }).catch( err => {
         this.loading = false;
         this.toast(err, 'customdanger');
-      });
-  }
-
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Exercises, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
-          // this.records = response.payload;
-          this.success = response.success;
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
       });
   }
 

@@ -13,13 +13,14 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-import { PNotifyService } from './_services/pnotify.service';
+import { PNotifyService } from './services/pnotify.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
+
 import { DatePipe } from '@angular/common';
-import { UtilsService } from './_services';
+import { UtilsService } from './services';
 
 import { AppComponent } from './app.component';
 
@@ -44,7 +45,7 @@ import {
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
-import { JwtInterceptor, ErrorInterceptor } from './_helpers';
+import { JwtInterceptor, ErrorInterceptor } from './helpers';
 
 @NgModule({
   imports: [

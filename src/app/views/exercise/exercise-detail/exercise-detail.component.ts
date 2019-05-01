@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../_services';
-import { Exercise, User } from '../../../_models';
+import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
+import { Exercise, User } from '../../../models';
 
 @Component({
   selector: 'app-exercise-detail',

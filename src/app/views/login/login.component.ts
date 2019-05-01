@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { AuthService } from '../../_services';
-import { ApiResponse, User } from '../../_models';
-import { UtilsService } from '../../_services';
+import { AuthService } from '../../services';
+import { ApiResponse, User } from '../../models';
+import { UtilsService } from '../../services';
 
 @Component({
   selector: 'app-dashboard',

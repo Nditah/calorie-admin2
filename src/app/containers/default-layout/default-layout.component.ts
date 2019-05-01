@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import { navItems } from './../../_nav';
-import { AuthService, CrudService, GetRoutes, UtilsService } from '../../_services';
+import { navItems } from '../../_nav';
+import { AuthService, CrudService, GetRoutes, UtilsService } from '../../services';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +29,10 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // this.loadData(); 
+  }
+
+  loadData() {
     if (!this.utilsService.getLocalStorage('exercises')) {
       this.crudService.get(GetRoutes.Exercises, true)
         .then(data => console.log(data.message))

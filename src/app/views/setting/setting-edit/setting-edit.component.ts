@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UtilsService, CrudService, GetRoutes, PNotifyService } from '../../../_services';
-import { ApiResponse, Setting } from '../../../_models';
+import { UtilsService, CrudService, GetRoutes, PNotifyService } from '../../../services';
+import { ApiResponse, Setting } from '../../../models';
 
 @Component({
   selector: 'app-setting-edit',

@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../_services';
-import { User, Food } from '../../../_models';
+import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
+import { User, Food } from '../../../models';
 
 @Component({
   selector: 'app-user-detail',

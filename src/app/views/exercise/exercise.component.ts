@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CrudService, GetRoutes, UtilsService, PNotifyService } from '../../_services';
+import { CrudService, GetRoutes, UtilsService, PNotifyService } from '../../services';
 import { Router } from '@angular/router';
-import { Exercise, ApiResponse } from '../../_models';
+import { Exercise, ApiResponse } from '../../models';
 
 @Component({
   selector: 'app-exercise',
@@ -25,14 +25,7 @@ export class ExerciseComponent implements OnInit {
 
     ngOnInit() {
       this.notify = this.pNotifyService.getPNotify();
-      const storedRecords = this.utilsService.getLocalStorage('exercises');
-      if (storedRecords && storedRecords.length > 0) {
-          this.records = storedRecords;
-          this.toast('getting saved information', 'custominfo');
-          this.success = true;
-      } else {
-        this.recordRetrieve();
-      }
+      this.recordRetrieve();
     }
 
     recordRetrieve() {

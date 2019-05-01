@@ -29,24 +29,24 @@
                       </div>
                       <div class="form-group col-sm-6">
                         <select class="form-control" formControlName="type" id="type">
-                            <option value="">Select Type</option>  
+                            <option value="" selected>Select Type</option>  
                             <option value="DEFAULT">DEFAULT</option>  
                             <option value="CUSTOM">CUSTOM</option>  
                           </select>
                       </div>
-                      <div class="form-group col-sm-4">
+                      <div class="form-group col-sm-6">
                           <select class="form-control" formControlName="category" id="category">
-                              <option value="">Select Category</option>  
+                              <option value="" selected>Select Category</option>  
                               <option value="SPORT">SPORT</option>  
                               <option value="WORKOUT">WORKOUT</option>  
                             </select>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-6">
                             <input type="number" class="form-control" formControlName="calorie_rate" id="calorie_rate"
-                                   placeholder="Calorie">
+                                   placeholder="Calorie rate Kcal/hr">
                           </div>
-                      <div class="form-group col-sm-4">
-                          <input type="number" class="form-control" formControlName="image" id="image"
+                      <div class="form-group col-sm-12">
+                          <input type="text" class="form-control" formControlName="image" id="image"
                                  placeholder="Image url">
                         </div>
                       <div class="form-group col-sm-12">
@@ -58,7 +58,7 @@
                      <div class="row">
                         <div class="form-group col-sm-12  text-center">
                         <button class="btn btn-danger" (click)="reset()">Reset</button>   
-                        &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine">Submit</button>
+                        &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine || loading">Submit</button>
                         </div>
                       </div>
                   

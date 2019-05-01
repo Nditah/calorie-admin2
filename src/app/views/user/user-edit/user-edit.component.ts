@@ -1,9 +1,9 @@
-import { User } from '../../../_models';
+import { User } from '../../../models';
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../_services';
-import {ApiResponse, SelectOptionInterface} from '../../../_models';
+import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
+import {ApiResponse, SelectOptionInterface} from '../../../models';
 import {first} from 'rxjs/operators';
 
 

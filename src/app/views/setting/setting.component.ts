@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UtilsService, CrudService, GetRoutes, PNotifyService } from '../../_services';
-import { Setting, ApiResponse} from '../../_models';
+import { UtilsService, CrudService, GetRoutes, PNotifyService } from '../../services';
+import { Setting, ApiResponse} from '../../models';
 
 @Component({
   selector: 'app-setting',

@@ -1,5 +1,5 @@
 export const navItems = [
-  { name: 'Dashboard', url: '/dashboard', icon: 'icon-speedometer', badge: { variant: 'info', text: 'NEW' } },
+  { name: 'Dashboard', url: '/dashboard', icon: 'bicycle', badge: { variant: 'info', text: 'NEW' } },
   { name: 'Exercise', url: '/exercise', icon: 'icon-bell' },
   { name: 'Food', url: '/food', icon: 'icon-calculator' },
   { name: 'Image', url: '/image', icon: 'icon-star' },

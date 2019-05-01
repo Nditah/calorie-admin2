@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
-import { Setting } from '../../../_models';
-import { PNotifyService, UtilsService } from '../../../_services';
+import { Setting } from '../../../models';
+import { PNotifyService, UtilsService } from '../../../services';
 
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../_services';
-import {ApiResponse, SelectOptionInterface} from '../../../_models';
+import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
+import {ApiResponse, SelectOptionInterface} from '../../../models';
 
 
 @Component({
@@ -32,8 +32,8 @@ export class ExerciseAddComponent implements OnInit {
     this.notify = this.pNotifyService.getPNotify();
 
     this.addForm = this.formBuilder.group({
-      type: [null, Validators.required], // ["DEFAULT", "CUSTOM"]
-      category: [null, Validators.required], // ["SPORT", "WORKOUT"]
+      type: ['', Validators.required], // ["DEFAULT", "CUSTOM"]
+      category: ['', Validators.required], // ["SPORT", "WORKOUT"]
       name: ['', Validators.required],
       description: ['', Validators.required],
       calorie_rate: ['', Validators.required],
