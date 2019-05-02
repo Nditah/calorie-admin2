@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import { ApiResponse, SelectOption } from '../../../models';
 import {first} from 'rxjs/operators';
 
 
@@ -25,10 +25,10 @@ export class UserEditComponent implements OnInit {
   notify: any;
   loading = false;
 
-  counties: SelectOptionInterface[];
-  activeCountry: SelectOptionInterface[];
-  banks: SelectOptionInterface[];
-  activeState: SelectOptionInterface[];
+  counties: SelectOption[];
+  activeCountry: SelectOption[];
+  banks: SelectOption[];
+  activeState: SelectOption[];
 
 
   constructor(private formBuilder: FormBuilder,

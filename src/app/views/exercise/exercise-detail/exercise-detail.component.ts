@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Exercise, User } from '../../../models';
+import { Exercises } from '../../../providers';
 
 @Component({
   selector: 'app-exercise-detail',
@@ -20,49 +20,28 @@ export class ExerciseDetailComponent implements OnInit {
   loading = false;
 
   constructor( private router: Router,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    private activatedRoute: ActivatedRoute,
+    public exercises: Exercises) {
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+      const record = this.exercises.query({ id })[0];
+      this.record = record || exercises.defaultRecord;
+      console.log(record);
+    }
 
   ngOnInit() {
-    this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('exerciseDetailId');
-    if (!recordId) {
-      this.toast('Invalid record Id', 'customerror');
-      this.goBack();
-      return;
-    }
-    this.record = this.utilsService.cleanObject(this.getRecord(recordId));
-    console.log('\n record Name', typeof this.record, JSON.stringify(this.record));
-  }
-
-  getRecord(recordId) {
-    console.log('\n record Id ', recordId);
-    const storedRecords = this.utilsService.getLocalStorage('exercises');
-    if (storedRecords) {
-        this.records = storedRecords;
-        this.success = true;
-    }
-    return this.utilsService.getObjectByKey(this.records, 'id', recordId);
   }
 
   // Navigation
   goToAdd(): void {
     this.router.navigate(['exercise/add']);
   }
+
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('exerciseEditId', record.id, null);
-    this.router.navigate(['exercise/edit']);
+    this.router.navigate([`exercise/edit/${record.id}`]);
   }
 
   goBack() {
     window.history.back();
-  }
-
-  toast (message: any, messageclass: string) {
-    this.notify.alert({
-      text: message,
-      addClass: messageclass
-    });
   }
 
 }

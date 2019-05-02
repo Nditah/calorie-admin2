@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import {ApiResponse, User, SelectOptionInterface} from '../../../models';
+import {ApiResponse, User, SelectOption} from '../../../models';
 
 
 @Component({
@@ -23,10 +23,10 @@ export class ProfileEditComponent implements OnInit {
   success = false;
   message = '';
 
-  counties: SelectOptionInterface[];
-  activeCountry: SelectOptionInterface[];
-  states: SelectOptionInterface[];
-  activeState: SelectOptionInterface[];
+  counties: SelectOption[];
+  activeCountry: SelectOption[];
+  states: SelectOption[];
+  activeState: SelectOption[];
 
 
   constructor(private formBuilder: FormBuilder,

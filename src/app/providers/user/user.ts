@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
 
 import { Api } from '../api/api';
 
+import { ApiService, UtilsService } from '../../services';
+import { ApiResponse } from '../../models';
+
 /**
  * Most apps have the concept of a User. This is a simple provider
  * with stubs for login/signup/etc.

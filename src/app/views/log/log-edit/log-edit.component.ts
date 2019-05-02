@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import {ApiResponse, SelectOption} from '../../../models';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class LogEditComponent implements OnInit {
   notify: any;
   loading = false;
 
-  exercises: SelectOptionInterface[];
+  exercises: SelectOption[];
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,

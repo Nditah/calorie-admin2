@@ -8,8 +8,8 @@ import { ExerciseDetailComponent } from './exercise-detail/exercise-detail.compo
 
 const routes: Routes = [
   { path: '', component: ExerciseComponent, data: { title: 'Exercise' } },
-  { path: 'detail', component: ExerciseDetailComponent, data: { title: 'Exercise Detail' } },
-  { path: 'edit', component: ExerciseEditComponent, data: { title: 'Exercise Edit' } },
+  { path: 'detail/:id', component: ExerciseDetailComponent, data: { title: 'Exercise Detail' } },
+  { path: 'edit/:id', component: ExerciseEditComponent, data: { title: 'Exercise Edit' } },
   { path: 'add', component: ExerciseAddComponent, data: { title: 'Exercise Add' } },
 ];
 

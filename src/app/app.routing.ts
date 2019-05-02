@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
@@ -20,7 +21,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', loadChildren: './views/dashboard/dashboard.module#DashboardModule' },
       { path: 'exercise', loadChildren: './views/exercise/exercise.module#ExerciseModule' },
-      { path: 'food', loadChildren: './views/food/food.module#FoodModule' },
+      { path: 'food', loadChildren: './views/food/food.module#FoodModule', canActivate: [AuthGuard] },
       { path: 'image', loadChildren: './views/image/image.module#ImageModule' },
       { path: 'log', loadChildren: './views/log/log.module#LogModule' },
       { path: 'nutrient', loadChildren: './views/nutrient/nutrient.module#NutrientModule' },

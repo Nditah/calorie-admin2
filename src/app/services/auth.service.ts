@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
-// import { environment } from '../../environments/environment';
 import { User, LoginResponse } from '../models';
 import { UtilsService } from './utils.service';
 import { GetRoutes } from './api-routes.service';

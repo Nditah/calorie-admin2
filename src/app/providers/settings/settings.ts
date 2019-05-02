@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { ApiService, UtilsService } from '../../services';
+import { Nutrient, ApiResponse } from '../../models';
 
 /**
  * A simple settings/config class for storing key/value pairs with persistence.
@@ -13,19 +14,19 @@ export class Settings {
   _defaults: any;
   _readyPromise: Promise<any>;
 
-  constructor(public storage: Storage, defaults: any) {
+  constructor(public utilsService: UtilsService, defaults: any) {
     this._defaults = defaults;
   }
 
   load() {
-    return this.storage.get(this.SETTINGS_KEY).then((value) => {
+    return this.utilsService.getLocalStorage(this.SETTINGS_KEY).then((value) => {
       if (value) {
         this.settings = value;
         return this._mergeDefaults(this._defaults);
       } else {
-        return this.setAll(this._defaults).then((val) => {
-          this.settings = val;
-        })
+         if (this.setAll(this._defaults)) {
+          return ; // this.settings = val;
+        }
       }
     });
   }
@@ -48,15 +49,15 @@ export class Settings {
 
   setValue(key: string, value: any) {
     this.settings[key] = value;
-    return this.storage.set(this.SETTINGS_KEY, this.settings);
+    return this.utilsService.setLocalStorage(this.SETTINGS_KEY, this.settings, null);
   }
 
   setAll(value: any) {
-    return this.storage.set(this.SETTINGS_KEY, value);
+    return this.utilsService.setLocalStorage(this.SETTINGS_KEY, value, null);
   }
 
   getValue(key: string) {
-    return this.storage.get(this.SETTINGS_KEY)
+    return this.utilsService.getLocalStorage(this.SETTINGS_KEY)
       .then(settings => {
         return settings[key];
       });

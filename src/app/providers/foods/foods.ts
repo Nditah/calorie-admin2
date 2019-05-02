@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+
 import { Food, ApiResponse } from '../../models';
-import { ApiService, AlertService } from 'src/app/services';
+import { ApiService } from '../../services';
 
 @Injectable()
 export class Foods {
@@ -24,30 +26,12 @@ export class Foods {
   };
 
 
-  constructor(public api: ApiService) {
-    const foods: Array<Food> = [
-        {
-          id: '2',
-          type: 'DEFAULT',
-          category: 'FOOD',
-          name: 'Junk',
-          description: 'Buns, bread, fries are all junk food',
-          water: 0.4,
-          calories: 234,
-          carbohydrate: 2345,
-          protein: 4950,
-          fats: 23.0,
-          fibre: 3570,
-          minivites: [{ minivite_id: '5cbb581b42b32d642a7c32f5', minivite_value: 120 }],
-          image: 'assets/images/junk.jpg',
-      }
-    ];
-
+  constructor(private apiService: ApiService) {
+    const foods = []; // Initial Values
     for (const food of foods) {
       this.foods.push(new Food(food));
     }
-
-    this.getFoods();
+    this.recordRetrieve();
   }
 
   query(params?: any) {
@@ -66,7 +50,6 @@ export class Foods {
       return null;
     });
   }
-
   add(food: Food) {
     this.foods.push(food);
   }
@@ -75,20 +58,64 @@ export class Foods {
     this.foods.splice(this.foods.indexOf(food), 1);
   }
 
-  async getFoods() {
-    await this.api.getFood('').subscribe((res: ApiResponse) => {
-      if (res.success && res.payload.length > 0) {
-          const foods = res.payload.map((record, index) => {
-            const obj = Object.assign({}, record);
-            obj.image = this.api.getImageUrl(record.image);
-            return obj;
+  // CRUD Service
+  recordRetrieve(q = ''): Observable<any> {
+    const subRes = this.apiService.getFood(q);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          res.payload.forEach(element => {
+            this.add(element);
           });
-          for (const food of foods) {
-            this.foods.push(new Food(food));
-          }
+        } else {
+          console.log(res.message);
         }
-      }, err => {
-        console.log(err);
-      });
+      }, (err) => throwError(err));
+      return subRes;
   }
+
+  recordCreate(data): Observable<any>  {
+    const subRes = this.apiService.postFood(data);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordUpdate(food: Food, payload): Observable<any>  {
+    const subRes = this.apiService.updateFood(food.id, payload);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.delete(food);
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordDelete(food: Food): Observable<any>  {
+    const subRes = this.apiService.deleteFood(food.id);
+    subRes.subscribe((res: ApiResponse) => {
+        console.log(res);
+      if (res.success) {
+        this.delete(food);
+      } else {
+        console.log(res.message);
+      }
+    }, (err) => throwError(err));
+    return subRes;
+  }
+
 }
+
+

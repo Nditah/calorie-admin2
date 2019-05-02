@@ -1,42 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Nutrient } from '../../models';
-import table from './nutrients-data';
+import { Observable, throwError } from 'rxjs';
+
+import { Nutrient, ApiResponse } from '../../models';
+import { ApiService } from '../../services';
 
 @Injectable()
 export class Nutrients {
 
   nutrients: Nutrient[] = [];
 
-  defaultRecord: Nutrient = {
-    'id': '1',
-    'name': 'Carbohydrates',
-    'classification': 'carbohydrate',
-    'category': 'carbohydrate',
-    'type': 'MAIN',
-    'symbol': 'Cm(H2O)n',
-    'requirement': 130000,
-    'limit': 325000,
-    'unit': 'mg',
-    'source': 'Carbohydrates constitute majority of foods like bread, noodles, rice, and other products that have grains.',
-    'use': 'Main source of calorie intake',
-    'description': `Carbohydrates are classified based on the number of monomer units in them or the number of sugar units they have. 
-    They can be monosaccharides, disaccharides, or polysaccharides. Monosaccharides have one sugar unit, disaccharides have two sugar unites, 
-    and polysaccharides have three or more sugar units.
-    Monosaccharides and disaccharides are simpler carbohydrates while the polysaccharides are complex carbohydrates. 
-    Complex carbohydrates take longer to digest because they need more time to be broken down into simpler sugar units. 
-    Only the simpler sugar units can be absorbed by the blood.
-    The spikes in the sugar levels of the blood are caused by too much consumption of simpler carbohydrates. 
-    The simple carbohydrates are absorbed by the blood very quickly which causes the blood sugar levels to spike abnormally. 
-    This leads to heart diseases and vascular diseases. You should keep in mind that there are a lot of foods out there that are composed of simple sugars. 
-    One of them is the sugar-based juice.`,
-    image: 'assets/images/junk.jpg',
-  };
+  
+  defaultRecord: Nutrient =  {
+    id: '1',
+    name: 'Water',
+    classification: 'water',
+    type: 'main',
+    symbol: 'H2O',
+    limit: 10000000,
+    unit: 'mg',
+    category: 'class',
+    deficiency: '',
+    excess: '',
+    ear: 20000000,
+    rda_male: 20000000,
+    rda_female: 20000000,
+    image: 'bread.jpg',
+    source: 'A large proportion of the water is taken in the form of beverages, wines, beer,succulent fruits and vegetables, or in milk',
+    use: 'It forms the chief ingredient of all the fluids of the body and maintains their proper degree of dilution. Lukewarm water acts as an emetic if drunk in large quantity. ',
+    description: 'Water’s involved in every type of cellular process in your body, and when you’re dehydrated, they all run less efficiently -- and that includes your metabolism. ',
+};
 
-  constructor() {
-    const nutrients = table;
+
+  constructor(private apiService: ApiService) {
+    const nutrients = []; // Initial Values
     for (const nutrient of nutrients) {
       this.nutrients.push(new Nutrient(nutrient));
     }
+    this.recordRetrieve();
   }
 
   query(params?: any) {
@@ -62,6 +62,65 @@ export class Nutrients {
   delete(nutrient: Nutrient) {
     this.nutrients.splice(this.nutrients.indexOf(nutrient), 1);
   }
+
+  // CRUD Service
+  recordRetrieve(q = ''): Observable<any> {
+    const subRes = this.apiService.getNutrient(q);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          res.payload.forEach(element => {
+            this.add(element);
+          });
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordCreate(data): Observable<any>  {
+    const subRes = this.apiService.postNutrient(data);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordUpdate(nutrient: Nutrient, payload): Observable<any>  {
+    const subRes = this.apiService.updateNutrient(nutrient.id, payload);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.delete(nutrient);
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordDelete(nutrient: Nutrient): Observable<any>  {
+    const subRes = this.apiService.deleteNutrient(nutrient.id);
+    subRes.subscribe((res: ApiResponse) => {
+        console.log(res);
+      if (res.success) {
+        this.delete(nutrient);
+      } else {
+        console.log(res.message);
+      }
+    }, (err) => throwError(err));
+    return subRes;
+  }
+
 }
 
 // http://www.medic8.com/healthguide/articles/foodgroups.html

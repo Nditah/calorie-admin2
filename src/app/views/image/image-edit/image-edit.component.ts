@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import {ApiResponse, SelectOptionInterface, Image } from '../../../models';
+import {ApiResponse, SelectOption, Image } from '../../../models';
 
 
 @Component({
@@ -23,10 +23,10 @@ export class ImageEditComponent implements OnInit {
   notify: any;
   loading = false;
 
-  counties: SelectOptionInterface[];
-  activeCountry: SelectOptionInterface[];
-  banks: SelectOptionInterface[];
-  activeState: SelectOptionInterface[];
+  counties: SelectOption[];
+  activeCountry: SelectOption[];
+  banks: SelectOption[];
+  activeState: SelectOption[];
 
 
   constructor(private formBuilder: FormBuilder,

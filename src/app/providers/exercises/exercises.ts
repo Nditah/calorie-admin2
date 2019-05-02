@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 
-import { Exercise } from '../../models';
+import { Exercise, ApiResponse } from '../../models';
+import { ApiService } from '../../services';
 
 @Injectable()
 export class Exercises {
@@ -18,12 +20,12 @@ export class Exercises {
   };
 
 
-  constructor() {
-    const exercises = [];
-
+  constructor(private apiService: ApiService) {
+    const exercises = []; // Initial Values
     for (const exercise of exercises) {
       this.exercises.push(new Exercise(exercise));
     }
+    this.recordRetrieve();
   }
 
   query(params?: any) {
@@ -42,7 +44,6 @@ export class Exercises {
       return null;
     });
   }
-
   add(exercise: Exercise) {
     this.exercises.push(exercise);
   }
@@ -50,4 +51,63 @@ export class Exercises {
   delete(exercise: Exercise) {
     this.exercises.splice(this.exercises.indexOf(exercise), 1);
   }
+
+  // CRUD Service
+  recordRetrieve(q = ''): Observable<any> {
+    const subRes = this.apiService.getExercise(q);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          res.payload.forEach(element => {
+            this.add(element);
+          });
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordCreate(data): Observable<any>  {
+    const subRes = this.apiService.postExercise(data);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordUpdate(exercise: Exercise, payload): Observable<any>  {
+    const subRes = this.apiService.updateExercise(exercise.id, payload);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.delete(exercise);
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordDelete(exercise: Exercise): Observable<any>  {
+    const subRes = this.apiService.deleteExercise(exercise.id);
+    subRes.subscribe((res: ApiResponse) => {
+        console.log(res);
+      if (res.success) {
+        this.delete(exercise);
+      } else {
+        console.log(res.message);
+      }
+    }, (err) => throwError(err));
+    return subRes;
+  }
+
 }

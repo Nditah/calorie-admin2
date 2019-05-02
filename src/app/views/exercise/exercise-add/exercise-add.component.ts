@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SelectOption, ApiResponse } from '../../../models';
+import { Exercises } from '../../../providers';
 
 
 @Component({
@@ -13,24 +13,16 @@ export class ExerciseAddComponent implements OnInit {
 
   page = 'Add New Exercise';
   addForm: FormGroup;
-  foods: SelectOptionInterface[];
-  users: SelectOptionInterface[];
+  foods: SelectOption[];
+  users: SelectOption[];
 
-  response: ApiResponse;
-  success = false;
-  message = '';
-  notify: any;
   loading = false;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    public exercises: Exercises) { }
 
   ngOnInit() {
-    this.notify = this.pNotifyService.getPNotify();
-
     this.addForm = this.formBuilder.group({
       type: ['', Validators.required], // ["DEFAULT", "CUSTOM"]
       category: ['', Validators.required], // ["SPORT", "WORKOUT"]
@@ -48,50 +40,28 @@ export class ExerciseAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
-    console.log(payload);
-    return this.crudService.post(GetRoutes.Exercises, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
-        if (this.response.success) {
-          this.loading = false;
-          this.reset();
-          this.toast('Record added successfully', 'customsuccess');
-          this.recordRetrieve();
-          this.goToDetail(this.response.payload[0]);
+    try {
+      this.exercises.recordCreate(payload)
+        .subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          console.log('Operation was successfull!');
         } else {
-          this.loading = false;
-          this.toast(this.response.message, 'customdanger');
+          console.log(res.message);
         }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
+      }, (err) => console.log(err.message));
+      } catch (err) {
+        console.log(err.message);
+      }
+      this.goBack();
+      return;
   }
-
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Exercises, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
-          // this.records = response.payload;
-          this.success = response.success;
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
-      });
-  }
-
   // Navigation
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('exerciseDetailId', record.id, null);
     this.router.navigate(['exercise/detail']);
-    return;
   }
+
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('exerciseEditId', record.id, null);
     this.router.navigate(['exercise/edit']);
   }
 
@@ -99,10 +69,4 @@ export class ExerciseAddComponent implements OnInit {
     window.history.back();
   }
 
-  toast (message: any, messageclass: string) {
-    this.notify.alert({
-      text: message,
-      addClass: messageclass
-    });
-  }
 }

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import {ApiResponse, SelectOption} from '../../../models';
 
 @Component({
   selector: 'app-user-add',
@@ -12,7 +12,7 @@ export class UserAddComponent implements OnInit {
 
   page = 'Add New User';
   addForm: FormGroup;
-  logs: SelectOptionInterface[];
+  logs: SelectOption[];
   response: ApiResponse;
   success = false;
   message = '';

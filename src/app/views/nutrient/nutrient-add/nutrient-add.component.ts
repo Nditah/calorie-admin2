@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import {ApiResponse, SelectOption} from '../../../models';
 
 
 @Component({
@@ -13,8 +13,8 @@ export class NutrientAddComponent implements OnInit {
 
   page = 'Add New Nutrient';
   addForm: FormGroup;
-  foodOptions: SelectOptionInterface[];
-  users: SelectOptionInterface[];
+  foodOptions: SelectOption[];
+  users: SelectOption[];
 
   response: ApiResponse;
   success = false;

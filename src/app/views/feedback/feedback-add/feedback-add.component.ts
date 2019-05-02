@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import {ApiResponse, SelectOption} from '../../../models';
 
 @Component({
   selector: 'app-feedback-add',
@@ -12,7 +12,7 @@ export class FeedbackAddComponent implements OnInit {
 
   page = 'Add New Feedback Record';
   addForm: FormGroup;
-  users: SelectOptionInterface[];
+  users: SelectOption[];
   response: ApiResponse;
   success = false;
   message = '';

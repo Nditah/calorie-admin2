@@ -75,12 +75,10 @@ export class FoodComponent implements OnInit {
     this.router.navigate(['food/add']);
   }
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('foodDetailId', record.id, null);
     this.router.navigate(['food/detail']);
     return;
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('foodEditId', record.id, null);
     this.router.navigate(['food/edit']);
   }
 

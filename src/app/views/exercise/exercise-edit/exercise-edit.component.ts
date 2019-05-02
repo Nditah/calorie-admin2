@@ -1,9 +1,8 @@
-import { Exercise } from '../../../models';
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService, DataService } from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Exercises } from '../../../providers';
+import { Exercise, ApiResponse } from '../../../models';
 
 
 @Component({
@@ -18,32 +17,20 @@ export class ExerciseEditComponent implements OnInit {
   record: Exercise;
   date: any;
 
-  success = false;
-  message = '';
-  notify: any;
   loading = false;
-
-  counties: SelectOptionInterface[];
-  activeCountry: SelectOptionInterface[];
-  banks: SelectOptionInterface[];
-  activeState: SelectOptionInterface[];
 
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    private activatedRoute: ActivatedRoute,
+    public exercises: Exercises) {
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+      const record = this.exercises.query({ id })[0];
+      this.record = record || exercises.defaultRecord;
+      console.log(record);
+     }
 
   ngOnInit() {
-    this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('exerciseEditId');
-    if (!recordId) {
-      this.toast('Invalid record Id', 'customerror');
-      this.goBack();
-      return;
-    }
-    this.record = this.utilsService.cleanObject(this.getRecord(recordId));
     // console.log('records ' + this.record);
 
     this.editForm = this.formBuilder.group({
@@ -65,17 +52,6 @@ export class ExerciseEditComponent implements OnInit {
     console.log('\nrecord ', typeof this.record, this.record);
   }
 
-  // new get record
-  getRecord(recordId) {
-    const storedRecords = this.utilsService.getLocalStorage('exercises');
-    if (storedRecords) {
-        this.records = storedRecords;
-    }
-    const t = this.utilsService.getObjectByKey(this.records, 'id', recordId);
-      return t;
-  }
-
-
   reset() {
     this.editForm.reset();
   }
@@ -84,30 +60,29 @@ export class ExerciseEditComponent implements OnInit {
   onSubmit() {
     const payload = this.editForm.value;
     this.loading = true;
-    return this.crudService.put(GetRoutes.Exercises + '/' + this.record.id, payload)
-      .then((data: ApiResponse) => {
-        console.log('editForm response ', data);
-        if (data.success) {
-          this.loading = false;
-          this.toast('Record updated successfully', 'customsuccess');
-          this.goBack();
-        } else {
-          this.loading = false;
-          this.toast(data.message, 'customdanger');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
+    try {
+      this.exercises.recordUpdate(this.record, payload)
+      .subscribe((res: ApiResponse) => {
+        console.log(res);
+      if (res.success && res.payload.length > 0) {
+        console.log('Operation was successfull!');
+      } else {
+        console.log(res.message);
+      }
+    }, (err) => console.log(err.message));
+      } catch (err) {
+        console.log(err.message);
+      }
+      this.goBack();
+      return;
   }
 
-  // Navigation
   goToAdd(): void {
     this.router.navigate(['exercise/add']);
   }
+
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('exerciseDetailId', record.id, null);
-    this.router.navigate(['exercise/detail']);
+    this.router.navigate([`exercise/detail/${record.id}`]);
     return;
   }
 
@@ -115,10 +90,4 @@ export class ExerciseEditComponent implements OnInit {
     window.history.back();
   }
 
-  toast (message: any, messageclass: string) {
-    this.notify.alert({
-      text: message,
-      addClass: messageclass
-    });
-  }
 }

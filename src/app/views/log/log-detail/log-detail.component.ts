@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import { Log, User, SelectOptionInterface } from '../../../models';
+import { Log, User, SelectOption } from '../../../models';
 
 @Component({
   selector: 'app-log-detail',

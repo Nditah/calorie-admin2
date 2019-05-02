@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOptionInterface} from '../../../models';
+import {ApiResponse, SelectOption} from '../../../models';
 
 @Component({
   selector: 'app-log-add',
@@ -12,8 +12,8 @@ export class LogAddComponent implements OnInit {
 
   page = 'Add New Log Record';
   addForm: FormGroup;
-  exercises: SelectOptionInterface[];
-  foods: SelectOptionInterface[];
+  exercises: SelectOption[];
+  foods: SelectOption[];
   response: ApiResponse;
   success = false;
   message = '';

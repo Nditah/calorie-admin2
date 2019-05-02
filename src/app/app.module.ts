@@ -13,6 +13,9 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
+import { Settings, Exercises, Nutrients, Foods, Logs, Feedbacks, User, Api } from './providers';
+import { InterceptorService } from './services/interceptor.service';
+import { ApiService } from './services';
 import { PNotifyService } from './services/pnotify.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -45,7 +48,7 @@ import {
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
-import { JwtInterceptor, ErrorInterceptor } from './helpers';
+import { JwtInterceptor, ErrorInterceptor } from './interceptors';
 
 @NgModule({
   imports: [
@@ -79,6 +82,12 @@ import { JwtInterceptor, ErrorInterceptor } from './helpers';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     DatePipe,
+    ApiService,
+    Exercises,
+    Nutrients,
+    Foods,
+    Logs,
+    Feedbacks,
     UtilsService,
     PNotifyService,
 ],

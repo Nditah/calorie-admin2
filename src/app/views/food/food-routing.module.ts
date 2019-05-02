@@ -8,8 +8,8 @@ import { FoodComponent } from './food.component';
 
 const routes: Routes = [
   { path: '', component: FoodComponent, data: { title: 'Food' } },
-  { path: 'detail', component: FoodDetailComponent, data: { title: 'Food Detail' } },
-  { path: 'edit', component: FoodEditComponent, data: { title: 'Food Edit' } },
+  { path: 'detail/:id', component: FoodDetailComponent, data: { title: 'Food Detail' } },
+  { path: 'edit/:id', component: FoodEditComponent, data: { title: 'Food Edit' } },
   { path: 'add', component: FoodAddComponent, data: { title: 'Food Add' } },
   ];
 

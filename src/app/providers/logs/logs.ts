@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Log, Food } from '../../models';
+import { Observable, throwError } from 'rxjs';
+
+import { Log, Food, ApiResponse } from '../../models';
+import { ApiService } from '../../services';
 
 @Injectable()
 export class Logs {
@@ -37,12 +40,13 @@ export class Logs {
     remark: 'Making progress',
   };
 
-  constructor() {
-    const logs = [];
 
+  constructor(private apiService: ApiService) {
+    const logs = []; // Initial Values
     for (const log of logs) {
       this.logs.push(new Log(log));
     }
+    this.recordRetrieve();
   }
 
   query(params?: any) {
@@ -61,8 +65,70 @@ export class Logs {
       return null;
     });
   }
+  add(log: Log) {
+    this.logs.push(log);
+  }
 
   delete(log: Log) {
     this.logs.splice(this.logs.indexOf(log), 1);
   }
+
+  // CRUD Service
+  recordRetrieve(q = ''): Observable<any> {
+    const subRes = this.apiService.getLog(q);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          res.payload.forEach(element => {
+            this.add(element);
+          });
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordCreate(data): Observable<any>  {
+    const subRes = this.apiService.postLog(data);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordUpdate(log: Log, payload): Observable<any>  {
+    const subRes = this.apiService.updateLog(log.id, payload);
+    subRes.subscribe((res: ApiResponse) => {
+          console.log(res);
+        if (res.success && res.payload.length > 0) {
+          const rec = res.payload[0];
+          this.delete(log);
+          this.recordRetrieve(`_id=${rec.id}`);
+        } else {
+          console.log(res.message);
+        }
+      }, (err) => throwError(err));
+      return subRes;
+  }
+
+  recordDelete(log: Log): Observable<any>  {
+    const subRes = this.apiService.deleteLog(log.id);
+    subRes.subscribe((res: ApiResponse) => {
+        console.log(res);
+      if (res.success) {
+        this.delete(log);
+      } else {
+        console.log(res.message);
+      }
+    }, (err) => throwError(err));
+    return subRes;
+  }
+
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CrudService, GetRoutes, UtilsService, PNotifyService } from '../../services';
 import { Router } from '@angular/router';
 import { Exercise, ApiResponse } from '../../models';
+import { Exercises } from '../../providers';
 
 @Component({
   selector: 'app-exercise',
@@ -14,75 +14,50 @@ export class ExerciseComponent implements OnInit {
   response: ApiResponse;
   success = false;
   message = '';
-  records: Array<Exercise>;
+  records: Array<any>;
   notify: any;
   loading = false;
 
   constructor(private router: Router,
-    private crudService: CrudService,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    public exercises: Exercises) {
+      this.records = this.exercises.query();
+    }
 
     ngOnInit() {
-      this.notify = this.pNotifyService.getPNotify();
-      this.recordRetrieve();
+      // this.notify = this.pNotifyService.getPNotify();
+      // this.records = this.exercises.query();
     }
 
-    recordRetrieve() {
-      this.loading = true;
-      return this.crudService.getAuth(GetRoutes.Exercises, true)
-        .then((response: ApiResponse) => {
-          this.message = response.message;
-          this.loading = false;
-          if (response.success) {
-            console.log(response);
-            this.records = response.payload;
-            this.success = response.success;
-          } else {
-            this.toast(response.message, 'customerror');
-          }
-        }).catch( err => {
-          this.loading = false;
-          this.toast(err.message, 'customerror');
-        });
-    }
 
     recordDelete(record: Exercise): void {
       if (confirm('Are you sure you want to delete this record')) {
-        this.crudService.delete(GetRoutes.Exercises + '/' + record.id)
-          .then((data: ApiResponse) => {
-            if (data.success) {
-              this.records = this.records.filter(i => i.id !== record.id);
-              this.utilsService.setLocalStorage('exercises', (this.records), null);
-            } else {
-              this.toast(data.message, 'customdanger');
-            }
-          }).catch(error => {
-            this.toast(error, 'customdanger');
-          });
+        try {
+              this.exercises.recordDelete(record).subscribe((res: ApiResponse) => {
+                console.log(res);
+              if (res.success && res.payload.length > 0) {
+                console.log('Operation was successfull!');
+              } else {
+                console.log(res.message);
+              }
+            }, (err) => console.log(err.message));
+          } catch (error) {
+            console.log(error.message);
+          }
       }
       return;
     }
 
-  // Navigation
+    // Navigation
     goToAdd(): void {
       this.router.navigate(['exercise/add']);
     }
+
     goToDetail(record: any): void {
-      this.utilsService.setLocalStorage('exerciseDetailId', record.id, null);
-      this.router.navigate(['exercise/detail']);
+      this.router.navigate([`exercise/detail${record.id}`]);
       return;
     }
-    goToEdit(record: any): void {
-      this.utilsService.setLocalStorage('exerciseEditId', record.id, null);
-      this.router.navigate(['exercise/edit']);
-    }
 
-    // toast notification
-    toast (message: any, messageclass: string) {
-      this.notify.alert({
-        text: message,
-        addClass: messageclass
-      });
+    goToEdit(record: any): void {
+      this.router.navigate([`exercise/edit/${record.id}`]);
     }
   }
