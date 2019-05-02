@@ -1,10 +1,9 @@
-import { Log } from '../../../models';
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import {ApiResponse, SelectOption} from '../../../models';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Logs, Foods, Exercises } from '../../../providers';
+import { Log, ApiResponse, SelectOption } from '../../../models';
+import { PNotifyService } from '../../../services';
 
 @Component({
   selector: 'app-log-edit',
@@ -18,30 +17,29 @@ export class LogEditComponent implements OnInit {
   record: Log;
   date: any;
 
-  response: ApiResponse;
-  success = false;
-  message = '';
   notify: any;
   loading = false;
 
-  exercises: SelectOption[];
+  foodOptions: SelectOption[];
+  exerciseOptions: SelectOption[];
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private crudService: CrudService,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+      private router: Router,
+      private activatedRoute: ActivatedRoute,
+      private pNotifyService: PNotifyService,
+      public logs: Logs,
+      public exercises: Exercises,
+      public foods: Foods) {
+        const id = this.activatedRoute.snapshot.paramMap.get('id');
+        const record = this.logs.query({ id })[0];
+        this.record = record || logs.defaultRecord;
+        console.log(record);
+      }
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('logEditId');
-    if (!recordId) {
-      this.toast('Invalid record Id', 'customerror');
-      this.goBack();
-      return;
-    }
-    this.record = this.utilsService.cleanObject(this.getRecord(recordId));
-    // console.log('records ' + this.record);
+    this.getFoods();
+    this.getExercises();
 
     this.editForm = this.formBuilder.group({
       day: [''],
@@ -54,84 +52,31 @@ export class LogEditComponent implements OnInit {
 
     this.editForm.get('day').setValue(this.record.day || '');
     this.editForm.get('food').setValue(this.record.food || '');
-    // this.editForm.get('food_quantity').setValue(this.record.food_quantity || '');
+    this.editForm.get('food_quantity').setValue(this.record.food_quantity);
     this.editForm.get('exercise').setValue(this.record.exercise || '');
-    // this.editForm.get('exercise_duration').setValue(this.record.exercise_duration || '');
+    this.editForm.get('exercise_duration').setValue(this.record.exercise_duration);
     this.editForm.get('remark').setValue(this.record.remark || '');
 
-    console.log('\nrecord ', typeof this.record, this.record);
   }
-
-  // new get record
-  getRecord(recordId) {
-    const storedRecords = this.utilsService.getLocalStorage('logs');
-    if (storedRecords) {
-        this.records = storedRecords;
-    }
-    const t = this.utilsService.getObjectByKey(this.records, 'id', recordId);
-      return t;
-  }
-
-
-  reset() {
-    this.editForm.reset();
-  }
-
 
   onSubmit() {
     const payload = this.editForm.value;
     this.loading = true;
-    console.log('editForm payload ', payload);
-    return this.crudService.put(GetRoutes.Logs + '/' + this.record.id, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
-        this.record = this.response.payload;
-        if (this.response.success) {
-          this.loading = false;
-          this.toast('Record updated successfully', 'customsuccess');
-          this.recordRetrieve();
-          this.goBack();
-        } else {
-          this.loading = false;
-          this.toast(this.response.message, 'customdanger');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
-  }
-
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Logs, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
-          // this.records = response.payload;
-          this.success = response.success;
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
-      });
-  }
-  
-  getExercises() {
-    const storedRecords = this.utilsService.getLocalStorage('exercises') || [];
-    if (storedRecords.length > 0) {
-      this.exercises = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.exercises);
+    try {
+      this.logs.recordUpdate(this.record, payload)
+      .subscribe((res: ApiResponse) => {
+        console.log(res);
+      if (res.success && res.payload.length > 0) {
+        console.log('Operation was successfull!');
+      } else {
+        console.log(res.message);
+      }
+    }, (err) => console.log(err.message));
+      } catch (err) {
+        console.log(err.message);
+      }
+      this.goBack();
       return;
-    }
-    return this.crudService.getAuth(GetRoutes.Exercises, true)
-      .then((data: ApiResponse) => {
-        if (data.success && data.payload.length > 0) {
-          this.exercises = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.exercises);
-          return;
-        }
-      });
   }
 
   // Navigation
@@ -139,9 +84,7 @@ export class LogEditComponent implements OnInit {
     this.router.navigate(['log/add']);
   }
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('logDetailId', record.id, null);
-    this.router.navigate(['log/detail']);
-    return;
+    this.router.navigate([`log/detail/${record.id}`]);
   }
 
   goBack() {
@@ -154,4 +97,17 @@ export class LogEditComponent implements OnInit {
       addClass: messageclass
     });
   }
+  getFoods() {
+    const foodArray = this.foods.query();
+    this.foodOptions = foodArray.map(item => (
+      { id: item.id, text: item.type + ' ' + item.name }));
+      console.log(this.foodOptions);
+  }
+  getExercises() {
+    const exerciseArray = this.exercises.query();
+    this.exerciseOptions = exerciseArray.map(item => (
+      { id: item.id, text: item.type + ' ' + item.name }));
+      console.log(this.exerciseOptions);
+  }
+
 }

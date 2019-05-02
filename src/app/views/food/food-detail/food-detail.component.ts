@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import { Food, User } from '../../../models';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Food } from '../../../models';
+import { Foods } from '../../../providers';
 
 @Component({
   selector: 'app-food-detail',
@@ -13,56 +13,29 @@ export class FoodDetailComponent implements OnInit {
   records: Array<Food>;
   record: Food;
 
-  response: any;
-  success = false;
-  message = '';
-  notify: any;
-  loading = false;
-
   constructor( private router: Router,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    private activatedRoute: ActivatedRoute,
+    public foods: Foods) {
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+      const record = this.foods.query({ id })[0];
+      this.record = record || foods.defaultRecord;
+      console.log(record);
+    }
 
   ngOnInit() {
-    this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('foodDetailId');
-    if (!recordId) {
-      this.toast('Invalid record Id', 'customerror');
-      this.goBack();
-      return;
-    }
-    this.record = this.utilsService.cleanObject(this.getRecord(recordId));
-    console.log('\n record Name', typeof this.record, JSON.stringify(this.record));
-  }
-
-  getRecord(recordId) {
-    console.log('\n record Id ', recordId);
-    const storedRecords = this.utilsService.getLocalStorage('foods');
-    if (storedRecords) {
-        this.records = storedRecords;
-        this.success = true;
-    }
-    return this.utilsService.getObjectByKey(this.records, 'id', recordId);
   }
 
   // Navigation
   goToAdd(): void {
     this.router.navigate(['food/add']);
   }
+
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('foodEditId', record.id, null);
-    this.router.navigate(['food/edit']);
+    this.router.navigate([`food/edit/${record.id}`]);
   }
 
   goBack() {
     window.history.back();
-  }
-
-  toast (message: any, messageclass: string) {
-    this.notify.alert({
-      text: message,
-      addClass: messageclass
-    });
   }
 
 }

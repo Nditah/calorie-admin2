@@ -33,12 +33,13 @@ export class UserAddComponent implements OnInit {
       type: ['', Validators.required], // ["ADMIN", "USER"]
       username: ['', Validators.required],
       gender: ['', Validators.required], // ["MALE", "FEMALE"]
+      birth_date: [''],
       phone: ['', Validators.required],
       country_iso2: [''],
       email: ['', Validators.required],
       password: ['', Validators.required],
+      confirm_password: ['', Validators.required],
       original_mass: [''],
-      current_mass: [''],
       desired_mass: [''],
       height: [''],
       lifestyle: [''],
@@ -52,6 +53,9 @@ export class UserAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
+    if (payload.password !== payload.confirm_password) {
+      return;
+    }
     delete payload.confirm_password;
     console.log(payload);
     return this.crudService.post(GetRoutes.Users, payload)

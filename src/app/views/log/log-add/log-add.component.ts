@@ -12,8 +12,8 @@ export class LogAddComponent implements OnInit {
 
   page = 'Add New Log Record';
   addForm: FormGroup;
-  exercises: SelectOption[];
-  foods: SelectOption[];
+  exerciseOptions: SelectOption[];
+  foodOptions: SelectOption[];
   response: ApiResponse;
   success = false;
   message = '';
@@ -82,34 +82,20 @@ export class LogAddComponent implements OnInit {
   }
 
   getExercises() {
-    const storedRecords = this.utilsService.getLocalStorage('exercises') || [];
-    if (storedRecords.length > 0) {
-      this.exercises = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.exercises);
-      return;
-    }
     return this.crudService.getAuth(GetRoutes.Exercises, true)
       .then((data: ApiResponse) => {
         if (data.success && data.payload.length > 0) {
-          this.exercises = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.exercises);
+          this.exerciseOptions = data.payload.map(item => ({ id: item.id, text: item.name }));
           return;
         }
       });
   }
 
   getFoods() {
-    const storedRecords = this.utilsService.getLocalStorage('foods') || [];
-    if (storedRecords.length > 0) {
-      this.foods = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.foods);
-      return;
-    }
     return this.crudService.getAuth(GetRoutes.Foods, true)
       .then((data: ApiResponse) => {
         if (data.success && data.payload.length > 0) {
-          this.foods = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.foods);
+          this.foodOptions = data.payload.map(item => ({ id: item.id, text: item.name }));
           return;
         }
       });
@@ -117,13 +103,11 @@ export class LogAddComponent implements OnInit {
 
   // Navigation
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('logDetailId', record.id, null);
-    this.router.navigate(['log/detail']);
+    this.router.navigate([`log/detail/${record.id}`]);
     return;
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('logEditId', record.id, null);
-    this.router.navigate(['log/edit']);
+    this.router.navigate([`log/edit/${record.id}`]);
   }
 
   goBack() {

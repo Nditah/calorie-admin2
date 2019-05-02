@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-teal">
           <strong>{{ page || "Add New Record" }}</strong>
           <div class="pull-right">
             <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
@@ -14,8 +14,8 @@
 
             <div class="animated fadeIn">
 
-          <div class="row">
-            <div class="col-sm-12">
+          <div class="row justify-content-center">
+            <div class="col-sm-10">
               <div class="card">
                 <div class="card-header bg-info">
                   <strong>User Form </strong>
@@ -64,11 +64,10 @@
                       <input type="tel" class="form-control" id="phone" formControlName="phone" name="phone"
                       placeholder="Phone (official line)">
                     </div>
-                    <div class="form-group col-sm-4">
-                      <input type="text" class="form-control" id="country" formControlName="country" name="country"
-                      placeholder="Country">
-                    </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-3">
+                        <input type="text" id="country_iso2" formControlName="country_iso2" name="country_iso2" placeholder="Country code" class="form-control">
+                      </div>
+                    <div class="form-group col-sm-5">
                       <input class="form-control" list="lifestyle_list" id="lifestyle" formControlName="lifestyle" type="text"
                              name="lifestyle" placeholder="Lifestyle">
                       <datalist id="lifestyle_list">
@@ -80,32 +79,25 @@
                   </div>
 
                   <div class="row">
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-6">
                       <input type="number" class="form-control" id="original_mass" formControlName="original_mass" name="original_mass"
-                        placeholder="Original Mass">
+                        placeholder="Original Mass (Kg)">
                     </div>
-                    <div class="form-group col-sm-4">
-                      <input type="number" class="form-control" id="current_mass" formControlName="current_mass" name="current_mass"
-                        placeholder="Current Mass">
-                    </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-6">
                       <input type="number" class="form-control" id="desired_mass" formControlName="desired_mass" name="desired_mass"
-                        placeholder="Desired Mass">
+                        placeholder="Desired Mass (Kg)">
                     </div>
                   </div>
-
                   <div class="row">
-                      <div class="form-group col-sm-">
-                        <input type="text" class="form-control" id="height" formControlName="height" name="height" placeholder="Height">
+                      <div class="form-group col-sm-6">
+                        <input type="date" class="form-control" id="birth_date" formControlName="birth_date" name="birth_date" placeholder="Date of birth">
                       </div>
-                      <div class="form-group col-sm-4">
-                        <select id="country_iso2" formControlName="country_iso2" name="country_iso2" class="form-control">
-                          <option value="">Select Country</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="CM">Cameroon</option>
-                        </select>
+                    <div class="form-group col-sm-6">
+                        <input type="text" class="form-control" id="height" formControlName="height" name="height" placeholder="Height(cm)">
                       </div>
-                   </div>
+                  </div>
+
+              
                    <div class="row">
                       <div class="form-group col-sm-12  text-center">
                       <button class="btn btn-danger" (click)="reset()">Reset</button>   

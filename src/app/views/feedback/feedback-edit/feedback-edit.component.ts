@@ -1,9 +1,8 @@
-import { Feedback } from '../../../models';
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import {ApiResponse, SelectOption} from '../../../models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Feedbacks } from '../../../providers';
+import { Feedback, ApiResponse } from '../../../models';
 
 
 @Component({
@@ -18,38 +17,25 @@ export class FeedbackEditComponent implements OnInit {
   record: Feedback;
   date: any;
 
-  response: ApiResponse;
-  success = false;
-  message = '';
-  notify: any;
   loading = false;
-
-  counties: SelectOption[];
-  activeCountry: SelectOption[];
-  banks: SelectOption[];
-  activeState: SelectOption[];
 
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    private activatedRoute: ActivatedRoute,
+    public feedbacks: Feedbacks) {
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+      const record = this.feedbacks.query({ id })[0];
+      this.record = record || feedbacks.defaultRecord;
+      console.log(record);
+     }
 
   ngOnInit() {
-    this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('feedbackEditId');
-    if (!recordId) {
-      this.toast('Invalid record Id', 'customerror');
-      this.goBack();
-      return;
-    }
-    this.record = this.utilsService.cleanObject(this.getRecord(recordId));
     // console.log('records ' + this.record);
 
     this.editForm = this.formBuilder.group({
-      user: [''],
-      message: [''],
+      user: [''], // ["DEFAULT", "CUSTOM"]
+      message: [''], // enum: ["SPORT", "WORKOUT"]
       status: [''],
     });
 
@@ -60,17 +46,6 @@ export class FeedbackEditComponent implements OnInit {
     console.log('\nrecord ', typeof this.record, this.record);
   }
 
-  // new get record
-  getRecord(recordId) {
-    const storedRecords = this.utilsService.getLocalStorage('feedbacks');
-    if (storedRecords) {
-        this.records = storedRecords;
-    }
-    const t = this.utilsService.getObjectByKey(this.records, 'id', recordId);
-      return t;
-  }
-
-
   reset() {
     this.editForm.reset();
   }
@@ -79,49 +54,29 @@ export class FeedbackEditComponent implements OnInit {
   onSubmit() {
     const payload = this.editForm.value;
     this.loading = true;
-    console.log('editForm payload ', payload);
-    return this.crudService.put(GetRoutes.Feedbacks + '/' + this.record.id, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
-        this.record = this.response.payload;
-        if (this.response.success) {
-          this.loading = false;
-          this.toast('Record updated successfully', 'customsuccess');
-          this.recordRetrieve();
-          this.goBack();
-        } else {
-          this.loading = false;
-          this.toast(this.response.message, 'customdanger');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
+    try {
+      this.feedbacks.recordUpdate(this.record, payload)
+      .subscribe((res: ApiResponse) => {
+        console.log(res);
+      if (res.success && res.payload.length > 0) {
+        console.log('Operation was successfull!');
+      } else {
+        console.log(res.message);
+      }
+    }, (err) => console.log(err.message));
+      } catch (err) {
+        console.log(err.message);
+      }
+      this.goBack();
+      return;
   }
 
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Feedbacks, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
-          // this.records = response.payload;
-          this.success = response.success;
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
-      });
-  }
-
-  // Navigation
   goToAdd(): void {
     this.router.navigate(['feedback/add']);
   }
+
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('feedbackDetailId', record.id, null);
-    this.router.navigate(['feedback/detail']);
+    this.router.navigate([`feedback/detail/${record.id}`]);
     return;
   }
 
@@ -129,10 +84,4 @@ export class FeedbackEditComponent implements OnInit {
     window.history.back();
   }
 
-  toast (message: any, messageclass: string) {
-    this.notify.alert({
-      text: message,
-      addClass: messageclass
-    });
-  }
 }

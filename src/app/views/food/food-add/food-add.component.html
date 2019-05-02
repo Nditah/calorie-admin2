@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header bg-teal">
             <strong>{{ page || "Add Record" }}</strong>
             <div class="pull-right">
               <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
@@ -15,7 +15,7 @@
               <div class="animated fadeIn">
   
             <div class="row justify-content-center">
-              <div class="col-sm-10 text-center">
+              <div class="col-sm-10">
                 <div class="card">
                   <div class="card-header bg-info">
                     <strong>Food Form </strong>
@@ -63,12 +63,12 @@
                           <input type="number" class="form-control" formControlName="fibre" id="fibre" placeholder="Fibre">
                         </div>  
                         <div class="form-group col-sm-4">
-                          <input type="number" class="form-control" formControlName="ph" id="ph" placeholder="ph">
+                          <input type="number" class="form-control" formControlName="ph" id="ph" placeholder="Ph">
                         </div>  
                         <div class="form-group col-sm-4">
                           <input type="text" class="form-control" formControlName="nutrients" id="nutrients" placeholder="Nutrients">
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-12">
                           <input type="text" class="form-control" formControlName="image" id="image" placeholder="Image url">
                         </div>                     
                       <div class="form-group col-sm-12">

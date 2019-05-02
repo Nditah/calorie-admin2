@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Exercise, User } from '../../../models';
+import { Exercise } from '../../../models';
 import { Exercises } from '../../../providers';
 
 @Component({
@@ -12,12 +12,6 @@ export class ExerciseDetailComponent implements OnInit {
 
   records: Array<Exercise>;
   record: Exercise;
-
-  response: any;
-  success = false;
-  message = '';
-  notify: any;
-  loading = false;
 
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
