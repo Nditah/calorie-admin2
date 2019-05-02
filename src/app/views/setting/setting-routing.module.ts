@@ -6,8 +6,8 @@ import {SettingEditComponent} from './setting-edit/setting-edit.component';
 
 const routes: Routes = [
   { path: '', component: SettingComponent, data: { title: 'Setting' } },
-  { path: 'detail', component: SettingDetailComponent, data: {title: 'Setting Detail'} },
-  { path: 'edit', component: SettingEditComponent, data: {title: 'Setting Edit'}}
+  { path: 'detail/:id', component: SettingDetailComponent, data: {title: 'Setting Detail'} },
+  { path: 'edit/:id', component: SettingEditComponent, data: {title: 'Setting Edit'}}
 ];
 
 @NgModule({

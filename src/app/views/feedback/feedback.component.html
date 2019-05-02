@@ -16,7 +16,7 @@
           <div class="fa-3x text-center" *ngIf="loading">
             <i class="fa fa-spinner fa-pulse"></i> Loading records
           </div>
-          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0"  *ngIf="success">
+          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0">
             <thead class="thead-light">
             <tr>
               <th class="text-left">SN</th>
@@ -33,10 +33,12 @@
               <td>{{ record.message }}</td>
               <td>{{ record.status }}</td>
               <td class="text-center">
-                  <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
-                  <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>
-                  <button type="button" tooltip="Delete Record" (click)="recordDelete(record)" class="btn btn-sm btn-pill btn-danger"><i class="fa fa-trash-o"></i></button>
-              </td>
+                  <button type="button" routerLink="/feedback/detail/{{record.id}}" class="btn btn-sm btn-ghost-success btn-info" placement="top" tooltip="View Setting">
+                    <i class="fa fa-windows"></i></button>
+                  <button type="button" (click)="goToEdit(record)" class="btn btn-sm btn-ghost-info btn-warning" placement="top" tooltip="Edit Setting">
+                    <i class="fa fa-edit"></i></button>
+                    <button type="button" (click)="recordDelete(record)" class="btn btn-sm btn-ghost-danger btn-danger" placement="top" tooltip="Delete Record" ><i class="fa fa-trash-o"></i></button>
+                </td>
             </tr>
             </tbody>
 

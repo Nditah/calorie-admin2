@@ -9,8 +9,8 @@ import { FeedbackComponent } from './feedback.component';
 
 const routes: Routes = [
   { path: '', component: FeedbackComponent, data: { title: 'Feedback' } },
-  { path: 'detail', component: FeedbackDetailComponent, data: { title: 'Feedback Detail' } },
-  { path: 'edit', component: FeedbackEditComponent, data: { title: 'Feedback Edit' } },
+  { path: 'detail/:id', component: FeedbackDetailComponent, data: { title: 'Feedback Detail' } },
+  { path: 'edit/:id', component: FeedbackEditComponent, data: { title: 'Feedback Edit' } },
   { path: 'add', component: FeedbackAddComponent, data: { title: 'Feedback Add' } },
   ];
 

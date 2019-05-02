@@ -125,7 +125,7 @@
                        <div class="row">
                           <div class="form-group col-sm-12  text-center">
                           <button class="btn btn-danger" (click)="reset()">Reset</button>   
-                          &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine">Submit</button>
+                          &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine || loading">Submit</button>
                           </div>
                         </div>
                     

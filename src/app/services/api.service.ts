@@ -60,17 +60,6 @@ export class ApiService {
     return obj;
   }
 
-  getImageUrl(str: string) {
-    return `${this.env.API_URL}/assets/images/${str}`;
-  }
-
-  updateUser(id: string, data): Observable<any> {
-    const url = `${this.env.API_URL}/users/${id}`;
-    const payload = this.cleanObject(data);
-    return this.http.put(url, payload, httpOptions).pipe(
-        catchError(this.handleError)
-      );
-  }
 
   // /////////////////////////////////
   // ----------FOOD-----------------//
@@ -212,19 +201,14 @@ export class ApiService {
   }
 
   // /////////////////////////////////
-  // ----------SETTING-------------//
-  // /////////////////////////////////
-
-  getSetting(path = ''): Observable<any> {
-    const url = `${this.env.API_URL}/settings?${path}`;
-    return this.http.get(url, httpOptions).pipe(
-      map(this.extractData),
-      catchError(this.handleError));
-  }
-
-  // /////////////////////////////////
   // ----------IMAGE-------------//
   // /////////////////////////////////
+
+
+  getImageUrl(str: string) {
+    return `${this.env.API_URL}/assets/images/${str}`;
+  }
+
 
   getImage(path = ''): Observable<any> {
     const url = `${this.env.API_URL}/images?${path}`;
@@ -239,6 +223,23 @@ export class ApiService {
         catchError(this.handleError)
       );
   }
+
+
+  updateImage(id: string, data): Observable<any> {
+    const url = `${this.env.API_URL}/images/${id}`;
+    const payload = this.cleanObject(data);
+    return this.http.put(url, payload, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteImage(id: string): Observable<{}> {
+    const url = `${this.env.API_URL}/images/${id}`;
+    return this.http.delete(url, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+  }
+
 
   // /////////////////////////////////
   // ----------NUTRIENTS------------//
@@ -269,6 +270,60 @@ export class ApiService {
 
   deleteNutrient(id: string): Observable<{}> {
     const url = `${this.env.API_URL}/nutrients/${id}`;
+    return this.http.delete(url, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  // /////////////////////////////////
+  // ----------SETTING-------------//
+  // /////////////////////////////////
+
+  getSetting(path = ''): Observable<any> {
+    const url = `${this.env.API_URL}/settings?${path}`;
+    return this.http.get(url, httpOptions).pipe(
+      map(this.extractData),
+      catchError(this.handleError));
+  }
+
+  updateSetting(id: string, data): Observable<any> {
+    const url = `${this.env.API_URL}/settings/${id}`;
+    const payload = this.cleanObject(data);
+    return this.http.put(url, payload, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+  }
+  
+  // /////////////////////////////////
+  // ----------USER-----------------//
+  // /////////////////////////////////
+
+  getUser(path = ''): Observable<any> {
+    const url = `${this.env.API_URL}/users?${path}`;
+    return this.http.get(url, httpOptions).pipe(
+      map(this.extractData),
+      catchError(this.handleError));
+  }
+
+  postUser(data): Observable<any> {
+    const url = `${this.env.API_URL}/users`;
+    const payload = this.cleanObject(data);
+    return this.http.post(url, payload, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  updateUser(id: string, data): Observable<any> {
+    const url = `${this.env.API_URL}/users/${id}`;
+    const payload = this.cleanObject(data);
+    return this.http.put(url, payload, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteUser(id: string): Observable<{}> {
+    const url = `${this.env.API_URL}/users/${id}`;
     return this.http.delete(url, httpOptions).pipe(
         catchError(this.handleError)
       );

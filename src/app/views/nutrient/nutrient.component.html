@@ -16,13 +16,11 @@
           <div class="fa-3x text-center" *ngIf="loading">
             <i class="fa fa-spinner fa-pulse"></i> Loading Records...
           </div>
-          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0"  *ngIf="success">
+          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0">
             <thead class="thead-light">
             <tr>
               <th class="text-left">SN</th>
               <th>Name</th>
-              <th>Type</th>
-              <th>Category</th>
               <th>Class</th>
               <th>EAR</th>
               <th>RDA Male</th>
@@ -36,8 +34,6 @@
             <tr  *ngFor="let record of records; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ record.name }}</td>
-              <td>{{ record.type }}</td>
-              <td>{{ record.category }}</td>
               <td>{{ record.classification }}</td>
               <td>{{ record.ear }}</td>
               <td>{{ record.rda_male }}</td>
@@ -45,10 +41,12 @@
               <td>{{ record.limit }}</td>
               <td>{{ record.unit }}</td>
               <td class="text-center">
-                  <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
-                  <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>
-                  <button type="button" tooltip="Delete Record" (click)="recordDelete(record)" class="btn btn-sm btn-pill btn-danger"><i class="fa fa-trash-o"></i></button>
-              </td>
+                  <button type="button" routerLink="/nutrient/detail/{{record.id}}" class="btn btn-sm btn-ghost-success btn-info" placement="top" tooltip="View Setting">
+                    <i class="fa fa-windows"></i></button>
+                  <button type="button" (click)="goToEdit(record)" class="btn btn-sm btn-ghost-info btn-warning" placement="top" tooltip="Edit Setting">
+                    <i class="fa fa-edit"></i></button>
+                    <button type="button" (click)="recordDelete(record)" class="btn btn-sm btn-ghost-danger btn-danger" placement="top" tooltip="Delete Record" ><i class="fa fa-trash-o"></i></button>
+                </td>
             </tr>
             </tbody>
 

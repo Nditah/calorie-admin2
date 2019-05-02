@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PNotifyService } from '../../services';
 import { Exercise, ApiResponse } from '../../models';
 import { Exercises } from '../../providers';
 
@@ -12,20 +13,19 @@ export class ExerciseComponent implements OnInit {
 
   page = 'List of Exercises';
   response: ApiResponse;
-  success = false;
-  message = '';
   records: Array<any>;
   notify: any;
   loading = false;
 
   constructor(private router: Router,
+    private pNotifyService: PNotifyService,
     public exercises: Exercises) {
       this.records = this.exercises.query();
     }
 
     ngOnInit() {
-      // this.notify = this.pNotifyService.getPNotify();
-      // this.records = this.exercises.query();
+      this.notify = this.pNotifyService.getPNotify();
+      this.toast('getting saved information', 'custominfo');
     }
 
 
@@ -47,7 +47,6 @@ export class ExerciseComponent implements OnInit {
       return;
     }
 
-    // Navigation
     goToAdd(): void {
       this.router.navigate(['exercise/add']);
     }
@@ -60,4 +59,12 @@ export class ExerciseComponent implements OnInit {
     goToEdit(record: any): void {
       this.router.navigate([`exercise/edit/${record.id}`]);
     }
+
+    toast (message: any, messageclass: string) {
+      this.notify.alert({
+        text: message,
+        addClass: messageclass
+      });
+    }
+
   }

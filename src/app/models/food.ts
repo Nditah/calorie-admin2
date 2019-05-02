@@ -13,7 +13,7 @@ export class Food {
     protein?: number;
     fats?: number;
     fibre?: number;
-    minivites?: Array<{ minivite_id: string, minivite_value: number }>;
+    nutrients?: Array<{ nutrient_id: string, nutrient_value: number }>;
     image?: string;
     created_by?: User;
     created_at?: Date;

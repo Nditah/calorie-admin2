@@ -5,4 +5,5 @@ export { Feedbacks } from './feedbacks/feedbacks';
 export { Logs } from './logs/logs';
 export { Nutrients } from './nutrients/nutrients';
 export { Settings } from './settings/settings';
-export { User } from './user/user';
+export { Users } from './users/users';
+export { Images } from './images/images';

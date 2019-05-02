@@ -9,8 +9,8 @@ import { LogComponent } from './log.component';
 
 const routes: Routes = [
   { path: '', component: LogComponent, data: { title: 'Log' } },
-  { path: 'detail', component: LogDetailComponent, data: { title: 'Log Detail' } },
-  { path: 'edit', component: LogEditComponent, data: { title: 'Log Edit' } },
+  { path: 'detail/:id', component: LogDetailComponent, data: { title: 'Log Detail' } },
+  { path: 'edit/:id', component: LogEditComponent, data: { title: 'Log Edit' } },
   { path: 'add', component: LogAddComponent, data: { title: 'Log Add' } },
   ];
 

@@ -32,9 +32,11 @@
               <td>{{ record.name }}</td>
               <td>{{ record.calorie_rate }} Kcal/hr</td>
               <td class="text-center">
-                  <button type="button" tooltip="View Detail" routerLink="/exercise/detail/{{record.id}}"  routerDirection="forward" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
-                  <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>
-                  <button type="button" tooltip="Delete Record" (click)="recordDelete(record)" class="btn btn-sm btn-pill btn-danger"><i class="fa fa-trash-o"></i></button>
+                <button type="button" routerLink="/exercise/detail/{{record.id}}" class="btn btn-sm btn-ghost-success btn-info" placement="top" tooltip="View Setting">
+                  <i class="fa fa-windows"></i></button>
+                <button type="button" (click)="goToEdit(record)" class="btn btn-sm btn-ghost-info btn-warning" placement="top" tooltip="Edit Setting">
+                  <i class="fa fa-edit"></i></button>
+                  <button type="button" (click)="recordDelete(record)" class="btn btn-sm btn-ghost-danger btn-danger" placement="top" tooltip="Delete Record" ><i class="fa fa-trash-o"></i></button>
               </td>
             </tr>
             </tbody>

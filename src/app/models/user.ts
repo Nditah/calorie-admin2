@@ -17,11 +17,11 @@ export class User {
     desired_mass: number;
     height: number;
     lifestyle: string;
-    logs: Array<Log>;
-    feedbacks: Array<Feedback>;
+    logs?: Array<Log>;
+    feedbacks?: Array<Feedback>;
     is_complete: boolean;
-    created_at: Date;
-    updated_at: Date;
+    created_at?: Date;
+    updated_at?: Date;
 
     constructor(fields: any) {
     // tslint:disable-next-line: forin

@@ -16,7 +16,7 @@
           <div class="fa-3x text-center" *ngIf="loading">
             <i class="fa fa-spinner fa-pulse"></i> Loading records
           </div>
-          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0"  *ngIf="success">
+          <table datatable class="table table-hover table-striped table-condensed table-responsive-sm table-outline mb-0">
             <thead class="thead-light">
             <tr>
               <th class="text-left">SN</th>
@@ -31,16 +31,18 @@
             <tbody>
             <tr  *ngFor="let record of records; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ record.day }}</td>
+              <td>{{ record.day | date }}</td>
               <td>{{ record.food ? record.food.name : '' }}</td>
-              <td>{{ record.food_quantity }}</td>
+              <td>{{ record.food_quantity }} grams</td>
               <td>{{ record.exercise ? record.exercise.name : '' }}</td>
-              <td>{{ record.exercise_duration }}</td>
+              <td>{{ record.exercise_duration }} mins</td>
               <td class="text-center">
-                  <button type="button" tooltip="View Detail" (click)="goToDetail(record)" class="btn btn-pill btn-sm btn-info"><i class="fa fa-windows" ></i></button>
-                  <button type="button" tooltip="Edit Record" (click)="goToEdit(record)" class="btn btn-pill btn-sm btn-warning" ><i class="fa fa-edit"></i></button>
-                  <button type="button" tooltip="Delete Record" (click)="recordDelete(record)" class="btn btn-sm btn-pill btn-danger"><i class="fa fa-trash-o"></i></button>
-              </td>
+                  <button type="button" routerLink="/log/detail/{{record.id}}" class="btn btn-sm btn-ghost-success btn-info" placement="top" tooltip="View Setting">
+                    <i class="fa fa-windows"></i></button>
+                  <button type="button" (click)="goToEdit(record)" class="btn btn-sm btn-ghost-info btn-warning" placement="top" tooltip="Edit Setting">
+                    <i class="fa fa-edit"></i></button>
+                    <button type="button" (click)="recordDelete(record)" class="btn btn-sm btn-ghost-danger btn-danger" placement="top" tooltip="Delete Record" ><i class="fa fa-trash-o"></i></button>
+                </td>
             </tr>
             </tbody>
         </table>

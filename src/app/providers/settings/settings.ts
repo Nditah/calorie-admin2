@@ -1,73 +1,77 @@
 import { Injectable } from '@angular/core';
-import { ApiService, UtilsService } from '../../services';
-import { Nutrient, ApiResponse } from '../../models';
+import { Observable, throwError } from 'rxjs';
 
-/**
- * A simple settings/config class for storing key/value pairs with persistence.
- */
+import { ApiService } from '../../services';
+import { Setting, ApiResponse } from '../../models';
+
+
 @Injectable()
 export class Settings {
-  private SETTINGS_KEY: string = '_settings';
 
-  settings: any;
+  settings: Setting[] = [];
 
-  _defaults: any;
-  _readyPromise: Promise<any>;
-
-  constructor(public utilsService: UtilsService, defaults: any) {
-    this._defaults = defaults;
+  constructor(private apiService: ApiService) {
+    const settings = []; // Initial Values
+    for (const setting of settings) {
+      this.settings.push(new Setting(setting));
+    }
+    this.recordRetrieve();
   }
 
-  load() {
-    return this.utilsService.getLocalStorage(this.SETTINGS_KEY).then((value) => {
-      if (value) {
-        this.settings = value;
-        return this._mergeDefaults(this._defaults);
-      } else {
-         if (this.setAll(this._defaults)) {
-          return ; // this.settings = val;
+    // CRUD Service
+    recordRetrieve(q = ''): Observable<any> {
+      const subRes = this.apiService.getSetting(q);
+      subRes.subscribe((res: ApiResponse) => {
+            console.log(res);
+          if (res.success && res.payload.length > 0) {
+            res.payload.forEach(element => {
+              this.add(element);
+            });
+          } else {
+            console.log(res.message);
+          }
+        }, (err) => throwError(err));
+        return subRes;
+    }
+
+    recordUpdate(setting: Setting, payload): Observable<any>  {
+      const subRes = this.apiService.updateSetting(setting.id, payload);
+      subRes.subscribe((res: ApiResponse) => {
+            console.log(res);
+          if (res.success && res.payload.length > 0) {
+            const rec = res.payload[0];
+            this.delete(setting);
+            this.recordRetrieve(`_id=${rec.id}`);
+          } else {
+            console.log(res.message);
+          }
+        }, (err) => throwError(err));
+        return subRes;
+    }
+
+
+  query(params?: any) {
+    if (!params) {
+      return this.settings;
+    }
+    return this.settings.filter((setting) => {
+      for (const key in params) {
+        const field = setting[key];
+        if (typeof field == 'string' && field.toLowerCase().indexOf(params[key].toLowerCase()) >= 0) {
+          return setting;
+        } else if (field == params[key]) {
+          return setting;
         }
       }
+      return null;
     });
   }
-
-  _mergeDefaults(defaults: any) {
-    for (let k in defaults) {
-      if (!(k in this.settings)) {
-        this.settings[k] = defaults[k];
-      }
-    }
-    return this.setAll(this.settings);
+  add(setting: Setting) {
+    this.settings.push(setting);
   }
 
-  merge(settings: any) {
-    for (let k in settings) {
-      this.settings[k] = settings[k];
-    }
-    return this.save();
+  delete(setting: Setting) {
+    this.settings.splice(this.settings.indexOf(setting), 1);
   }
 
-  setValue(key: string, value: any) {
-    this.settings[key] = value;
-    return this.utilsService.setLocalStorage(this.SETTINGS_KEY, this.settings, null);
-  }
-
-  setAll(value: any) {
-    return this.utilsService.setLocalStorage(this.SETTINGS_KEY, value, null);
-  }
-
-  getValue(key: string) {
-    return this.utilsService.getLocalStorage(this.SETTINGS_KEY)
-      .then(settings => {
-        return settings[key];
-      });
-  }
-
-  save() {
-    return this.setAll(this.settings);
-  }
-
-  get allSettings() {
-    return this.settings;
-  }
 }

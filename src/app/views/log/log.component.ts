@@ -1,94 +1,70 @@
 import { Component, OnInit } from '@angular/core';
-import { CrudService, GetRoutes, UtilsService, PNotifyService } from '../../services';
 import { Router } from '@angular/router';
+import { PNotifyService } from '../../services';
 import { Log, ApiResponse } from '../../models';
-
+import { Logs } from '../../providers';
 
 @Component({
   selector: 'app-log',
   templateUrl: './log.component.html',
+  styleUrls: ['./log.component.scss']
 })
 export class LogComponent implements OnInit {
 
   page = 'List of Logs';
   response: ApiResponse;
-  success = false;
-  message = '';
-  records: Array<Log>;
+  records: Array<any>;
   notify: any;
   loading = false;
 
   constructor(private router: Router,
-    private crudService: CrudService,
     private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
-
-  ngOnInit() {
-    this.notify = this.pNotifyService.getPNotify();
-    const storedRecords = this.utilsService.getLocalStorage('logs');
-    if (storedRecords) {
-        this.records = storedRecords;
-        this.toast('getting saved information', 'custominfo');
-        this.success = true;
-    } else {
-      this.recordRetrieve();
+    public logs: Logs) {
+      this.records = this.logs.query();
     }
-  }
 
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Logs, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        this.loading = false;
-        if (response.success) {
-          this.records = response.payload;
-          this.success = response.success;
-        } else {
-          this.toast(response.message, 'customerror');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
-      });
-  }
+    ngOnInit() {
+      this.notify = this.pNotifyService.getPNotify();
+      this.toast('getting saved information', 'custominfo');
+    }
 
-  recordDelete(record: Log): void {
-    if (confirm('Are you sure you want to delete this record')) {
-      this.crudService.delete(GetRoutes.Logs + '/' + record.id)
-        .then((data: ApiResponse) => {
-          if (data.success) {
-            this.records = this.records.filter(i => i.id !== record.id);
-            this.utilsService.setLocalStorage('logs', (this.records), null);
-          } else {
-            this.toast(data.message, 'customdanger');
+
+    recordDelete(record: Log): void {
+      if (confirm('Are you sure you want to delete this record')) {
+        try {
+              this.logs.recordDelete(record).subscribe((res: ApiResponse) => {
+                console.log(res);
+              if (res.success && res.payload.length > 0) {
+                console.log('Operation was successfull!');
+              } else {
+                console.log(res.message);
+              }
+            }, (err) => console.log(err.message));
+          } catch (error) {
+            console.log(error.message);
           }
-        }).catch(error => {
-          this.toast(error, 'customdanger');
-        });
+      }
+      return;
     }
-    return;
-  }
 
-// Navigation
-  goToAdd(): void {
-    this.router.navigate(['log/add']);
-  }
-  goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('logDetailId', record.id, null);
-    this.router.navigate(['log/detail']);
-    return;
-  }
-  goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('logEditId', record.id, null);
-    this.router.navigate(['log/edit']);
-  }
+    goToAdd(): void {
+      this.router.navigate(['log/add']);
+    }
 
-  // toast notification
-  toast (message: any, messageclass: string) {
-    this.notify.alert({
-      text: message,
-      addClass: messageclass
-    });
+    goToDetail(record: any): void {
+      this.router.navigate([`log/detail${record.id}`]);
+      return;
+    }
+
+    goToEdit(record: any): void {
+      this.router.navigate([`log/edit/${record.id}`]);
+    }
+
+    toast (message: any, messageclass: string) {
+      this.notify.alert({
+        text: message,
+        addClass: messageclass
+      });
+    }
+
   }
-}

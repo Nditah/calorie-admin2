@@ -8,8 +8,8 @@ import { NutrientDetailComponent } from './nutrient-detail/nutrient-detail.compo
 
 const routes: Routes = [
   { path: '', component: NutrientComponent, data: { title: 'Nutrient' } },
-  { path: 'detail', component: NutrientDetailComponent, data: { title: 'Nutrient Detail' } },
-  { path: 'edit', component: NutrientEditComponent, data: { title: 'Nutrient Edit' } },
+  { path: 'detail/:id', component: NutrientDetailComponent, data: { title: 'Nutrient Detail' } },
+  { path: 'edit/:id', component: NutrientEditComponent, data: { title: 'Nutrient Edit' } },
   { path: 'add', component: NutrientAddComponent, data: { title: 'Nutrient Add' } },
 ];
 

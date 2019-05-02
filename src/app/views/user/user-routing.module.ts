@@ -9,8 +9,8 @@ import { UserComponent } from './user.component';
 
 const routes: Routes = [
   { path: '', component: UserComponent, data: { title: 'User' } },
-  { path: 'detail', component: UserDetailComponent, data: { title: 'User Detail' } },
-  { path: 'edit', component: UserEditComponent, data: { title: 'User Edit' } },
+  { path: 'detail/:id', component: UserDetailComponent, data: { title: 'User Detail' } },
+  { path: 'edit/:id', component: UserEditComponent, data: { title: 'User Edit' } },
   { path: 'add', component: UserAddComponent, data: { title: 'User Add' } },
   ];
 

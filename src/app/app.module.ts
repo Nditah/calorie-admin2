@@ -13,7 +13,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-import { Settings, Exercises, Nutrients, Foods, Logs, Feedbacks, User, Api } from './providers';
+import { Settings, Exercises, Nutrients, Foods, Logs, Feedbacks, Users, Images, Api } from './providers';
 import { InterceptorService } from './services/interceptor.service';
 import { ApiService } from './services';
 import { PNotifyService } from './services/pnotify.service';
@@ -84,10 +84,13 @@ import { JwtInterceptor, ErrorInterceptor } from './interceptors';
     DatePipe,
     ApiService,
     Exercises,
-    Nutrients,
-    Foods,
-    Logs,
     Feedbacks,
+    Foods,
+    Images,
+    Logs,
+    Nutrients,
+    Settings,
+    Users,
     UtilsService,
     PNotifyService,
 ],
