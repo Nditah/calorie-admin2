@@ -5,11 +5,21 @@ import { PNotifyService } from '../../../services';
 import { ApiResponse } from '../../../models';
 import { Images, Users } from '../../../providers';
 
+class ImageSnippet {
+  pending: boolean = false;
+  status: string = 'init';
+
+  constructor(public src: string, public file: File) {}
+}
+
 @Component({
   selector: 'app-image-add',
   templateUrl: './image-add.component.html',
+  styleUrls: ['./image-add.component.scss']
 })
 export class ImageAddComponent implements OnInit {
+
+  selectedFile: ImageSnippet;
 
   page = 'Add New Image Record';
   addForm: FormGroup;
@@ -19,7 +29,7 @@ export class ImageAddComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private pNotifyService: PNotifyService,
-    public images: Images) {
+    public imageService: Images) {
     }
 
   ngOnInit() {
@@ -29,6 +39,43 @@ export class ImageAddComponent implements OnInit {
       name: ['', Validators.required],
       image: ['', Validators.required],
     });
+  }
+
+  private onSuccess() {
+    this.selectedFile.pending = false;
+    this.selectedFile.status = 'ok';
+  }
+
+  private onError() {
+    this.selectedFile.pending = false;
+    this.selectedFile.status = 'fail';
+    this.selectedFile.src = '';
+}
+
+  processFile(imageInput: any) {
+    const name = this.addForm.value.name;
+
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+      this.selectedFile.pending = true;
+      this.imageService.recordCreate(this.selectedFile.file, name)
+        .then((res: any) => {
+          console.log(res);
+          if (res.success) {
+            this.goToDetail(res.payload);
+          } else {
+            this.toast(res.message, 'customerror');
+          }
+        })
+        .catch (error => {
+            this.toast(error.message, 'customerror');
+          });
+    });
+
+    reader.readAsDataURL(file);
   }
 
   reset() {
@@ -43,19 +90,18 @@ export class ImageAddComponent implements OnInit {
       this.toast('this.addForm.invalid', 'customerror');
       return;
     }
-    try {
-      this.images.recordCreate(payload)
-        .then((res: any) => {
+    this.imageService.recordCreate(payload, '')
+      .then((res: any) => {
           console.log(res);
         if (res.success) {
           this.goToDetail(res.payload);
         } else {
           this.toast(res.message, 'customerror');
         }
-      }, (err) => this.toast(err.message, 'customerror'));
-    } catch (error) {
-      this.toast(error.message, 'customerror');
-    }
+      })
+      .catch (error => {
+          this.toast(error.message, 'customerror');
+        });
       return;
   }
 

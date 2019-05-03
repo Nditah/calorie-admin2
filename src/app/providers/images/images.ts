@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { Image, ApiResponse } from '../../models';
 import { ApiService } from '../../services';
 import { map } from 'rxjs/operators';
@@ -22,6 +22,7 @@ export class Images {
     }
     this.recordRetrieve();
   }
+
 
   query(params?: any) {
     if (!params) {
@@ -67,9 +68,12 @@ export class Images {
       return await proRes.toPromise();
   }
 
-
-  async recordCreate(data): Promise<ApiResponse> {
-    const proRes = this.apiService.postImage(data).pipe(
+  // uploadImage
+  async recordCreate(image: File, name: string): Promise<ApiResponse> {
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('name', name);
+    const proRes = this.apiService.postImage(formData).pipe(
     map((res: ApiResponse) => {
         if (res.success && res.payload) {
           console.log('recordCreate() successful');
