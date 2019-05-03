@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-
+import { throwError } from 'rxjs';
 import { Feedback, ApiResponse } from '../../models';
 import { ApiService } from '../../services';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class Feedbacks {
@@ -40,7 +40,10 @@ export class Feedbacks {
     });
   }
   add(feedback: Feedback) {
+    console.log('Array length before push', this.feedbacks.length);
     this.feedbacks.push(feedback);
+    console.log('Array length after push', this.feedbacks.length);
+    console.log('record added to ecercise', feedback);
   }
 
   delete(feedback: Feedback) {
@@ -48,61 +51,60 @@ export class Feedbacks {
   }
 
   // CRUD Service
-  recordRetrieve(q = ''): Observable<any> {
-    const subRes = this.apiService.getFeedback(q);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
+  async recordRetrieve(path = ''): Promise<ApiResponse> {
+    const proRes = this.apiService.getFeedback(path).pipe(
+    map((res: ApiResponse) => {
+      console.log(res);
         if (res.success && res.payload.length > 0) {
           res.payload.forEach(element => {
             this.add(element);
           });
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordCreate(data): Observable<any>  {
-    const subRes = this.apiService.postFeedback(data);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
-          this.recordRetrieve(`_id=${rec.id}`);
+
+  async recordCreate(data): Promise<ApiResponse> {
+    const proRes = this.apiService.postFeedback(data).pipe(
+    map((res: ApiResponse) => {
+        if (res.success && res.payload) {
+          console.log('recordCreate() successful');
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordUpdate(feedback: Feedback, payload): Observable<any>  {
-    const subRes = this.apiService.updateFeedback(feedback.id, payload);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
+  async recordUpdate(feedback: Feedback, payload): Promise<ApiResponse> {
+    const proRes = this.apiService.updateFeedback(feedback.id, payload).pipe(
+    map((res: ApiResponse) => {
+        if (res.success) {
           this.delete(feedback);
-          this.recordRetrieve(`_id=${rec.id}`);
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordDelete(feedback: Feedback): Observable<any>  {
-    const subRes = this.apiService.deleteFeedback(feedback.id);
-    subRes.subscribe((res: ApiResponse) => {
-        console.log(res);
+  async recordDelete(feedback: Feedback): Promise<ApiResponse> {
+    const proRes = this.apiService.deleteFeedback(feedback.id).pipe(
+    map((res: ApiResponse) => {
       if (res.success) {
         this.delete(feedback);
       } else {
-        console.log(res.message);
+        throwError(res.message);
       }
-    }, (err) => throwError(err));
-    return subRes;
+      return res;
+    }));
+    return await proRes.toPromise();
   }
 
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-
-import { Image, Food, ApiResponse } from '../../models';
+import { throwError } from 'rxjs';
+import { Image, ApiResponse } from '../../models';
 import { ApiService } from '../../services';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class Images {
@@ -11,10 +11,9 @@ export class Images {
 
   defaultRecord: Image = {
     id: '1',
-    name: 'ball',
-    url: 'https://dhhf/ball.jpg',
+    name: 'Juice',
+    url: 'juince.png',
   };
-
 
   constructor(private apiService: ApiService) {
     const images = []; // Initial Values
@@ -41,7 +40,10 @@ export class Images {
     });
   }
   add(image: Image) {
+    console.log('Array length before push', this.images.length);
     this.images.push(image);
+    console.log('Array length after push', this.images.length);
+    console.log('record added to ecercise', image);
   }
 
   delete(image: Image) {
@@ -49,61 +51,60 @@ export class Images {
   }
 
   // CRUD Service
-  recordRetrieve(q = ''): Observable<any> {
-    const subRes = this.apiService.getImage(q);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
+  async recordRetrieve(path = ''): Promise<ApiResponse> {
+    const proRes = this.apiService.getImage(path).pipe(
+    map((res: ApiResponse) => {
+      console.log(res);
         if (res.success && res.payload.length > 0) {
           res.payload.forEach(element => {
             this.add(element);
           });
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordCreate(data): Observable<any>  {
-    const subRes = this.apiService.postImage(data);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
-          this.recordRetrieve(`_id=${rec.id}`);
+
+  async recordCreate(data): Promise<ApiResponse> {
+    const proRes = this.apiService.postImage(data).pipe(
+    map((res: ApiResponse) => {
+        if (res.success && res.payload) {
+          console.log('recordCreate() successful');
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordUpdate(image: Image, payload): Observable<any>  {
-    const subRes = this.apiService.updateImage(image.id, payload);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
+  async recordUpdate(image: Image, payload): Promise<ApiResponse> {
+    const proRes = this.apiService.updateImage(image.id, payload).pipe(
+    map((res: ApiResponse) => {
+        if (res.success) {
           this.delete(image);
-          this.recordRetrieve(`_id=${rec.id}`);
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordDelete(image: Image): Observable<any>  {
-    const subRes = this.apiService.deleteImage(image.id);
-    subRes.subscribe((res: ApiResponse) => {
-        console.log(res);
+  async recordDelete(image: Image): Promise<ApiResponse> {
+    const proRes = this.apiService.deleteImage(image.id).pipe(
+    map((res: ApiResponse) => {
       if (res.success) {
         this.delete(image);
       } else {
-        console.log(res.message);
+        throwError(res.message);
       }
-    }, (err) => throwError(err));
-    return subRes;
+      return res;
+    }));
+    return await proRes.toPromise();
   }
 
 }

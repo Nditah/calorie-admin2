@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PNotifyService } from '../../../services';
 import { Feedbacks } from '../../../providers';
 import { Feedback, ApiResponse } from '../../../models';
 
@@ -15,6 +16,7 @@ export class FeedbackEditComponent implements OnInit {
   editForm: FormGroup;
   records: Array<Feedback>;
   record: Feedback;
+  notify: any;
   date: any;
 
   loading = false;
@@ -23,15 +25,19 @@ export class FeedbackEditComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private pNotifyService: PNotifyService,
     public feedbacks: Feedbacks) {
       const id = this.activatedRoute.snapshot.paramMap.get('id');
       const record = this.feedbacks.query({ id })[0];
-      this.record = record || feedbacks.defaultRecord;
-      console.log(record);
-     }
+      if (!!record) {
+        this.record = record;
+      } else {
+        this.goBack();
+      }
+  }
 
   ngOnInit() {
-    // console.log('records ' + this.record);
+    this.notify = this.pNotifyService.getPNotify();
 
     this.editForm = this.formBuilder.group({
       user: [''], // ["DEFAULT", "CUSTOM"]
@@ -53,21 +59,20 @@ export class FeedbackEditComponent implements OnInit {
 
   onSubmit() {
     const payload = this.editForm.value;
+    console.log(payload);
     this.loading = true;
     try {
       this.feedbacks.recordUpdate(this.record, payload)
-      .subscribe((res: ApiResponse) => {
-        console.log(res);
-      if (res.success && res.payload.length > 0) {
-        console.log('Operation was successfull!');
+      .then((res: any) => {
+      if (res.success) {
+        this.goToDetail(res.payload);
       } else {
-        console.log(res.message);
+        this.toast(res.message, 'customerror');
       }
-    }, (err) => console.log(err.message));
-      } catch (err) {
-        console.log(err.message);
+    }, (err) => this.toast(err.message, 'customerror'));
+      } catch (error) {
+        this.toast(error.message, 'customerror');
       }
-      this.goBack();
       return;
   }
 
@@ -82,6 +87,13 @@ export class FeedbackEditComponent implements OnInit {
 
   goBack() {
     window.history.back();
+  }
+
+  toast (message: any, messageclass: string) {
+    this.notify.alert({
+      text: message,
+      addClass: messageclass
+    });
   }
 
 }

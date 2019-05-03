@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOption} from '../../../models';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SelectOption } from '../../../models';
+import { Users } from '../../../providers';
+import { PNotifyService  } from '../../../services';
+
 
 @Component({
   selector: 'app-user-add',
@@ -12,22 +14,18 @@ export class UserAddComponent implements OnInit {
 
   page = 'Add New User';
   addForm: FormGroup;
-  logs: SelectOption[];
-  response: ApiResponse;
-  success = false;
-  message = '';
-  notify: any;
+  nutrientOptions: SelectOption[];
+
   loading = false;
+  notify: any;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    public users: Users,
+    private pNotifyService: PNotifyService) {}
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    this.getLogs();
 
     this.addForm = this.formBuilder.group({
       type: ['', Validators.required], // ["ADMIN", "USER"]
@@ -58,67 +56,33 @@ export class UserAddComponent implements OnInit {
     }
     delete payload.confirm_password;
     console.log(payload);
-    return this.crudService.post(GetRoutes.Users, payload)
-      .then((data: ApiResponse) => {
-        this.response = data;
-        if (this.response.success) {
-          this.loading = false;
-          this.reset();
-          this.toast('Record added successfully', 'customsuccess');
-          this.recordRetrieve();
-          this.goToDetail(this.response.payload[0]);
-        } else {
-          this.loading = false;
-          this.toast(this.response.message, 'customdanger');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
-  }
-
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Users, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        if (response.success && response.payload.length > 0 ) {
-          this.loading = false;
-          // this.records = response.payload;
-          this.success = response.success;
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
-      });
-  }
-
-  getLogs() {
-    const storedRecords = this.utilsService.getLocalStorage('logs') || [];
-    if (storedRecords.length > 0) {
-      this.logs = storedRecords.map(item => ({ id: item.id, text: item.name }));
-      console.log(this.logs);
+    if (this.addForm.invalid) {
+      this.loading = false;
+      this.toast('this.addForm.invalid', 'customerror');
       return;
     }
-    return this.crudService.getAuth(GetRoutes.Logs, true)
-      .then((data: ApiResponse) => {
-        if (data.success && data.payload.length > 0) {
-          this.logs = data.payload.map(item => ({ id: item.id, text: item.name }));
-          console.log(this.logs);
-          return;
+    try {
+      this.users.recordCreate(payload)
+        .then((res: any) => {
+          console.log(res);
+        if (res.success) {
+          this.goToDetail(res.payload);
+        } else {
+          this.toast(res.message, 'customerror');
         }
-      });
+      }, (err) => this.toast(err.message, 'customerror'));
+    } catch (error) {
+      this.toast(error.message, 'customerror');
+    }
+      return;
   }
-
   // Navigation
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('userDetailId', record.id, null);
-    this.router.navigate(['user/detail']);
+    this.router.navigate([`user/detail/${record.id}`]);
     return;
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('userEditId', record.id, null);
-    this.router.navigate(['user/edit']);
+    this.router.navigate([`user/edit/${record.id}`]);
   }
 
   goBack() {
@@ -132,7 +96,3 @@ export class UserAddComponent implements OnInit {
     });
   }
 }
-
-
-
-

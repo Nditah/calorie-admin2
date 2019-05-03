@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Exercises } from '../../../providers';
-import { Exercise, ApiResponse } from '../../../models';
+import { Exercise } from '../../../models';
+import { PNotifyService  } from '../../../services';
 
 
 @Component({
@@ -18,20 +19,24 @@ export class ExerciseEditComponent implements OnInit {
   date: any;
 
   loading = false;
-
+  notify: any;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public exercises: Exercises) {
+    public exercises: Exercises,
+    private pNotifyService: PNotifyService) {
       const id = this.activatedRoute.snapshot.paramMap.get('id');
       const record = this.exercises.query({ id })[0];
-      this.record = record || exercises.defaultRecord;
-      console.log(record);
-     }
+      if (!!record) {
+        this.record = record;
+      } else {
+        this.goBack();
+      }
+  }
 
   ngOnInit() {
-    // console.log('records ' + this.record);
+    this.notify = this.pNotifyService.getPNotify();
 
     this.editForm = this.formBuilder.group({
       type: [''], // ["DEFAULT", "CUSTOM"]
@@ -49,31 +54,29 @@ export class ExerciseEditComponent implements OnInit {
     this.editForm.get('image').setValue(this.record.image || '');
     this.editForm.get('description').setValue(this.record.description || '');
 
-    console.log('\nrecord ', typeof this.record, this.record);
+    // console.log('\nrecord ', typeof this.record, this.record);
   }
 
   reset() {
     this.editForm.reset();
   }
 
-
   onSubmit() {
     const payload = this.editForm.value;
+    console.log(payload);
     this.loading = true;
     try {
       this.exercises.recordUpdate(this.record, payload)
-      .subscribe((res: ApiResponse) => {
-        console.log(res);
-      if (res.success && res.payload.length > 0) {
-        console.log('Operation was successfull!');
+      .then((res: any) => {
+      if (res.success) {
+        this.goToDetail(res.payload);
       } else {
-        console.log(res.message);
+        this.toast(res.message, 'customerror');
       }
-    }, (err) => console.log(err.message));
-      } catch (err) {
-        console.log(err.message);
+    }, (err) => this.toast(err.message, 'customerror'));
+      } catch (error) {
+        this.toast(error.message, 'customerror');
       }
-      this.goBack();
       return;
   }
 
@@ -88,6 +91,13 @@ export class ExerciseEditComponent implements OnInit {
 
   goBack() {
     window.history.back();
+  }
+
+  toast (message: any, messageclass: string) {
+    this.notify.alert({
+      text: message,
+      addClass: messageclass
+    });
   }
 
 }

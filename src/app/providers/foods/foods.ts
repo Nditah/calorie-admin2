@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-
+import { throwError } from 'rxjs';
 import { Food, ApiResponse } from '../../models';
 import { ApiService } from '../../services';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class Foods {
@@ -24,7 +24,6 @@ export class Foods {
     minivites: [{ minivite_id: '5cbb581b42b32d642a7c32f5', minivite_value: 120 }],
     image: 'assets/images/junk.jpg',
   };
-
 
   constructor(private apiService: ApiService) {
     const foods = []; // Initial Values
@@ -51,7 +50,10 @@ export class Foods {
     });
   }
   add(food: Food) {
+    console.log('Array length before push', this.foods.length);
     this.foods.push(food);
+    console.log('Array length after push', this.foods.length);
+    console.log('record added to ecercise', food);
   }
 
   delete(food: Food) {
@@ -59,63 +61,60 @@ export class Foods {
   }
 
   // CRUD Service
-  recordRetrieve(q = ''): Observable<any> {
-    const subRes = this.apiService.getFood(q);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
+  async recordRetrieve(path = ''): Promise<ApiResponse> {
+    const proRes = this.apiService.getFood(path).pipe(
+    map((res: ApiResponse) => {
+      console.log(res);
         if (res.success && res.payload.length > 0) {
           res.payload.forEach(element => {
             this.add(element);
           });
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordCreate(data): Observable<any>  {
-    const subRes = this.apiService.postFood(data);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
-          this.recordRetrieve(`_id=${rec.id}`);
+
+  async recordCreate(data): Promise<ApiResponse> {
+    const proRes = this.apiService.postFood(data).pipe(
+    map((res: ApiResponse) => {
+        if (res.success && res.payload) {
+          console.log('recordCreate() successful');
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordUpdate(food: Food, payload): Observable<any>  {
-    const subRes = this.apiService.updateFood(food.id, payload);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
+  async recordUpdate(food: Food, payload): Promise<ApiResponse> {
+    const proRes = this.apiService.updateFood(food.id, payload).pipe(
+    map((res: ApiResponse) => {
+        if (res.success) {
           this.delete(food);
-          this.recordRetrieve(`_id=${rec.id}`);
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordDelete(food: Food): Observable<any>  {
-    const subRes = this.apiService.deleteFood(food.id);
-    subRes.subscribe((res: ApiResponse) => {
-        console.log(res);
+  async recordDelete(food: Food): Promise<ApiResponse> {
+    const proRes = this.apiService.deleteFood(food.id).pipe(
+    map((res: ApiResponse) => {
       if (res.success) {
         this.delete(food);
       } else {
-        console.log(res.message);
+        throwError(res.message);
       }
-    }, (err) => throwError(err));
-    return subRes;
+      return res;
+    }));
+    return await proRes.toPromise();
   }
 
 }
-
-

@@ -22,7 +22,7 @@ export class FeedbackAddComponent implements OnInit {
     private pNotifyService: PNotifyService,
     public feedbacks: Feedbacks,
     public users: Users) {
-      // this.getUsers();
+      this.getUsers();
     }
 
   ngOnInit() {
@@ -43,25 +43,24 @@ export class FeedbackAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
+    if (this.addForm.invalid) {
+      this.loading = false;
+      this.toast('this.addForm.invalid', 'customerror');
+      return;
+    }
     try {
       this.feedbacks.recordCreate(payload)
-        .subscribe((res: ApiResponse) => {
+        .then((res: any) => {
           console.log(res);
-        if (res.success && res.payload.length > 0) {
-          this.loading = false;
-          this.reset();
-          this.toast('Record added successfully', 'customsuccess');
-          this.goToDetail(res.payload[0]);
+        if (res.success) {
+          this.goToDetail(res.payload);
         } else {
-          this.loading = false;
-          this.toast(res.message, 'customdanger');
+          this.toast(res.message, 'customerror');
         }
-      }, (err) => console.log(err.message));
-      } catch (error) {
-        this.loading = false;
-        this.toast(error, 'customdanger');
-      }
-      this.goBack();
+      }, (err) => this.toast(err.message, 'customerror'));
+    } catch (error) {
+      this.toast(error.message, 'customerror');
+    }
       return;
   }
 
@@ -69,16 +68,16 @@ export class FeedbackAddComponent implements OnInit {
     const userArray = this.users.query();
     this.userOptions = userArray.map(item => (
       { id: item.id, text: item.username + ' ' + item.phone }));
-      console.log(this.userOptions);
+      console.log(userArray);
   }
 
   // Navigation
   goToDetail(record: any): void {
-    this.router.navigate(['feedback/detail']);
+    this.router.navigate([`feedback/detail/${record.id}`]);
     return;
   }
   goToEdit(record: any): void {
-    this.router.navigate(['feedback/edit']);
+    this.router.navigate([`feedback/edit/${record.id}`]);
   }
 
   goBack() {
@@ -92,7 +91,3 @@ export class FeedbackAddComponent implements OnInit {
     });
   }
 }
-
-
-
-

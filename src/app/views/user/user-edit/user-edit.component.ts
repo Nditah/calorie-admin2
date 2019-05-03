@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Users } from '../../../providers';
-import { User, ApiResponse } from '../../../models';
+import { User } from '../../../models';
+import { PNotifyService  } from '../../../services';
 
 
 @Component({
@@ -18,18 +19,25 @@ export class UserEditComponent implements OnInit {
   date: any;
 
   loading = false;
-
+  notify: any;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public users: Users) {
+    public users: Users,
+    private pNotifyService: PNotifyService) {
       const id = this.activatedRoute.snapshot.paramMap.get('id');
-      this.record = this.users.query({ id })[0];
+      const record = this.users.query({ id })[0];
+      if (!!record) {
+        this.record = record;
+      } else {
+        this.goBack();
+      }
      }
 
   ngOnInit() {
-    // console.log('records ' + this.record);
+    this.notify = this.pNotifyService.getPNotify();
+
     this.editForm = this.formBuilder.group({
       type: [''], // ["ADMIN", "USER"]
       username: [''],
@@ -48,7 +56,7 @@ export class UserEditComponent implements OnInit {
       lifestyle: [''],
       is_complete: [''],
     });
-  
+
     this.editForm.get('type').setValue(this.record.type || '');
     this.editForm.get('username').setValue(this.record.username || '');
     this.editForm.get('gender').setValue(this.record.gender || '');
@@ -67,7 +75,7 @@ export class UserEditComponent implements OnInit {
     this.editForm.get('is_complete').setValue(this.record.is_complete || '');
     console.log('\nrecord Name', typeof this.record, this.record);
   }
-  
+
   reset() {
     this.editForm.reset();
   }
@@ -75,21 +83,20 @@ export class UserEditComponent implements OnInit {
 
   onSubmit() {
     const payload = this.editForm.value;
+    console.log(payload);
     this.loading = true;
     try {
       this.users.recordUpdate(this.record, payload)
-      .subscribe((res: ApiResponse) => {
-        console.log(res);
-      if (res.success && res.payload.length > 0) {
-        console.log('Operation was successfull!');
+      .then((res: any) => {
+      if (res.success) {
+        this.goToDetail(res.payload);
       } else {
-        console.log(res.message);
+        this.toast(res.message, 'customerror');
       }
-    }, (err) => console.log(err.message));
-      } catch (err) {
-        console.log(err.message);
+    }, (err) => this.toast(err.message, 'customerror'));
+      } catch (error) {
+        this.toast(error.message, 'customerror');
       }
-      this.goBack();
       return;
   }
 
@@ -104,6 +111,13 @@ export class UserEditComponent implements OnInit {
 
   goBack() {
     window.history.back();
+  }
+
+  toast (message: any, messageclass: string) {
+    this.notify.alert({
+      text: message,
+      addClass: messageclass
+    });
   }
 
 }

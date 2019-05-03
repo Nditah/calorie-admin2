@@ -1,9 +1,9 @@
-import { Food } from '../../../models';
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import { PNotifyService, CrudService, GetRoutes, UtilsService } from '../../../services';
-import {ApiResponse, SelectOption} from '../../../models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Foods } from '../../../providers';
+import { Food } from '../../../models';
+import { PNotifyService  } from '../../../services';
 
 
 @Component({
@@ -18,34 +18,25 @@ export class FoodEditComponent implements OnInit {
   record: Food;
   date: any;
 
-  response: ApiResponse;
-  success = false;
-  message = '';
-  notify: any;
   loading = false;
-
-  counties: SelectOption[];
-  activeCountry: SelectOption[];
-  banks: SelectOption[];
-  activeState: SelectOption[];
-
+  notify: any;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService,
-    private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    private activatedRoute: ActivatedRoute,
+    public foods: Foods,
+    private pNotifyService: PNotifyService) {
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+      const record = this.foods.query({ id })[0];
+      if (!!record) {
+        this.record = record;
+      } else {
+        this.goBack();
+      }
+     }
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
-    const recordId = this.utilsService.getLocalStorage('foodEditId');
-    if (!recordId) {
-      this.toast('Invalid record Id', 'customerror');
-      this.goBack();
-      return;
-    }
-    this.record = this.utilsService.cleanObject(this.getRecord(recordId));
-    // console.log('records ' + this.record);
 
     this.editForm = this.formBuilder.group({
       type: [''], // enum: ["DEFAULT", "CUSTOM"]
@@ -82,17 +73,6 @@ export class FoodEditComponent implements OnInit {
     console.log('\nrecord ', typeof this.record, this.record);
   }
 
-  // new get record
-  getRecord(recordId) {
-    const storedRecords = this.utilsService.getLocalStorage('foods');
-    if (storedRecords) {
-        this.records = storedRecords;
-    }
-    const t = this.utilsService.getObjectByKey(this.records, 'id', recordId);
-      return t;
-  }
-
-
   reset() {
     this.editForm.reset();
   }
@@ -100,50 +80,29 @@ export class FoodEditComponent implements OnInit {
 
   onSubmit() {
     const payload = this.editForm.value;
+    console.log(payload);
     this.loading = true;
-    console.log('editForm payload ', payload);
-    return this.crudService.put(GetRoutes.Foods + '/' + this.record.id, payload)
-      .then((response: ApiResponse) => {
-        this.record = response.payload;
-        this.loading = false;
-        if (response.success) {
-          this.toast('Record updated successfully', 'customsuccess');
-          this.recordRetrieve();
-          this.goBack();
-        } else {
-          this.toast(response.message, 'customdanger');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
+    try {
+      this.foods.recordUpdate(this.record, payload)
+      .then((res: any) => {
+      if (res.success) {
+        this.goToDetail(res.payload);
+      } else {
+        this.toast(res.message, 'customerror');
+      }
+    }, (err) => this.toast(err.message, 'customerror'));
+      } catch (error) {
+        this.toast(error.message, 'customerror');
+      }
+      return;
   }
 
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Foods, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        this.loading = false;
-        if (response.success) {
-          // this.records = response.payload;
-          this.success = response.success;
-        } else {
-          this.toast(response.message, 'customdanger');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
-      });
-  }
-
-  // Navigation
   goToAdd(): void {
     this.router.navigate(['food/add']);
   }
+
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('foodDetailId', record.id, null);
-    this.router.navigate(['food/detail']);
+    this.router.navigate([`food/detail/${record.id}`]);
     return;
   }
 
@@ -157,4 +116,5 @@ export class FoodEditComponent implements OnInit {
       addClass: messageclass
     });
   }
+
 }

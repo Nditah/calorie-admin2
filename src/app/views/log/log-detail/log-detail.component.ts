@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Log } from '../../../models';
+import { Log, ApiResponse } from '../../../models';
 import { Logs } from '../../../providers';
 
 @Component({
@@ -16,13 +16,19 @@ export class LogDetailComponent implements OnInit {
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
     public logs: Logs) {
-      const id = this.activatedRoute.snapshot.paramMap.get('id');
-      const record = this.logs.query({ id })[0];
-      this.record = record || logs.defaultRecord;
-      console.log(record);
     }
 
   ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.logs.recordRetrieve(`_id=${id}`).then((res: ApiResponse) => {
+      if (res.success) {
+        const record = res.payload[0];
+        this.record = record || this.logs.defaultRecord;
+        console.log(record);
+      } else {
+        console.log(res.message);
+      }
+    });
   }
 
   // Navigation

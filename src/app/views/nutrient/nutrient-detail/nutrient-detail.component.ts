@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Nutrient } from '../../../models';
+import { Nutrient, ApiResponse } from '../../../models';
 import { Nutrients } from '../../../providers';
 
 @Component({
@@ -16,13 +16,19 @@ export class NutrientDetailComponent implements OnInit {
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
     public nutrients: Nutrients) {
-      const id = this.activatedRoute.snapshot.paramMap.get('id');
-      const record = this.nutrients.query({ id })[0];
-      this.record = record || nutrients.defaultRecord;
-      console.log(record);
     }
 
   ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.nutrients.recordRetrieve(`_id=${id}`).then((res: ApiResponse) => {
+      if (res.success) {
+        const record = res.payload[0];
+        this.record = record || this.nutrients.defaultRecord;
+        console.log(record);
+      } else {
+        console.log(res.message);
+      }
+    });
   }
 
   // Navigation

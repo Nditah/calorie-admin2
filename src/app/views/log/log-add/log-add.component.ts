@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOption} from '../../../models';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PNotifyService } from '../../../services';
+import { ApiResponse, SelectOption } from '../../../models';
+import { Logs, Foods, Exercises } from '../../../providers';
 
 @Component({
   selector: 'app-log-add',
@@ -10,21 +11,23 @@ import {ApiResponse, SelectOption} from '../../../models';
 })
 export class LogAddComponent implements OnInit {
 
-  page = 'Add New Log Record';
+  page = 'Add New Log';
   addForm: FormGroup;
-  exerciseOptions: SelectOption[];
   foodOptions: SelectOption[];
-  response: ApiResponse;
-  success = false;
-  message = '';
+  exerciseOptions: SelectOption[];
   notify: any;
   loading = false;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService,
     private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    public logs: Logs,
+    public exercises: Exercises,
+    public foods: Foods) {
+      this.getFoods();
+      this.getExercises();
+      this.getFoods();
+    }
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
@@ -39,66 +42,44 @@ export class LogAddComponent implements OnInit {
       exercise_duration: [null, Validators.required],
       remark: [null, Validators.required],
     });
-
-  }
-  reset() {
-    this.addForm.reset();
   }
 
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
-    console.log(payload);
-    return this.crudService.post(GetRoutes.Logs, payload)
-      .then((response: ApiResponse) => {
-        this.loading = false;
-        if (response.success) {
-          this.reset();
-          this.toast('Record added successfully', 'customsuccess');
-          this.recordRetrieve();
-          this.goToDetail(response.payload[0]);
+    if (this.addForm.invalid) {
+      this.loading = false;
+      this.toast('this.addForm.invalid', 'customerror');
+      return;
+    }
+    try {
+      this.logs.recordCreate(payload)
+        .then((res: any) => {
+          console.log(res);
+        if (res.success) {
+          this.goToDetail(res.payload);
         } else {
-          this.toast(response.message, 'customdanger');
+          this.toast(res.message, 'customerror');
         }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
-  }
-
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Logs, true)
-      .then((response: ApiResponse) => {
-        this.loading = false;
-        this.message = response.message;
-        if (response.success) {
-          // this.records = response.payload;
-          this.success = response.success;
-        }
-      }).catch( err => {
-        this.toast(err.message, 'customerror');
-      });
-  }
-
-  getExercises() {
-    return this.crudService.getAuth(GetRoutes.Exercises, true)
-      .then((data: ApiResponse) => {
-        if (data.success && data.payload.length > 0) {
-          this.exerciseOptions = data.payload.map(item => ({ id: item.id, text: item.name }));
-          return;
-        }
-      });
+      }, (err) => this.toast(err.message, 'customerror'));
+    } catch (error) {
+      this.toast(error.message, 'customerror');
+    }
+      return;
   }
 
   getFoods() {
-    return this.crudService.getAuth(GetRoutes.Foods, true)
-      .then((data: ApiResponse) => {
-        if (data.success && data.payload.length > 0) {
-          this.foodOptions = data.payload.map(item => ({ id: item.id, text: item.name }));
-          return;
-        }
-      });
+    const foodArray = this.foods.query();
+    this.foodOptions = foodArray.map(item => (
+      { id: item.id, text: item.name }));
+      console.log(foodArray.length);
+  }
+
+  getExercises() {
+    const exerciseArray = this.exercises.query();
+    this.exerciseOptions = exerciseArray.map(item => (
+      { id: item.id, text: item.name }));
+      console.log(exerciseArray.length);
   }
 
   // Navigation
@@ -121,7 +102,3 @@ export class LogAddComponent implements OnInit {
     });
   }
 }
-
-
-
-

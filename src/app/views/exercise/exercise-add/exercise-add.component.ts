@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SelectOption, ApiResponse } from '../../../models';
+import { SelectOption } from '../../../models';
 import { Exercises } from '../../../providers';
+import { PNotifyService  } from '../../../services';
 
 
 @Component({
@@ -13,16 +14,17 @@ export class ExerciseAddComponent implements OnInit {
 
   page = 'Add New Exercise';
   addForm: FormGroup;
-  foods: SelectOption[];
-  users: SelectOption[];
-
   loading = false;
+  notify: any;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    public exercises: Exercises) { }
+    public exercises: Exercises,
+    private pNotifyService: PNotifyService) {}
 
   ngOnInit() {
+    this.notify = this.pNotifyService.getPNotify();
+
     this.addForm = this.formBuilder.group({
       type: ['', Validators.required], // ["DEFAULT", "CUSTOM"]
       category: ['', Validators.required], // ["SPORT", "WORKOUT"]
@@ -40,33 +42,46 @@ export class ExerciseAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
+    if (this.addForm.invalid) {
+      this.loading = false;
+      this.toast('this.addForm.invalid', 'customerror');
+      return;
+    }
     try {
       this.exercises.recordCreate(payload)
-        .subscribe((res: ApiResponse) => {
+        .then((res: any) => {
           console.log(res);
-        if (res.success && res.payload.length > 0) {
-          console.log('Operation was successfull!');
+        if (res.success) {
+          this.goToDetail(res.payload);
         } else {
-          console.log(res.message);
+          this.toast(res.message, 'customerror');
         }
-      }, (err) => console.log(err.message));
-      } catch (err) {
-        console.log(err.message);
-      }
-      this.goBack();
+      }, (err) => this.toast(err.message, 'customerror'));
+    } catch (error) {
+      this.toast(error.message, 'customerror');
+    }
       return;
   }
-  // Navigation
+
   goToDetail(record: any): void {
-    this.router.navigate(['exercise/detail']);
+    this.router.navigate([`exercise/detail/${record.id}`]);
+    return;
   }
 
   goToEdit(record: any): void {
-    this.router.navigate(['exercise/edit']);
+    this.router.navigate([`exercise/edit/${record.id}`]);
+    return;
   }
 
   goBack() {
     window.history.back();
+  }
+
+  toast (message: any, messageclass: string) {
+    this.notify.alert({
+      text: message,
+      addClass: messageclass
+    });
   }
 
 }

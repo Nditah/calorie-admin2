@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Settings } from '../../../providers';
-import { Setting, ApiResponse } from '../../../models';
+import { Setting } from '../../../models';
+import { PNotifyService  } from '../../../services';
+
 
 @Component({
   selector: 'app-setting-edit',
@@ -17,16 +19,25 @@ export class SettingEditComponent implements OnInit {
   date: any;
 
   loading = false;
+  notify: any;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public settings: Settings) {
+    public settings: Settings,
+    private pNotifyService: PNotifyService) {
       const id = this.activatedRoute.snapshot.paramMap.get('id');
-      this.record = this.settings.query({ id })[0];
+      const record = this.settings.query({ id })[0];
+      if (!!record) {
+        this.record = record;
+      } else {
+        this.goBack();
+      }
      }
 
   ngOnInit() {
+    this.notify = this.pNotifyService.getPNotify();
+
     this.editForm = this.formBuilder.group({
       name: ['', Validators.required],
       access: [null, Validators.required], // ["public", "private"]
@@ -42,28 +53,28 @@ export class SettingEditComponent implements OnInit {
     this.editForm.get('category').setValue(this.record.category || '');
   }
 
+  reset() {
+    this.editForm.reset();
+  }
+
+
   onSubmit() {
     const payload = this.editForm.value;
+    console.log(payload);
     this.loading = true;
     try {
       this.settings.recordUpdate(this.record, payload)
-      .subscribe((res: ApiResponse) => {
-        console.log(res);
-      if (res.success && res.payload.length > 0) {
-        console.log('Operation was successfull!');
+      .then((res: any) => {
+      if (res.success) {
+        this.goToDetail(res.payload);
       } else {
-        console.log(res.message);
+        this.toast(res.message, 'customerror');
       }
-    }, (err) => console.log(err.message));
-      } catch (err) {
-        console.log(err.message);
+    }, (err) => this.toast(err.message, 'customerror'));
+      } catch (error) {
+        this.toast(error.message, 'customerror');
       }
-      this.goBack();
       return;
-  }
-
-  goToAdd(): void {
-    this.router.navigate(['setting/add']);
   }
 
   goToDetail(record: any): void {
@@ -73,6 +84,13 @@ export class SettingEditComponent implements OnInit {
 
   goBack() {
     window.history.back();
+  }
+
+  toast (message: any, messageclass: string) {
+    this.notify.alert({
+      text: message,
+      addClass: messageclass
+    });
   }
 
 }

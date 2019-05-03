@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-
-import { ApiService } from '../../services';
+import { throwError } from 'rxjs';
 import { Setting, ApiResponse } from '../../models';
-
+import { ApiService } from '../../services';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class Settings {
 
   settings: Setting[] = [];
+
+  defaultRecord: Setting = {
+    id: '1',
+    name: 'AppName',
+    access: 'public',
+    value: 'Afro-Calorie',
+    category: 'App',
+    description: 'App Name',
+  };
 
   constructor(private apiService: ApiService) {
     const settings = []; // Initial Values
@@ -17,38 +25,6 @@ export class Settings {
     }
     this.recordRetrieve();
   }
-
-    // CRUD Service
-    recordRetrieve(q = ''): Observable<any> {
-      const subRes = this.apiService.getSetting(q);
-      subRes.subscribe((res: ApiResponse) => {
-            console.log(res);
-          if (res.success && res.payload.length > 0) {
-            res.payload.forEach(element => {
-              this.add(element);
-            });
-          } else {
-            console.log(res.message);
-          }
-        }, (err) => throwError(err));
-        return subRes;
-    }
-
-    recordUpdate(setting: Setting, payload): Observable<any>  {
-      const subRes = this.apiService.updateSetting(setting.id, payload);
-      subRes.subscribe((res: ApiResponse) => {
-            console.log(res);
-          if (res.success && res.payload.length > 0) {
-            const rec = res.payload[0];
-            this.delete(setting);
-            this.recordRetrieve(`_id=${rec.id}`);
-          } else {
-            console.log(res.message);
-          }
-        }, (err) => throwError(err));
-        return subRes;
-    }
-
 
   query(params?: any) {
     if (!params) {
@@ -67,11 +43,44 @@ export class Settings {
     });
   }
   add(setting: Setting) {
+    console.log('Array length before push', this.settings.length);
     this.settings.push(setting);
+    console.log('Array length after push', this.settings.length);
+    console.log('record added to ecercise', setting);
   }
 
   delete(setting: Setting) {
     this.settings.splice(this.settings.indexOf(setting), 1);
+  }
+
+  // CRUD Service
+  async recordRetrieve(path = ''): Promise<ApiResponse> {
+    const proRes = this.apiService.getSetting(path).pipe(
+    map((res: ApiResponse) => {
+      console.log(res);
+        if (res.success && res.payload.length > 0) {
+          res.payload.forEach(element => {
+            this.add(element);
+          });
+        } else {
+          throwError(res.message);
+        }
+        return res;
+      }));
+      return await proRes.toPromise();
+  }
+
+  async recordUpdate(setting: Setting, payload): Promise<ApiResponse> {
+    const proRes = this.apiService.updateSetting(setting.id, payload).pipe(
+    map((res: ApiResponse) => {
+        if (res.success) {
+          this.delete(setting);
+        } else {
+          throwError(res.message);
+        }
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
 }

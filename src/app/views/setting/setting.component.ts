@@ -28,10 +28,6 @@ export class SettingComponent implements OnInit {
       this.toast('getting saved information', 'custominfo');
     }
 
-    goToAdd(): void {
-      this.router.navigate(['setting/add']);
-    }
-
     goToDetail(record: any): void {
       this.router.navigate([`setting/detail${record.id}`]);
       return;

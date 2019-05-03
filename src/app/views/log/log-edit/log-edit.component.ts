@@ -5,6 +5,7 @@ import { Logs, Foods, Exercises } from '../../../providers';
 import { Log, ApiResponse, SelectOption } from '../../../models';
 import { PNotifyService } from '../../../services';
 
+
 @Component({
   selector: 'app-log-edit',
   templateUrl: './log-edit.component.html',
@@ -13,7 +14,6 @@ export class LogEditComponent implements OnInit {
 
   page = 'Edit Log Record';
   editForm: FormGroup;
-  records: Array<Log>;
   record: Log;
   date: any;
 
@@ -56,35 +56,48 @@ export class LogEditComponent implements OnInit {
     this.editForm.get('exercise').setValue(this.record.exercise || '');
     this.editForm.get('exercise_duration').setValue(this.record.exercise_duration);
     this.editForm.get('remark').setValue(this.record.remark || '');
-
   }
 
   onSubmit() {
     const payload = this.editForm.value;
+    console.log(payload);
     this.loading = true;
     try {
       this.logs.recordUpdate(this.record, payload)
-      .subscribe((res: ApiResponse) => {
-        console.log(res);
-      if (res.success && res.payload.length > 0) {
-        console.log('Operation was successfull!');
+      .then((res: any) => {
+      if (res.success) {
+        this.goToDetail(res.payload);
       } else {
-        console.log(res.message);
+        this.toast(res.message, 'customerror');
       }
-    }, (err) => console.log(err.message));
-      } catch (err) {
-        console.log(err.message);
+    }, (err) => this.toast(err.message, 'customerror'));
+      } catch (error) {
+        this.toast(error.message, 'customerror');
       }
-      this.goBack();
       return;
   }
 
-  // Navigation
-  goToAdd(): void {
-    this.router.navigate(['log/add']);
+  getFoods() {
+    const foodArray = this.foods.query();
+    this.foodOptions = foodArray.map(item => (
+      { id: item.id, text: item.name }));
+      console.log(foodArray);
   }
+
+  getExercises() {
+    const exerciseArray = this.exercises.query();
+    this.exerciseOptions = exerciseArray.map(item => (
+      { id: item.id, text: item.name }));
+      console.log(exerciseArray);
+  }
+
+  // Navigation
   goToDetail(record: any): void {
     this.router.navigate([`log/detail/${record.id}`]);
+    return;
+  }
+  goToEdit(record: any): void {
+    this.router.navigate([`log/edit/${record.id}`]);
   }
 
   goBack() {
@@ -97,17 +110,4 @@ export class LogEditComponent implements OnInit {
       addClass: messageclass
     });
   }
-  getFoods() {
-    const foodArray = this.foods.query();
-    this.foodOptions = foodArray.map(item => (
-      { id: item.id, text: item.type + ' ' + item.name }));
-      console.log(this.foodOptions);
-  }
-  getExercises() {
-    const exerciseArray = this.exercises.query();
-    this.exerciseOptions = exerciseArray.map(item => (
-      { id: item.id, text: item.type + ' ' + item.name }));
-      console.log(this.exerciseOptions);
-  }
-
 }

@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../../models';
+import { User, ApiResponse } from '../../../models';
 import { Users } from '../../../providers';
 
 @Component({
@@ -16,12 +16,19 @@ export class UserDetailComponent implements OnInit {
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
     public users: Users) {
-      const id = this.activatedRoute.snapshot.paramMap.get('id');
-      this.record = this.users.query({ id })[0];
-      console.log(this.record);
     }
 
   ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.users.recordRetrieve(`_id=${id}`).then((res: ApiResponse) => {
+      if (res.success) {
+        const record = res.payload[0];
+        this.record = record;
+        console.log(record);
+      } else {
+        console.log(res.message);
+      }
+    });
   }
 
   // Navigation

@@ -142,12 +142,12 @@ export class ApiService {
       catchError(this.handleError));
   }
 
-  postExercise(data): Observable<any> {
+  postExercise(data) {
     const url = `${this.env.API_URL}/exercises`;
     const payload = this.cleanObject(data);
     return this.http.post(url, payload, httpOptions).pipe(
-        catchError(this.handleError)
-      );
+      catchError(this.handleError)
+    );
   }
 
   updateExercise(id: string, data): Observable<any> {

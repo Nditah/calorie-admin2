@@ -13,10 +13,7 @@ export class NutrientEditComponent implements OnInit {
 
   page = 'Edit Nutrient Record';
   editForm: FormGroup;
-  records: Array<Nutrient>;
   record: Nutrient;
-  date: any;
-
   notify: any;
   loading = false;
 
@@ -30,14 +27,17 @@ export class NutrientEditComponent implements OnInit {
       public foods: Foods) {
         const id = this.activatedRoute.snapshot.paramMap.get('id');
         const record = this.nutrients.query({ id })[0];
-        this.record = record || nutrients.defaultRecord;
-        console.log(record);
-      }
+        if (!!record) {
+          this.record = record;
+        } else {
+          this.goBack();
+        }
+        this.getFoods();
+    }
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
     this.getFoods();
-    // console.log('records ' + this.record);
 
     this.editForm = this.formBuilder.group({
       type: ['', Validators.required],
@@ -84,33 +84,39 @@ export class NutrientEditComponent implements OnInit {
     this.editForm.reset();
   }
 
-
   onSubmit() {
     const payload = this.editForm.value;
+    console.log(payload);
     this.loading = true;
     try {
       this.nutrients.recordUpdate(this.record, payload)
-      .subscribe((res: ApiResponse) => {
-        console.log(res);
-      if (res.success && res.payload.length > 0) {
-        console.log('Operation was successfull!');
+      .then((res: any) => {
+      if (res.success) {
+        this.goToDetail(res.payload);
       } else {
-        console.log(res.message);
+        this.toast(res.message, 'customerror');
       }
-    }, (err) => console.log(err.message));
-      } catch (err) {
-        console.log(err.message);
+    }, (err) => this.toast(err.message, 'customerror'));
+      } catch (error) {
+        this.toast(error.message, 'customerror');
       }
-      this.goBack();
       return;
   }
 
-  // Navigation
-  goToAdd(): void {
-    this.router.navigate(['nutrient/add']);
+  getFoods() {
+    const foodArray = this.foods.query();
+    this.foodOptions = foodArray.map(item => (
+      { id: item.id, text: item.name }));
+      console.log(foodArray);
   }
+
+  // Navigation
   goToDetail(record: any): void {
     this.router.navigate([`nutrient/detail/${record.id}`]);
+    return;
+  }
+  goToEdit(record: any): void {
+    this.router.navigate([`nutrient/edit/${record.id}`]);
   }
 
   goBack() {
@@ -123,12 +129,4 @@ export class NutrientEditComponent implements OnInit {
       addClass: messageclass
     });
   }
-
-  getFoods() {
-    const userArray = this.foods.query();
-    this.foodOptions = userArray.map(item => (
-      { id: item.id, text: item.type + ' ' + item.name }));
-      console.log(this.foodOptions);
-  }
-
 }

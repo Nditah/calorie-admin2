@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header bg-teal">
-          <strong>{{ record.username + ' | ' + record.type }}</strong>
+          <strong>{{  record.username | uppercase }}  | {{ record.type }}</strong>
           <div class="pull-right">
             <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
             &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>

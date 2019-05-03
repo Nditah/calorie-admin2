@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Exercise } from '../../../models';
+import { Exercise, ApiResponse } from '../../../models';
 import { Exercises } from '../../../providers';
 
 @Component({
@@ -16,13 +16,19 @@ export class ExerciseDetailComponent implements OnInit {
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
     public exercises: Exercises) {
-      const id = this.activatedRoute.snapshot.paramMap.get('id');
-      const record = this.exercises.query({ id })[0];
-      this.record = record || exercises.defaultRecord;
-      console.log(record);
     }
 
   ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.exercises.recordRetrieve(`_id=${id}`).then((res: ApiResponse) => {
+      if (res.success) {
+        const record = res.payload[0];
+        this.record = record || this.exercises.defaultRecord;
+        console.log(record);
+      } else {
+        console.log(res.message);
+      }
+    });
   }
 
   // Navigation

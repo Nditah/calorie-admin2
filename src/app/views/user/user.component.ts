@@ -30,20 +30,23 @@ export class UserComponent implements OnInit {
 
 
     recordDelete(record: User): void {
-      if (confirm('Are you sure you want to delete this record')) {
-        try {
-              this.users.recordDelete(record).subscribe((res: ApiResponse) => {
-                console.log(res);
-              if (res.success && res.payload.length > 0) {
-                console.log('Operation was successfull!');
-              } else {
-                console.log(res.message);
-              }
-            }, (err) => console.log(err.message));
-          } catch (error) {
-            console.log(error.message);
-          }
+      if (this.loading) {
+        return;
       }
+      if (confirm('Are you sure you want to delete this record')) {
+        this.loading = true;
+        this.users.recordDelete(record).then((res: any) => {
+          console.log(res);
+          if (res.success) {
+            this.toast('Operation was successfull!', 'custominfo');
+          } else {
+            this.toast(res.message, 'customerror');
+          }
+          }).catch(error => {
+              this.toast(error.message, 'customerror');
+          });
+      }
+      this.loading = false;
       return;
     }
 

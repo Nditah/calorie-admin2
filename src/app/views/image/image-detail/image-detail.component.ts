@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Image } from '../../../models';
+import { Image, ApiResponse } from '../../../models';
 import { Images } from '../../../providers';
 
 @Component({
@@ -16,13 +16,19 @@ export class ImageDetailComponent implements OnInit {
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
     public images: Images) {
-      const id = this.activatedRoute.snapshot.paramMap.get('id');
-      const record = this.images.query({ id })[0];
-      this.record = record || images.defaultRecord;
-      console.log(record);
     }
 
   ngOnInit() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.images.recordRetrieve(`_id=${id}`).then((res: ApiResponse) => {
+      if (res.success) {
+        const record = res.payload[0];
+        this.record = record || this.images.defaultRecord;
+        console.log(record);
+      } else {
+        console.log(res.message);
+      }
+    });
   }
 
   // Navigation

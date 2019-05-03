@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CrudService, GetRoutes, PNotifyService, UtilsService} from '../../../services';
-import {ApiResponse, SelectOption} from '../../../models';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PNotifyService } from '../../../services';
+import { ApiResponse } from '../../../models';
+import { Images, Users } from '../../../providers';
 
 @Component({
   selector: 'app-image-add',
@@ -12,28 +13,24 @@ export class ImageAddComponent implements OnInit {
 
   page = 'Add New Image Record';
   addForm: FormGroup;
-  banks: SelectOption[];
-  response: ApiResponse;
-  success = false;
-  message = '';
   notify: any;
   loading = false;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private crudService: CrudService,
     private pNotifyService: PNotifyService,
-    private utilsService: UtilsService) { }
+    public images: Images) {
+    }
 
   ngOnInit() {
     this.notify = this.pNotifyService.getPNotify();
 
     this.addForm = this.formBuilder.group({
       name: ['', Validators.required],
-      url: ['', Validators.required],
+      image: ['', Validators.required],
     });
-
   }
+
   reset() {
     this.addForm.reset();
   }
@@ -41,52 +38,34 @@ export class ImageAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
-    console.log(payload);
-    return this.crudService.post(GetRoutes.Images, payload)
-      .then((response: ApiResponse) => {
-        this.loading = false;
-        this.response = response;
-        if (response.success) {
-          this.reset();
-          this.toast('Record added successfully', 'customsuccess');
-          this.recordRetrieve();
-          this.goToDetail(this.response.payload[0]);
+    if (this.addForm.invalid) {
+      this.loading = false;
+      this.toast('this.addForm.invalid', 'customerror');
+      return;
+    }
+    try {
+      this.images.recordCreate(payload)
+        .then((res: any) => {
+          console.log(res);
+        if (res.success) {
+          this.goToDetail(res.payload);
         } else {
-          this.toast(response.message, 'customdanger');
+          this.toast(res.message, 'customerror');
         }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err, 'customdanger');
-      });
-  }
-
-  recordRetrieve() {
-    this.loading = true;
-    return this.crudService.getAuth(GetRoutes.Images, true)
-      .then((response: ApiResponse) => {
-        this.message = response.message;
-        this.loading = false;
-        if (response.success) {
-          // this.records = response.payload;
-          this.success = response.success;
-        } else {
-          this.toast(response.message, 'customdanger');
-        }
-      }).catch( err => {
-        this.loading = false;
-        this.toast(err.message, 'customerror');
-      });
+      }, (err) => this.toast(err.message, 'customerror'));
+    } catch (error) {
+      this.toast(error.message, 'customerror');
+    }
+      return;
   }
 
   // Navigation
   goToDetail(record: any): void {
-    this.utilsService.setLocalStorage('imageDetailId', record.id, null);
-    this.router.navigate(['image/detail']);
+    this.router.navigate([`image/detail/${record.id}`]);
     return;
   }
   goToEdit(record: any): void {
-    this.utilsService.setLocalStorage('imageEditId', record.id, null);
-    this.router.navigate(['image/edit']);
+    this.router.navigate([`image/edit/${record.id}`]);
   }
 
   goBack() {
@@ -100,7 +79,3 @@ export class ImageAddComponent implements OnInit {
     });
   }
 }
-
-
-
-

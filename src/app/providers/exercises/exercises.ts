@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-
+import { throwError } from 'rxjs';
 import { Exercise, ApiResponse } from '../../models';
 import { ApiService } from '../../services';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class Exercises {
@@ -10,7 +10,7 @@ export class Exercises {
   exercises: Exercise[] = [];
 
   defaultRecord: any = {
-    id: '1',
+    id: '5051bc91860d8b5050000001',
     type: 'DEFAULT',
     category: 'SPORT',
     name: 'Football',
@@ -18,7 +18,6 @@ export class Exercises {
     calorie_rate: '2300',
     image: 'assets/images/football.png',
   };
-
 
   constructor(private apiService: ApiService) {
     const exercises = []; // Initial Values
@@ -45,7 +44,10 @@ export class Exercises {
     });
   }
   add(exercise: Exercise) {
+    console.log('Array length before push', this.exercises.length);
     this.exercises.push(exercise);
+    console.log('Array length after push', this.exercises.length);
+    console.log('record added to ecercise', exercise);
   }
 
   delete(exercise: Exercise) {
@@ -53,61 +55,60 @@ export class Exercises {
   }
 
   // CRUD Service
-  recordRetrieve(q = ''): Observable<any> {
-    const subRes = this.apiService.getExercise(q);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
+  async recordRetrieve(path = ''): Promise<ApiResponse> {
+    const proRes = this.apiService.getExercise(path).pipe(
+    map((res: ApiResponse) => {
+      console.log(res);
         if (res.success && res.payload.length > 0) {
           res.payload.forEach(element => {
             this.add(element);
           });
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordCreate(data): Observable<any>  {
-    const subRes = this.apiService.postExercise(data);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
-          this.recordRetrieve(`_id=${rec.id}`);
+
+  async recordCreate(data): Promise<ApiResponse> {
+    const proRes = this.apiService.postExercise(data).pipe(
+    map((res: ApiResponse) => {
+        if (res.success && res.payload) {
+          console.log('recordCreate() successful');
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordUpdate(exercise: Exercise, payload): Observable<any>  {
-    const subRes = this.apiService.updateExercise(exercise.id, payload);
-    subRes.subscribe((res: ApiResponse) => {
-          console.log(res);
-        if (res.success && res.payload.length > 0) {
-          const rec = res.payload[0];
+  async recordUpdate(exercise: Exercise, payload): Promise<ApiResponse> {
+    const proRes = this.apiService.updateExercise(exercise.id, payload).pipe(
+    map((res: ApiResponse) => {
+        if (res.success) {
           this.delete(exercise);
-          this.recordRetrieve(`_id=${rec.id}`);
         } else {
-          console.log(res.message);
+          throwError(res.message);
         }
-      }, (err) => throwError(err));
-      return subRes;
+        return res;
+      }));
+      return await proRes.toPromise();
   }
 
-  recordDelete(exercise: Exercise): Observable<any>  {
-    const subRes = this.apiService.deleteExercise(exercise.id);
-    subRes.subscribe((res: ApiResponse) => {
-        console.log(res);
+  async recordDelete(exercise: Exercise): Promise<ApiResponse> {
+    const proRes = this.apiService.deleteExercise(exercise.id).pipe(
+    map((res: ApiResponse) => {
       if (res.success) {
         this.delete(exercise);
       } else {
-        console.log(res.message);
+        throwError(res.message);
       }
-    }, (err) => throwError(err));
-    return subRes;
+      return res;
+    }));
+    return await proRes.toPromise();
   }
 
 }
