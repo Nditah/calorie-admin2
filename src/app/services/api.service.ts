@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, from, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEvent, HttpErrorResponse, HttpEventType } from  '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { EnvService } from './env.service';
@@ -9,8 +9,12 @@ import { UtilsService } from './utils.service';
 import { Log } from '../models';
 
 const API_STORAGE_KEY = 'specialkey';
+
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Accept: `application/json`,
+  })
 };
 
 @Injectable({
@@ -217,20 +221,26 @@ export class ApiService {
       catchError(this.handleError));
   }
 
-  postImage(data): Observable<any> {
+  public postImage(data: any): Observable<any> {
+    const headers = new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+      });
     const url = `${this.env.API_URL}/images`;
-    return this.http.post(url, data, httpOptions).pipe(
-        catchError(this.handleError)
-      );
-  }
-
-
-  updateImage(id: string, data): Observable<any> {
-    const url = `${this.env.API_URL}/images/${id}`;
-    const payload = this.cleanObject(data);
-    return this.http.put(url, payload, httpOptions).pipe(
-        catchError(this.handleError)
-      );
+    return this.http.post<any>(url, data, { headers, observe: 'events', reportProgress: true })
+    .pipe(map((event) => {
+      console.log(event);
+      /*
+      switch (event.type) {
+        case HttpEventType.UploadProgress:
+          const progress = Math.round(100 * event.loaded / event.total);
+          return { status: 'progress', message: progress };
+        case HttpEventType.Response:
+          return event.body;
+        default:
+          return `Unhandled event: ${event.type}`;
+      }*/
+    })
+    );
   }
 
   deleteImage(id: string): Observable<{}> {

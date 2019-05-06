@@ -36,10 +36,6 @@ export class ImageDetailComponent implements OnInit {
     this.router.navigate(['image/add']);
   }
 
-  goToEdit(record: any): void {
-    this.router.navigate([`image/edit/${record.id}`]);
-  }
-
   goBack() {
     window.history.back();
   }

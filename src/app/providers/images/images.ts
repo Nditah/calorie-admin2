@@ -68,35 +68,6 @@ export class Images {
       return await proRes.toPromise();
   }
 
-  // uploadImage
-  async recordCreate(image: File, name: string): Promise<ApiResponse> {
-    const formData = new FormData();
-    formData.append('image', image);
-    formData.append('name', name);
-    const proRes = this.apiService.postImage(formData).pipe(
-    map((res: ApiResponse) => {
-        if (res.success && res.payload) {
-          console.log('recordCreate() successful');
-        } else {
-          throwError(res.message);
-        }
-        return res;
-      }));
-      return await proRes.toPromise();
-  }
-
-  async recordUpdate(image: Image, payload): Promise<ApiResponse> {
-    const proRes = this.apiService.updateImage(image.id, payload).pipe(
-    map((res: ApiResponse) => {
-        if (res.success) {
-          this.delete(image);
-        } else {
-          throwError(res.message);
-        }
-        return res;
-      }));
-      return await proRes.toPromise();
-  }
 
   async recordDelete(image: Image): Promise<ApiResponse> {
     const proRes = this.apiService.deleteImage(image.id).pipe(

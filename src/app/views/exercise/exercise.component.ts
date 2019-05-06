@@ -55,7 +55,7 @@ export class ExerciseComponent implements OnInit {
     }
 
     goToDetail(record: any): void {
-      this.router.navigate([`exercise/detail${record.id}`]);
+      this.router.navigate([`exercise/detail/${record.id}`]);
       return;
     }
 

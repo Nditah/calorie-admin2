@@ -8,7 +8,22 @@
             <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
           </div>
         </div>
-        <div class="card-body"></div>
+        <div class="card-body">
+          
+          <div class="row">
+            <div *ngIf="error">
+                {{ error.message }}
+              </div>
+              <div *ngIf="uploadResponse.status === 'error'">
+                {{ uploadResponse.message }}
+              </div>
+              <div *ngIf="uploadResponse.status === 'progress'">
+                <div role="progressbar" [style.width.%]="uploadResponse.message" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                  {{uploadResponse.message}}%
+                </div>
+            
+              </div>
+            </div>
 
         <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
           
@@ -23,19 +38,18 @@
 
                 <div class="card-body">
                   <div class="row">
-                    <div class="form-group col-sm-12">
-                      <input type="text" class="form-control" formControlName="name" id="name" placeholder="Image name">
+                    <div class="form-group col-sm-6">
+                      <input type="text" class="form-control" formControlName="name" id="name" placeholder="Image name" required>
                     </div>
-                    <div class="form-group col-sm-12">
-                      <input type="file" class="form-control" formControlName="image" id="image" placeholder="Url"
-                      #imageInput  accept="image/*" (change)="processFile(imageInput)">
+                    <div class="form-group col-sm-6">
+                      <input type="file" class="form-control" name="image" id="image" (change)="onFileChanged($event)" required>
                     </div>
                   </div>
 
                    <div class="row">
                       <div class="form-group col-sm-12  text-center">
                       <button class="btn btn-danger" (click)="reset()">Reset</button>   
-                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="addForm.pristine">Submit</button>
+                      &nbsp; <button class="btn btn-primary" type="submit">Upload</button>
                       </div>
                     </div>
                 
@@ -49,23 +63,10 @@
 
       </div>
       </form>
+
     </div>
-
-
+  </div>
   </div>
 </div>
 </div>
 
-<div *ngIf="selectedFile" class="img-preview-container">
-
-  <div class="img-preview{{selectedFile.status === 'fail' ? '-error' : ''}}"
-       [ngStyle]="{'background-image': 'url('+ selectedFile.src + ')'}">
-  </div>
-
-  <div *ngIf="selectedFile.pending" class="img-loading-overlay">
-    <div class="img-spinning-circle"></div>
-  </div>
-
-  <div *ngIf="selectedFile.status === 'ok'" class="alert alert-success"> Image Uploaded Succesfuly!</div>
-  <div *ngIf="selectedFile.status === 'fail'" class="alert alert-danger"> Image Upload Failed!</div>
-</div>

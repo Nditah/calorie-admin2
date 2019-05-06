@@ -1,4 +1,3 @@
-import { ImageEditComponent } from './image-edit/image-edit.component';
 import { ImageDetailComponent } from './image-detail/image-detail.component';
 import { ImageAddComponent } from './image-add/image-add.component';
 import { NgModule } from '@angular/core';
@@ -10,7 +9,6 @@ import { ImageComponent } from './image.component';
 const routes: Routes = [
   { path: '', component: ImageComponent, data: { title: 'Image' } },
   { path: 'detail/:id', component: ImageDetailComponent, data: { title: 'Image Detail' } },
-  { path: 'edit/:id', component: ImageEditComponent, data: { title: 'Image Edit' } },
   { path: 'add', component: ImageAddComponent, data: { title: 'Image Add' } },
   ];
 

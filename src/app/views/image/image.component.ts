@@ -59,10 +59,6 @@ export class ImageComponent implements OnInit {
       return;
     }
 
-    goToEdit(record: any): void {
-      this.router.navigate([`image/edit/${record.id}`]);
-    }
-
     toast (message: any, messageclass: string) {
       this.notify.alert({
         text: message,

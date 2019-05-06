@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Exercise, ApiResponse } from '../../models';
 import { ApiService } from '../../services';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class Exercises {

@@ -9,11 +9,10 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ImageRoutingModule } from './image-routing.module';
 import { ImageComponent } from './image.component';
 import { ImageAddComponent } from './image-add/image-add.component';
-import { ImageEditComponent } from './image-edit/image-edit.component';
 import { ImageDetailComponent } from './image-detail/image-detail.component';
 
 @NgModule({
-  declarations: [ImageComponent, ImageAddComponent, ImageEditComponent, ImageDetailComponent],
+  declarations: [ImageComponent, ImageAddComponent, ImageDetailComponent],
   imports: [
     CommonModule,
     ImageRoutingModule,

@@ -3,14 +3,12 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PNotifyService } from '../../../services';
 import { ApiResponse } from '../../../models';
-import { Images, Users } from '../../../providers';
+import { Images } from '../../../providers';
+import { ApiService } from '../../../services';
+import { map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
-class ImageSnippet {
-  pending: boolean = false;
-  status: string = 'init';
-
-  constructor(public src: string, public file: File) {}
-}
 
 @Component({
   selector: 'app-image-add',
@@ -19,17 +17,21 @@ class ImageSnippet {
 })
 export class ImageAddComponent implements OnInit {
 
-  selectedFile: ImageSnippet;
+  selectedFile: File;
 
   page = 'Add New Image Record';
   addForm: FormGroup;
   notify: any;
   loading = false;
+  error: string;
+  userId: number = 1;
+  uploadResponse = { status: '', message: '', filePath: '' };
 
   constructor(private formBuilder: FormBuilder,
+    private http: HttpClient,
     private router: Router,
     private pNotifyService: PNotifyService,
-    public imageService: Images) {
+    public apiService: ApiService) {
     }
 
   ngOnInit() {
@@ -41,77 +43,46 @@ export class ImageAddComponent implements OnInit {
     });
   }
 
-  private onSuccess() {
-    this.selectedFile.pending = false;
-    this.selectedFile.status = 'ok';
-  }
-
-  private onError() {
-    this.selectedFile.pending = false;
-    this.selectedFile.status = 'fail';
-    this.selectedFile.src = '';
-}
-
-  processFile(imageInput: any) {
-    const name = this.addForm.value.name;
-
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-      this.selectedFile = new ImageSnippet(event.target.result, file);
-      this.selectedFile.pending = true;
-      this.imageService.recordCreate(this.selectedFile.file, name)
-        .then((res: any) => {
-          console.log(res);
-          if (res.success) {
-            this.goToDetail(res.payload);
-          } else {
-            this.toast(res.message, 'customerror');
-          }
-        })
-        .catch (error => {
-            this.toast(error.message, 'customerror');
-          });
-    });
-
-    reader.readAsDataURL(file);
-  }
-
   reset() {
     this.addForm.reset();
   }
 
-  onSubmit() {
-    this.loading = true;
-    const payload = this.addForm.value;
-    if (this.addForm.invalid) {
-      this.loading = false;
-      this.toast('this.addForm.invalid', 'customerror');
-      return;
+  onFileChanged(event) {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+      const name = this.addForm.value.name;
+      if (!name) {
+        const filename = this.selectedFile.name || 'calorie image';
+        this.addForm.get('name').setValue(filename);
+      }
+      this.addForm.get('image').setValue(this.selectedFile);
     }
-    this.imageService.recordCreate(payload, '')
-      .then((res: any) => {
-          console.log(res);
-        if (res.success) {
-          this.goToDetail(res.payload);
-        } else {
-          this.toast(res.message, 'customerror');
-        }
-      })
-      .catch (error => {
-          this.toast(error.message, 'customerror');
-        });
-      return;
   }
 
-  // Navigation
+  async onSubmit() {
+    this.loading = true;
+    const name = this.addForm.value.name;
+    const image = this.addForm.value.image;
+    if (!name) {
+      this.loading = false;
+      this.toast('Invalid submission! Enter image name', 'customerror');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('name', name);
+    formData.forEach(k => console.log(k));
+
+    this.http.post('http://localhost:5000/api/images', formData).subscribe(
+      (res) => { console.log(res); },
+      (err) => { console.log(err); },
+    );
+    
+  }
+
   goToDetail(record: any): void {
     this.router.navigate([`image/detail/${record.id}`]);
     return;
-  }
-  goToEdit(record: any): void {
-    this.router.navigate([`image/edit/${record.id}`]);
   }
 
   goBack() {
