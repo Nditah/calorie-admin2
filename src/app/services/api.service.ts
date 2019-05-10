@@ -287,11 +287,39 @@ export class ApiService {
 
 
   // /////////////////////////////////
+  // ----------SETUP -------------//
+  // /////////////////////////////////
+
+  postSetup(data, path = ''): Observable<any> {
+    const url = `${this.env.API_URL}/setups${path}`;
+    return this.http.post(url, data, httpOptions).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getSetup(path = ''): Observable<any> {
+    const url = `${this.env.API_URL}/setups${path}`;
+    return this.http.get(url).pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  downloadCsv(fileName: string): Observable<Blob> {
+    const options = { responseType: 'blob' as 'json' };
+    return this.http.get<Blob>(`${this.env.API_URL}/setups/csv/${fileName}`, options);
+  }
+
+  uploadCsv(data: any, fileName: string) {
+    const options = { responseType: 'blob' as 'json' };
+    return this.http.post(`${this.env.API_URL}/setups/csv/${fileName}`, data);
+  }
+
+  // /////////////////////////////////
   // ----------SETTING-------------//
   // /////////////////////////////////
 
   getSetting(path = ''): Observable<any> {
-    const url = `${this.env.API_URL}/settings?${path}`;
+    const url = `${this.env.API_URL}/settings${path}`;
     return this.http.get(url, httpOptions).pipe(
       map(this.extractData),
       catchError(this.handleError));
@@ -304,7 +332,7 @@ export class ApiService {
         catchError(this.handleError)
       );
   }
-  
+
   // /////////////////////////////////
   // ----------USER-----------------//
   // /////////////////////////////////

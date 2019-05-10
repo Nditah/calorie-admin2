@@ -8,13 +8,11 @@
               <i class="icon-settings"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" [routerLink]="[]" (click)="download('user')" style="cursor: pointer">Download</a>
+              <a class="dropdown-item" [routerLink]="[]">Another action</a>
             </div>
           </div>
-          <div class="text-value">9.823</div>
+          <div class="text-value"> {{ userCount }} </div>
           <div>Users</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -31,10 +29,16 @@
     <div class="col-sm-6 col-lg-3">
       <div class="card text-white bg-info">
         <div class="card-body pb-0">
-          <button type="button" class="btn btn-transparent p-0 float-right">
-            <i class="icon-location-pin"></i>
+        <div class="btn-group float-right" dropdown>
+          <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+            <i class="icon-settings"></i>
           </button>
-          <div class="text-value">9.823</div>
+          <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+            <a class="dropdown-item" [routerLink]="[]" (click)="download('food')" style="cursor: pointer">Download</a>
+            <a class="dropdown-item" [routerLink]="[]">Another action</a>
+          </div>
+        </div>
+        <div class="text-value"> {{ foodCount }} </div>
           <div>Foods</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -56,12 +60,11 @@
               <i class="icon-settings"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" [routerLink]="[]" (click)="download('exercise')" style="cursor: pointer">Download</a>
+                <a class="dropdown-item" [routerLink]="[]">Another action</a>
             </div>
           </div>
-          <div class="text-value">9.823</div>
+          <div class="text-value">{{ exerciseCount }}</div>
           <div>Exercises</div>
         </div>
         <div class="chart-wrapper mt-3" style="height:70px;">
@@ -83,12 +86,11 @@
               <i class="icon-settings"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" [routerLink]="[]" (click)="download('log')" style="cursor: pointer">Download</a>
+                <a class="dropdown-item" [routerLink]="[]">Another action</a>
             </div>
           </div>
-          <div class="text-value">9.823</div>
+          <div class="text-value">{{ logCount }}</div>
           <div>Activities Log</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -111,12 +113,11 @@
                 <i class="icon-settings"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" [routerLink]="[]" (click)="download('nutrient')" style="cursor: pointer">Download</a>
+                  <a class="dropdown-item" [routerLink]="[]">Another action</a>
               </div>
             </div>
-            <div class="text-value">9.823</div>
+            <div class="text-value">{{ nutrientCount }}</div>
             <div>Nutrients</div>
           </div>
           <div class="chart-wrapper mt-3" style="height:70px;">
@@ -138,13 +139,12 @@
                 <i class="icon-settings"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" [routerLink]="[]" (click)="download('feedback')" style="cursor: pointer">Download</a>
+                  <a class="dropdown-item" [routerLink]="[]">Another action</a>
               </div>
             </div>
-            <div class="text-value">9.823</div>
-            <div>Feedback</div>
+            <div class="text-value">{{ feedbackCount }}</div>
+            <div>Feedbacks</div>
           </div>
           <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
             <canvas baseChart class="chart"
@@ -157,6 +157,36 @@
           </div>
         </div>
       </div><!--/.col-->
+      <div class="col-sm-12 col-lg-6">
+        <div class="card text-white bg-danger">
+          <div class="card-body pb-0">
+              <div class="text-value"> {{ message }}</div>
+
+              <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                <div class="form-group col-sm-6">
+                    <select class="form-control" formControlName="collection" id="collection" required>
+                        <option value="" selected>Select Type</option>  
+                        <option value="food">Food</option>  
+                        <option value="exercise">Exercise</option>  
+                        <option value="nutrient">Nutrient</option>  
+                      </select>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <input type="file" class="form-control" formControlName="file" id="file" required>
+                  </div>
+                </div>
+                  <div class="row">
+                    <div class="form-group col-sm-12  text-center">
+                    &nbsp; <button type="submit" class="btn btn-warning" [disabled]="loading">Submit</button>
+                    </div>
+                  </div>
+            </form>
+          </div>
+          
+        </div>
+      </div><!--/.col-->
+
   </div><!--/.row-->
   
 </div>

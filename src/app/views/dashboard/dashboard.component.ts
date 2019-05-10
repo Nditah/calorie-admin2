@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { map } from 'rxjs/operators';
+import { saveAs } from 'file-saver';
+import { Users, Foods, Exercises, Nutrients, Logs, Feedbacks } from '../../providers';
+import { ApiService } from '../../services';
+import { ApiResponse } from '../../models';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
 
-  radioModel: string = 'Month';
+  radioModel = 'Month';
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -374,6 +379,36 @@ export class DashboardComponent implements OnInit {
   public brandBoxChartLegend = false;
   public brandBoxChartType = 'line';
 
+  userCount = 0;
+  foodCount = 0;
+  exerciseCount = 0;
+  nutrientCount = 0;
+  logCount = 0;
+  feedbackCount = 0;
+
+  addForm: FormGroup;
+  loading = false;
+  message = 'Upload';
+
+  fileData: File = null;
+
+  constructor(
+    public users: Users,
+    public foods: Foods,
+    public exercises: Exercises,
+    public nutrients: Nutrients,
+    public logs: Logs,
+    public feedbacks: Feedbacks,
+    private apiService: ApiService,
+    private formBuilder: FormBuilder) {
+      this.userCount = this.users.query().length;
+      this.foodCount = this.foods.query().length;
+      this.exerciseCount = this.exercises.query().length;
+      this.nutrientCount = this.nutrients.query().length;
+      this.logCount = this.logs.query().length;
+      this.feedbackCount = this.feedbacks.query().length;
+    }
+
   public random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
@@ -385,5 +420,69 @@ export class DashboardComponent implements OnInit {
       this.mainChartData2.push(this.random(80, 100));
       this.mainChartData3.push(65);
     }
+
+    this.addForm = this.formBuilder.group({
+      collection: ['', Validators.required],
+      file: ['', Validators.required],
+    });
+  }
+
+  fileProgress(fileInput: any) {
+    this.fileData = <File>fileInput.target.files[0];
+  }
+
+  async onSubmit() {
+    this.loading = true;
+    const collection = this.addForm.value.collection;
+    const formData = new FormData();
+    formData.append('file', this.fileData);
+    await this.apiService.uploadCsv(formData, collection).pipe(map((res: any) => {
+        console.log(res);
+    })).toPromise();
+    this.loading = false;
+    return;
+  }
+
+  async download(collection: string) {
+    this.apiService.downloadCsv(collection).subscribe(resultBlob => {
+        console.log('start download:', resultBlob);
+        const blob = new Blob([resultBlob], { type: 'text/csv' });
+        // this.saveAs(blob);
+        this.openSaveFileDialog(blob, collection, 'text/csv');
+      },
+    error => {
+      console.log(error);
+    });
+  }
+
+  mySaveAs(dat: any) {
+    const url = window.URL.createObjectURL(dat);
+    window.open(url);
+  }
+
+  openSaveFileDialog (data, filename, mimetype) {
+    if (!data) { return; }
+    const blob = data.constructor !== Blob
+      ? new Blob([data], {type: mimetype || 'application/octet-stream'})
+      : data ;
+
+    if (navigator.msSaveBlob) {
+      navigator.msSaveBlob(blob, filename);
+      return;
+    }
+
+    const lnk = document.createElement('a');
+    const url = window.URL;
+    let objectURL;
+
+    if (mimetype) {
+      lnk.type = mimetype;
+    }
+
+    lnk.download = filename || 'untitled';
+    lnk.href = objectURL = url.createObjectURL(blob);
+    lnk.dispatchEvent(new MouseEvent('click'));
+    setTimeout(url.revokeObjectURL.bind(url, objectURL));
+
   }
 }
