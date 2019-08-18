@@ -1,0 +1,51 @@
+<div class="panel-header panel-header-sm">
+  </div>
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <button class="btn btn-default" routerLink="/user/edit/{{record.id}}"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record</button>
+              <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{{  record.username | uppercase }}  | {{ record.type }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-info"><th>Property</th><th>Value</th></thead>
+                  <tbody>
+                  <tr><th>Username</th><td>{{ record.username }}</td></tr>
+                  <tr><th>Phone</th><td>{{ record.phone }}</td></tr>
+                  <tr><th>Email</th><td>{{ record.email }} </td></tr>
+                  <tr><th>Country</th><td>{{ record.country_iso2 }}</td></tr>
+                  <tr><th>Gender</th><td>{{ record.gender }}</td></tr>
+                  <tr><th>Lifestyle</th><td>{{ record.lifestyle }}</td></tr>
+                  <tr><th>Activity Logs</th><td>{{ record.logs ? record.logs.length : '0' || '' }}</td></tr>
+                  <tr><th>Feedbacks</th><td>{{ record.feedbacks ? record.feedbacks.length : '0' || '' }}</td></tr>
+                  <tr><th>Profile Complete</th><td>{{ record.is_complete ? 'YES' : 'NO' }}</td></tr>
+                  <tr><th>Original Mass</th><td>{{ record.original_mass }}</td></tr>
+                  <tr><th>Current Mass</th><td>{{ record.current_mass }}</td></tr>
+                  <tr><th>Desired Mass</th><td>{{ record.desired_mass }}</td></tr>
+                  <tr><th>Complete Profile?</th><td>{{ record.is_complete ? 'YES' : 'NO' }}</td></tr>
+                  <tr><th>Created At</th><td>{{ record.created_at | date }}</td></tr>
+                  <tr><th>Last Updated</th><td>{{ record.updated_at | date }}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+

@@ -1,0 +1,72 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+     <div class="card">
+       <div class="card-body">
+         <div class="form-group">
+           <button class="btn btn-info" (click)="goToAdd()" > <i class="now-ui-icons ui-1_simple-add"></i> Add New </button>
+         </div>
+       </div>
+     </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title"> Exercise</h4>
+        </div>
+        <div class="card-body">
+          <table datatable class="table table-hover table-striped" *ngIf="currentRecords.length > 0">
+            <thead class="text-primary">
+            <tr>
+              <th class="text-left">SN</th>
+              <th>Image</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Name</th>
+              <th>Calorie</th>
+              <th class="text-right">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let record of currentRecords; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td><img src="assets/img/football.png" class="avatar" alt=""/></td>
+              <td>{{ record.type }}</td>
+              <td>{{ record.category }}</td>
+              <td>{{ record.name }}</td>
+              <td>{{ record.calorie_rate }} Kcal/hr</td>
+              <td class="td-actions text-right">
+                <div class="btn-group btn-group-sm">
+                  <button type="button" class="btn btn-info btn-sm btn-simple">
+                    <i class="now-ui-icons loader_gear"></i>
+                  </button>
+                  <div ngbDropdown class="dropdown btn-group" placement="bottom-right">
+                    <button class="btn btn-info btn-sm dropdown-toggle-split" ngbDropdownToggle></button>
+                    <div ngbDropdownMenu>
+                      <a class="dropdown-item text-primary" routerLink="/exercise/detail/{{record.id}}">
+                        <i class="now-ui-icons tech_tv"></i> View Detail
+                      </a>
+                     <a class="dropdown-item text-info" href="javascript:void(0)" (click)="goToEdit(record)">
+                       <i class="now-ui-icons ui-2_settings-90"></i> Edit Record
+                     </a>
+                     <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="deleteModal(record)">
+                       <i class="now-ui-icons ui-1_simple-remove"></i> Remove
+                     </a>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

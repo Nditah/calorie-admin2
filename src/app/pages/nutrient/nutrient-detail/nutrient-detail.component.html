@@ -1,0 +1,60 @@
+<div class="panel-header panel-header-sm">
+  </div>
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <button class="btn btn-default" routerLink="/pml-shipment/edit/{{record.id}}"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record</button>
+              <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{{ record.name || ' Nutrient Detail' }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-info"><th>Property</th><th>Value</th></thead>
+                  <tbody>
+                  <tr><th>Name</th><td>{{ record.name }} {{ record.symbol }}</td></tr>
+                  <tr><th>Type</th><td>{{ record.type }}</td></tr>
+                  <tr><th>Category</th><td>{{ record.category }} </td></tr>
+                  <tr><th>Class</th><td>{{ record.classification }} </td></tr>
+                  <tr><th>Description</th><td>{{ record.description }}</td></tr>
+                  <tr><th>Source</th><td>{{ record.source }}</td></tr>
+                  <tr><th>Use</th><td>{{ record.use }}</td></tr>
+                  <tr><th>Deficiency</th><td>{{ record.deficiency }}</td></tr>
+                  <tr><th>Excess</th><td>{{ record.excess }}</td></tr>
+                  <tr><th>EAR</th><td>{{ record.ear }} {{ record.ear ? record.unit : "" }}</td></tr>
+                  <tr><th>RDA Male</th><td>{{ record.rda_male }} {{ record.rda_male ? record.unit : "" }}</td></tr>
+                  <tr><th>RDA Female</th><td>{{ record.rda_female }} {{ record.rda_female ? record.unit : "" }}</td></tr>
+                  <tr><th>Limit</th><td>{{ record.limit }} {{ record.limit ? record.unit : "" }}</td></tr>
+                  <tr><th>Image</th><td>{{ record.image }}</td></tr>
+                  <tr><th>Foods</th>
+                    <td>
+                      <ul *ngIf="record.foods.length > 0">
+                        <li *ngFor="let food of record.foods">
+                          {{ food.name }}
+                        </li>
+                      </ul>{{ record.limit }} {{ record.limit ? record.unit : "" }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+

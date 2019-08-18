@@ -1,0 +1,45 @@
+<div class="panel-header panel-header-sm">
+  </div>
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <button class="btn btn-default" routerLink="/pml-shipment/edit/{{record.id}}"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record</button>
+              <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{{ record.name || ' Exercise Detail' }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-info"><th>Property</th><th>Value</th></thead>
+                  <tbody>
+                  <tr><th>Description</th><td>{{ record.description }}</td></tr>
+                  <tr><th>Type</th><td>{{ record.type }}</td></tr>
+                  <tr><th>Category</th><td>{{ record.category }} </td></tr>
+                  <tr><th>Calorie</th><td>{{ record.calorie_rate }}Kcal/Hr </td></tr>
+                  <tr><th>Image</th>
+                    <td>
+                    <a [href]="record.image" target=”_blank”>
+                      <img [src]="record.image" [alt]="record.image" style="width:50; height:50;"/>
+                    </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

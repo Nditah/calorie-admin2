@@ -1,0 +1,79 @@
+<div class="panel-header panel-header-sm">
+  </div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+<!--            <button class="btn btn-primary"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record </button>-->
+            <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header bg-teal">
+          <strong>{{ page || "Add Record" }}</strong>
+        </div>
+        <div class="card-body"></div>
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+
+
+            <div class="animated fadeIn">
+
+          <div class="row justify-content-center">
+            <div class="col-sm-10">
+                  <div class="row">
+                    <div class="form-group col-sm-12">
+                      <input type="date" class="form-control" formControlName="day" id="day" placeholder="Date">
+                    </div>
+                      <div class="form-group col-sm-6">
+                        <ng-select id="food" class="form-control" formControlName="food" placeholder="No Food selected"
+                        [items]="foodOptions"
+                        bindLabel="text"
+                        [virtualScroll]="true"
+                        bindValue="id">
+                        </ng-select>
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <input type="number" class="form-control" formControlName="food_quantity" id="food_quantity" placeholder="Food quantity">
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <ng-select id="exercise" class="form-control" formControlName="exercise" placeholder="No Exercise selected"
+                        [items]="exerciseOptions"
+                        bindLabel="text"
+                        [virtualScroll]="true"
+                        bindValue="id">
+                        </ng-select>
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <input type="number" class="form-control" formControlName="exercise_duration" id="exercise_duration" placeholder="Exercise duration">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="remark" id="remark" placeholder="Remark">
+                      </div>
+                  </div>
+
+                   <div class="row">
+                      <div class="form-group col-sm-12  text-center">
+                      <button class="btn btn-danger" type="reset">Reset</button>
+                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine || loading">Submit</button>
+                      </div>
+                    </div>
+            </div>
+            <!--/.row-12-->
+
+          </div>
+
+      </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+</div>

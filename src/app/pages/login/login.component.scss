@@ -1,0 +1,29 @@
+.login-wrapper{
+    display: flex;
+    // display: -ms-grid;
+    // display: -webkit-grid;
+    // display: -moz-grid;
+    // display: -o-grid;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    justify-content: center;
+    align-content: center;
+    background-image: url('../../../assets/img/fitness2.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: top center;
+    .ng-touched.ng-invalid{
+        border-color: red;
+    }
+    .card-header{
+        padding-bottom: 15px;
+        background-color: #1fe4d2;
+        color: #ffffff;
+        text-align: center;
+    }
+    .button-color {
+      background-color: #09c3b2;
+    }
+}

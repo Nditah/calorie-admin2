@@ -1,0 +1,148 @@
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-teal">
+          {{ record.name + ' ' + record.type || 'Food Detail' }}
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
+            &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+
+            <div class="col-sm-12">
+              <!-- <div class="card-body"> -->
+              <div class="callout callout-success">
+                <h6 class="text-muted">Description</h6>
+                <br>
+                <h6>{{ record.description || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+ 
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Category</h6>
+                <br>
+                <h6>{{ record.category }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Quantity</h6>
+                <br>
+                <h6>{{ record.quantity }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Water</h6>
+                <br>
+                <h6>{{ record.water }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Carbohydrate</h6>
+                <br>
+                <h6>{{ record.carbohydrate }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+              <div class="col-sm-3">
+                <div class="callout callout-success">
+                  <h6 class="text-muted">Protein</h6>
+                  <br>
+                  <h6>{{ record.protein }}</h6>
+                  <div class="chart-wrapper">
+                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="callout callout-success">
+                  <h6 class="text-muted">Fats</h6>
+                  <br>
+                  <h6>{{ record.fats }}</h6>
+                  <div class="chart-wrapper">
+                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="callout callout-success">
+                  <h6 class="text-muted">Fibre</h6>
+                  <br>
+                  <h6>{{ record.fibre }}</h6>
+                  <div class="chart-wrapper">
+                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="callout callout-success">
+                  <h6 class="text-muted">Nutrients</h6>
+                  <br>
+                  <h6>{{ record.nutrients }}</h6>
+                  <div class="chart-wrapper">
+                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Ph</h6>
+                <br>
+                <h6>{{ record.ph }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Image</h6>
+                <br>
+                <h6>{{ record.image }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+</div>
+
+
+

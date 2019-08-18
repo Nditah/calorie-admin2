@@ -1,0 +1,102 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header bg-teal">
+            <strong>{{ page || "Edit Record" }}</strong>
+            <div class="pull-right">
+              <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+            </div>
+          </div>
+          <div class="card-body"></div>
+          <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            
+  
+              <div class="animated fadeIn">
+  
+            <div class="row justify-content-center">
+              <div class="col-sm-10">
+                <div class="card">
+                  <div class="card-header bg-info">
+                    <strong>Food Form </strong>
+                  </div>
+  
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="form-group col-sm-4">
+                        <input type="text" class="form-control" formControlName="name" id="name"
+                               placeholder="Food name">
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <select class="form-control" formControlName="type" id="type">
+                            <option value="">Select Type</option>  
+                            <option value="DEFAULT">DEFAULT</option>  
+                            <option value="CUSTOM">CUSTOM</option>  
+                          </select>
+                      </div>
+                      <div class="form-group col-sm-4">
+                          <select class="form-control" formControlName="category" id="category">
+                              <option value="">Select Category</option>  
+                              <option value="FOOD">FOOD</option>  
+                              <option value="DRINK">DRINK</option>  
+                            </select>
+                        </div>
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="quantity" id="quantity" placeholder="Quantity">
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="calories" id="calories" placeholder="Calories">
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="water" id="water" placeholder="Water">
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="carbohydrate" id="carbohydrate" placeholder="Carbohydrate">
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="protein" id="protein" placeholder="Protein">
+                      </div> 
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="fats" id="fats" placeholder="Fats">
+                      </div>  
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="fibre" id="fibre" placeholder="Fibre">
+                      </div>  
+                      <div class="form-group col-sm-4">
+                        <input type="number" class="form-control" formControlName="ph" id="ph" placeholder="ph">
+                      </div>  
+                      <div class="form-group col-sm-4">
+                        <input type="text" class="form-control" formControlName="nutrients" id="nutrients" placeholder="Nutrients">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="image" id="image" placeholder="Image url">
+                      </div>                     
+                    <div class="form-group col-sm-12">
+                      <input type="text" class="form-control" formControlName="description" id="description" placeholder="Description">
+                    </div>
+                    </div>
+  
+                     <div class="row">
+                        <div class="form-group col-sm-12  text-center">
+                        <button class="btn btn-danger" (click)="reset()">Reset</button>   
+                        &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine || loading">Submit</button>
+                        </div>
+                      </div>
+                  
+                  </div>
+  
+                </div> <!-- card-->           
+              </div>
+              <!--/.row-12-->
+  
+            </div>
+  
+        </div>
+        </form>
+      </div>
+  
+  
+    </div>
+  </div>
+  </div>
+  

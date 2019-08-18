@@ -1,0 +1,42 @@
+<div class="login-wrapper">
+  <div class="grid-wrapper container">
+    <div class="row" id="login-row" [ngStyle]="{
+      marginTop: formLoginHeight
+    }">
+      <div class="col-3"></div>
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <!-- <img src="/assets/img/peace-logo.png" with="50" height="50"
+                 [ngStyle]="{ marginTop: '-45px', borderRadius: '50%' }" /> -->
+            <h4 class="card-title" [ngStyle]="{marginTop: '0px'}">Login</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" name="email" id="email" class="form-control" formControlName="email" aria-describedby="emailHelp" placeholder="Enter email">
+                <small
+                  *ngIf="loginForm.controls.email.touched && !loginForm.controls.email.valid" class="form-text text-danger">
+                  The email address is not valid
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" formControlName="password"  placeholder="Password">
+                <small
+                  *ngIf="loginForm.controls.password.touched && !loginForm.controls.password.valid" class="form-text text-danger">
+                  Password is required
+                </small>
+              </div>
+              <button type="submit" class="btn button-color btn-block hovering ld-over" [disabled]="!this.loginForm.valid">
+                Submit <span class="ld ld-ball ld-bounce"></span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-3"></div>
+    </div>
+  </div>
+</div>

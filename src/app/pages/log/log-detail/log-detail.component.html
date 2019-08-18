@@ -1,0 +1,39 @@
+<div class="panel-header panel-header-sm">
+  </div>
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <!-- <button class="btn btn-default" routerLink="/log/edit/{{record.id}}"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record</button> -->
+              <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{{ record.day | date }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-info"><th>Property</th><th>Value</th></thead>
+                  <tbody>
+                  <tr><th>Remark</th><td>{{ record.remark }}</td></tr>
+                  <tr><th>Food</th><td>{{ record.food ? record.food.name : '' }}</td></tr>
+                  <tr><th>Food Quantity</th><td>{{ record.food_quantity }} </td></tr>
+                  <tr><th>Exercise</th><td>{{ record.exercise ? record.exercise.name : '' }} </td></tr>
+                  <tr><th>Exercise Duration</th><td>{{ record.exercise_duration }} minute(s)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

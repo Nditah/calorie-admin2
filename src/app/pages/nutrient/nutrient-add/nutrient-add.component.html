@@ -1,0 +1,139 @@
+<div class="panel-header panel-header-sm">
+  </div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header bg-teal">
+          <strong>{{ page || "Add Record" }}</strong>
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="card-body"></div>
+        <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+
+
+            <div class="animated fadeIn">
+
+          <div class="row justify-content-center">
+            <div class="col-sm-10">
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <input type="text" class="form-control" formControlName="name" id="name"
+                             placeholder="Nutrient name">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <select class="form-control" formControlName="type" id="type">
+                          <option value="" selected>Select Type</option>
+                          <option value="sub">sub class</option>
+                          <option value="main">main class</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <select class="form-control" formControlName="category" id="category">
+                            <option value="" selected>Select Category</option>
+                            <option value="class">class</option>
+                            <option value="fat-based">fat-based</option>
+                            <option value="water-based">water-based</option>
+                            <option value="macro-mineral">macro-mineral</option>
+                            <option value="trace-mineral">trace-mineral</option>
+                          </select>
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <input type="text" class="form-control" formControlName="symbol" id="symbol"
+                                placeholder="Nutrient symbol">
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <select class="form-control" formControlName="classification" id="classification">
+                            <option value="">Select classification</option>
+                            <option value="carbohydrate">carbohydrate</option>
+                            <option value="protein">protein</option>
+                            <option value="vitamin">vitamin</option>
+                            <option value="mineral">mineral</option>
+                            <option value="fibre">fibre</option>
+                            <option value="fats">fats</option>
+                            <option value="water">water</option>
+                          </select>
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="source" id="source"
+                                placeholder="Nutrient source">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="use" id="use"
+                                placeholder="Nutrient functions">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="description" id="description"
+                                placeholder="Nutrient description">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="deficiency" id="deficiency"
+                                placeholder="Nutrient deficiency">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <input type="text" class="form-control" formControlName="excess" id="excess"
+                                placeholder="Nutrient excess">
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <input type="number" class="form-control" formControlName="rda_male" id="rda_male"
+                                placeholder="Recommended Dietary Allowances for Male">
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <input type="number" class="form-control" formControlName="rda_female" id="rda_female"
+                                placeholder="Recommended Dietary Allowances for Female">
+                      </div>
+                      <div class="form-group col-sm-6">
+                      <input type="number" class="form-control" formControlName="ear" id="ear"
+                              placeholder="Estimated Average Requirements">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <input type="number" class="form-control" formControlName="limit" id="limit"
+                              placeholder="Tolerable Upper Intake Levels">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <input type="number" class="form-control" formControlName="rda_female" id="rda_female"
+                              placeholder="Recommended Dietary Allowances for Female">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <select class="form-control" formControlName="unit" id="unit">
+                          <option value="" selected>Select unit</option>
+                          <option value="iu">International Unit</option>
+                          <option value="mg">Miligrams</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-12">
+                      <input type="text" class="form-control" formControlName="image" id="image"
+                             placeholder="Image url: https://...">
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <ng-select id="foods" class="form-control" formControlName="foods" placeholder="No Food selected"
+                        [items]="foodOptions"
+                        bindLabel="text"
+                        [multiple]="true"
+                        [virtualScroll]="true"
+                        bindValue="id">
+                        </ng-select>
+                      </div>
+                  </div>
+
+                   <div class="row">
+                      <div class="form-group col-sm-12  text-center">
+                      <button class="btn btn-danger" (click)="reset()">Reset</button>
+                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="addForm.pristine || loading">Submit</button>
+                      </div>
+                    </div>
+            </div>
+            <!--/.row-12-->
+
+          </div>
+
+      </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+</div>

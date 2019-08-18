@@ -1,0 +1,146 @@
+<div class="panel-header panel-header-sm">
+  </div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+<!--            <button class="btn btn-primary"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record </button>-->
+            <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header bg-teal">
+          <strong>{{ page || "Edit Record" }}</strong>
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="card-body"></div>
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+
+
+            <div class="animated fadeIn">
+
+          <div class="row justify-content-center">
+            <div class="col-sm-10">
+                  <div class="row">
+                    <div class="form-group col-sm-4">
+                      <label for=""><strong>User Type</strong></label>
+                      <input class="form-control" list="type_list" id="type" formControlName="type" type="text"
+                              name="type" placeholder="User Type">
+                      <datalist id="type_list">
+                        <option value="ADMIN">
+                        <option value="USER">
+                      </datalist>
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <label for=""><strong>Username</strong></label>
+                      <input type="text" class="form-control" formControlName="username" id="username"
+                              placeholder="Nick name">
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <label for=""><strong>Gender</strong></label>
+                      <input class="form-control" list="gender_list" id="gender" formControlName="gender" type="text"
+                              name="gender" placeholder="Gender">
+                      <datalist id="gender_list">
+                        <option value="MALE">
+                        <option value="FEMALE">
+                      </datalist>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-sm-12">
+                      <label for=""><strong>Email</strong></label>
+                      <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email">
+                    </div>
+
+                    <!-- <div class="form-group col-sm-3">
+                      <input type="text" class="form-control" formControlName="password" id="password"
+                        placeholder="Password">
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <input type="text" class="form-control" formControlName="confirm_password" id="confirm_password"
+                        placeholder="Confirm Password">
+                    </div> -->
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-sm-4">
+                      <label for=""><strong>Phone</strong> </label>
+                      <input type="tel" class="form-control" id="phone" formControlName="phone" name="phone"
+                      placeholder="Phone (official line)">
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <label for=""><strong>Country</strong> </label>
+                      <input type="text" id="country_iso2" formControlName="country_iso2" name="country_iso2" placeholder="Country code" class="form-control">
+                    </div>
+                    <div class="form-group col-sm-5">
+                      <label for=""><strong>Lifestyle</strong> </label>
+                      <select class="form-control" list="lifestyle_list" id="lifestyle" formControlName="lifestyle" type="text"
+                              name="lifestyle" placeholder="Lifestyle">
+                        <option value="Active">Active</option>
+                        <option value="Partially Active">Partially Active</option>
+                        <option value="Inactive">Inactive</option>
+                      </select>
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label for=""><strong>Original Mass</strong> </label>
+                      <input type="number" class="form-control" id="original_mass" formControlName="original_mass" name="original_mass"
+                        placeholder="Original Mass (Kg)">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label for=""><strong> Desired Mass</strong></label>
+                      <input type="number" class="form-control" id="desired_mass" formControlName="desired_mass" name="desired_mass"
+                        placeholder="Desired Mass (Kg)">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label for=""><strong>Birth Date</strong> </label>
+                      <input type="date" class="form-control" id="birth_date" formControlName="birth_date" name="birth_date" placeholder="Date of birth">
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label for=""><strong>Height</strong></label>
+                      <input type="text" class="form-control" id="height" formControlName="height" name="height" placeholder="Height(cm)">
+                    </div>
+                    <div class="form-group col-sm-5">
+                      <label for=""><strong>Complete ?</strong>  </label>
+                      <select class="form-control" id="is_complete" formControlName="is_complete" name="is_complete">
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
+                    </div>
+                  </div>
+
+                   <div class="row">
+                      <div class="form-group col-sm-12  text-center">
+                      <button class="btn btn-danger" (click)="reset()">Reset</button>
+                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.invalid || loading">Submit</button>
+                      </div>
+                    </div>
+            </div>
+            <!--/.row-12-->
+
+          </div>
+
+      </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+</div>

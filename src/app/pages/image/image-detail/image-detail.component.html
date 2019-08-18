@@ -1,0 +1,100 @@
+<div class="panel-header panel-header-sm">
+  </div>
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <button class="btn btn-default" routerLink="/notification/edit/{{record.id}}"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record</button>
+              <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{{ record.name || ' Image Detail' }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-info"><th>Property</th><th>Value</th></thead>
+                  <tbody>
+                      <tr><th>Url</th><td>{{ record.url || '' }}</td></tr>
+                      <tr><th>Image</th><td>
+                          <a [href]="record.url" target=”_blank”>
+                            <img [src]="record.url" [alt]="record.url" style="width:50; height:50;"/>
+                          </a>
+                      </td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-teal">
+          {{ record.name || ' Image Detail' }}
+          <div class="pull-right">
+            <!-- <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button> -->
+            &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="container">
+
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- <div class="card-body"> -->
+              <div class="callout callout-success">
+                <h6 class="text-muted">Url</h6>
+                <br>
+                <h6>{{ record.url || '' }}</h6>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="callout callout-success">
+                <h6 class="text-muted">Image</h6>
+                <a [href]="record.url" target=”_blank”>
+                <img [src]="record.url" [alt]="record.url" style="width:50; height:50;"/>
+                </a>
+                <div class="chart-wrapper">
+                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+</div>
+
+
+

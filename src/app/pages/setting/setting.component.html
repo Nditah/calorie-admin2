@@ -1,0 +1,75 @@
+<div class="panel-header panel-header-sm">
+  </div>
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-12">
+  <!--      <div class="card">-->
+  <!--        <div class="card-body">-->
+  <!--          <div class="form-group">-->
+  <!--            <button class="btn btn-primary" (click)="openSidebarView('create', null)" > <i class="now-ui-icons ui-1_simple-add"></i> Add New </button>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title"> ERP Settings</h4>
+          </div>
+          <div class="card-body">
+            <table datatable class="table table-hover table-striped" *ngIf="currentRecords.length > 0">
+              <thead class="text-primary">
+              <tr>
+                <th class="text-center">SN</th>
+                <th>Name</th>
+                <th>Access</th>
+                <th>Value</th>
+                <th>Description</th>
+                <th width='20%' class="text-center">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr  *ngFor="let record of currentRecords; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ record.name }}</td>
+                <td> <div class="small">{{ record.access }}</div></td>
+                <td class=""> <div class="small">{{ record.value }}</div></td>
+                <td>
+                  <div class="small text-muted">{{ record.description }}</div>
+                </td>
+                <td class="td-actions text-right">
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-info btn-sm btn-simple">
+                      <i class="now-ui-icons loader_gear"></i>
+                    </button>
+                    <div ngbDropdown class="dropdown btn-group" placement="bottom-right">
+                      <button class="btn btn-info btn-sm dropdown-toggle-split" ngbDropdownToggle></button>
+                      <div ngbDropdownMenu>
+                        <a class="dropdown-item text-primary" routerLink="/setting/detail/{{record.id}}">
+                          <i class="now-ui-icons tech_tv"></i> View Detail
+                        </a>
+                       <a class="dropdown-item text-info" href="javascript:void(0)" (click)="goToEdit(record)">
+                         <i class="now-ui-icons ui-2_settings-90"></i> Edit Record
+                       </a>
+                       <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="deleteModal(record)">
+                         <i class="now-ui-icons ui-1_simple-remove"></i> Remove
+                       </a>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+

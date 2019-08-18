@@ -1,0 +1,90 @@
+<div class="panel-header panel-header-sm">
+  </div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+<!--            <button class="btn btn-primary"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record </button>-->
+            <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header bg-teal">
+          <strong>{{ page || "Add Record" }}</strong>
+          <div class="pull-right">
+            <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+          </div>
+        </div>
+        <div class="card-body"></div>
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+
+
+            <div class="animated fadeIn">
+
+          <div class="row justify-content-center">
+            <div class="col-sm-10">
+                  <div class="row">
+                      <div class="form-group col-sm-6">
+                        <label for=""><strong>User</strong></label>
+                        <ng-select id="user" class="form-control" formControlName="user" id="user"
+                          [items]="userOptions"
+                          bindLabel="text"
+                          [virtualScroll]="true"
+                          bindValue="id">
+                          </ng-select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                          <label><strong>Notification Type</strong></label>
+                          <select class="form-control" formControlName="type" id="type">
+                              <option value="">Select Notification type</option>
+                              <option value="success">SUCCESS</option>
+                              <option value="danger">DANGER</option>
+                              <option value="info">INFO</option>
+                              <option value="warning">WARNING</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label><strong>Status</strong></label>
+                            <select class="form-control" formControlName="status" id="status">
+                                <option value="">Select Status</option>
+                                <option value="read">READ</option>
+                                <option value="unread">UNREAD</option>
+                              </select>
+                          </div>
+                        <div class="form-group col-sm-12">
+                            <input type="text" class="form-control" formControlName="title" id="title"
+                                    placeholder="Title">
+                          </div>
+                        <div class="form-group col-sm-12">
+                          <input type="text" class="form-control" formControlName="message" id="message"
+                                  placeholder="Message">
+                        </div>
+                  </div>
+
+                   <div class="row">
+                      <div class="form-group col-sm-12  text-center">
+                      <button class="btn btn-danger" (click)="reset()">Reset</button>
+                      &nbsp; <button class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm.pristine || loading">Submit</button>
+                      </div>
+                    </div>
+            </div>
+            <!--/.row-12-->
+
+          </div>
+
+      </div>
+      </form>
+    </div>
+
+
+  </div>
+</div>
+</div>
