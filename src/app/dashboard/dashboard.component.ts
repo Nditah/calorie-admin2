@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ReceiptsComponent, ReceiptType} from '../components/receipts/receipts.component';
-import { Users, Exercises, Foods } from '../providers';
-import { User, Exercise, Food } from '../models';
+import { Users, Exercises, Foods, Notifications } from '../providers';
+import { User, Exercise, Food, Notification } from '../models';
 import { isEqual } from '../helpers';
 
 @Component({
@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit {
   public foodRecords: Array<Food>;
   public prevFoodRecords: Array<Food>;
   public foodCount = 0;
+  public notificationRecords: Array<Notification>;
+  public prevNotificationRecords: Array<Notification>;
 
   // events
   public chartClicked(e: any): void {
@@ -57,10 +59,12 @@ export class DashboardComponent implements OnInit {
   }
   constructor(private users: Users,
               private exercises: Exercises,
-              private foods: Foods) {
+              private foods: Foods,
+              private notifications: Notifications) {
                 this.userRecords =  this.users.query();
                 this.exerciseRecords = this.exercises.query();
                 this.foodRecords = this.foods.query();
+                this.notificationRecords = this.notifications.query(); //'?limit=5'
               }
 
   ngOnInit() {
@@ -285,6 +289,11 @@ export class DashboardComponent implements OnInit {
     if (!isEqual(this.foodRecords, this.prevFoodRecords)) {
       this.prevFoodRecords = [...this.foodRecords];
       this.foodCount = this.foodRecords.length;
+    }
+    if (!isEqual(this.notificationRecords, this.prevNotificationRecords)) {
+      this.prevNotificationRecords = [...this.notificationRecords];
+      console.log(this.notificationRecords);
+      console.log('Records from the notification');
     }
   }
 }
