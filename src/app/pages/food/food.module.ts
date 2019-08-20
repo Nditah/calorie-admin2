@@ -10,6 +10,8 @@ import { FoodAddComponent } from './food-add/food-add.component';
 import { FoodEditComponent } from './food-edit/food-edit.component';
 import { FoodDetailComponent } from './food-detail/food-detail.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentsModule } from '../../components/components.module';
+import { CustomFormsFieldModule } from 'src/app/components/appanalyst/custom-forms-field/custom-forms-field.module';
 
 @NgModule({
   declarations: [FoodComponent, FoodAddComponent, FoodEditComponent, FoodDetailComponent],
@@ -18,9 +20,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FoodRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    CustomFormsFieldModule,
     DataTablesModule,
     NgbModule,
-    NgSelectModule
+    NgSelectModule,
+    ComponentsModule,
   ]
 })
 export class FoodModule { }
