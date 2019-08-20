@@ -9,10 +9,11 @@ import { SettingComponent } from './setting.component';
 import { SettingDetailComponent } from './setting-detail/setting-detail.component';
 import { SettingEditComponent } from './setting-edit/setting-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SettingAddComponent } from './setting-add/setting-add.component';
 
 
 @NgModule({
-  declarations: [SettingComponent, SettingDetailComponent, SettingEditComponent],
+  declarations: [SettingComponent, SettingDetailComponent, SettingEditComponent, SettingAddComponent],
   imports: [
     CommonModule,
     SettingRoutingModule,

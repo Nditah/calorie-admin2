@@ -26,6 +26,11 @@ export class SettingComponent implements OnInit {
     ngOnInit() {
     }
 
+    goToAdd(): void {
+      this.router.navigate([`setting/add`]);
+      return;
+    }
+
     goToDetail(record: any): void {
       this.router.navigate([`setting/detail${record.id}`]);
       return;
