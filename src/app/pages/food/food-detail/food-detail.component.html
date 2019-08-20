@@ -1,148 +1,65 @@
-<div class="animated fadeIn">
-
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header bg-teal">
-          {{ record.name + ' ' + record.type || 'Food Detail' }}
-          <div class="pull-right">
-            <button class="btn btn-sm btn-pill btn-warning" (click)="goToEdit(record)"> <i class="fa fa-edit"></i></button>
-            &nbsp; <button class="btn btn-sm btn-pill btn-info" (click)="goBack()"><i class="fa fa-windows"></i></button>
+<div class="panel-header panel-header-sm">
+  </div>
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <!-- <button class="btn btn-default" routerLink="/pml-shipment/edit/{{record.id}}"> <i class="now-ui-icons ui-2_settings-90"></i> Edit Record</button> -->
+              <button class="btn btn-info pull-right" (click)="goBack()"> <i class="now-ui-icons arrows-1_minimal-left"></i> Go Back </button>
+            </div>
           </div>
         </div>
-        <div class="container">
-          <div class="row">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{{ record.name + ' ' + record.type || 'Food Detail' }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-info"><th>Property</th><th>Value</th></thead>
+                  <tbody>
+                  <tr><th>Description</th><td>{{ record.description }}</td></tr>
+                  <tr><th>Quantity</th><td>{{ record.quantity }}</td></tr>
+                  <tr><th>Category</th><td>{{ record.category }} </td></tr>
+                  <tr><th>Calorie</th><td>{{ record.calories }}Kcal </td></tr>
+                  <tr><th>Water</th><td>{{ record.water }} </td></tr>
+                  <tr><th>Carbohydrate</th><td>{{ record.carbohydrate }}{{record.unit}} </td></tr>
+                  <tr><th>Fats</th><td>{{ record.fats }}{{record.unit}} </td></tr>
+                  <tr><th>Fibre</th><td>{{ record.fibre }}{{record.unit}} </td></tr>
+                  <tr><th>Ph</th><td>{{ record.ph }}{{record.unit}}</td></tr>
+                  <tr><th>Ph</th><td>{{ record.ph }}{{record.unit}}</td></tr>
+                  <tr><th>Nutrient</th>
+                    <td>
+                      <div *ngIf="record.nutrients.length > 0">
+                        <ul *ngFor="let item of record.nutrients">
+                          <li>{{item.nutrient.name}}</li>
+                          <li>{{item.quantity}}</li>
+                        </ul>
+                      </div>
 
-            <div class="col-sm-12">
-              <!-- <div class="card-body"> -->
-              <div class="callout callout-success">
-                <h6 class="text-muted">Description</h6>
-                <br>
-                <h6>{{ record.description || '' }}</h6>
-                <div class="chart-wrapper">
-                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                </div>
-              </div>
+                    </td>
+                  </tr>
+                  <tr><th>Image</th>
+                    <td>
+                    <a [href]="record.image" target=”_blank”>
+                      <img [src]="record.image" [alt]="record.image" style="width:50; height:50;"/>
+                    </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
- 
-          <div class="row">
-            <div class="col-sm-3">
-              <div class="callout callout-success">
-                <h6 class="text-muted">Category</h6>
-                <br>
-                <h6>{{ record.category }}</h6>
-                <div class="chart-wrapper">
-                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="callout callout-success">
-                <h6 class="text-muted">Quantity</h6>
-                <br>
-                <h6>{{ record.quantity }}</h6>
-                <div class="chart-wrapper">
-                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="callout callout-success">
-                <h6 class="text-muted">Water</h6>
-                <br>
-                <h6>{{ record.water }}</h6>
-                <div class="chart-wrapper">
-                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="callout callout-success">
-                <h6 class="text-muted">Carbohydrate</h6>
-                <br>
-                <h6>{{ record.carbohydrate }}</h6>
-                <div class="chart-wrapper">
-                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row">
-              <div class="col-sm-3">
-                <div class="callout callout-success">
-                  <h6 class="text-muted">Protein</h6>
-                  <br>
-                  <h6>{{ record.protein }}</h6>
-                  <div class="chart-wrapper">
-                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="callout callout-success">
-                  <h6 class="text-muted">Fats</h6>
-                  <br>
-                  <h6>{{ record.fats }}</h6>
-                  <div class="chart-wrapper">
-                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="callout callout-success">
-                  <h6 class="text-muted">Fibre</h6>
-                  <br>
-                  <h6>{{ record.fibre }}</h6>
-                  <div class="chart-wrapper">
-                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="callout callout-success">
-                  <h6 class="text-muted">Nutrients</h6>
-                  <br>
-                  <h6>{{ record.nutrients }}</h6>
-                  <div class="chart-wrapper">
-                    <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          <div class="row">
-            <div class="col-sm-3">
-              <div class="callout callout-success">
-                <h6 class="text-muted">Ph</h6>
-                <br>
-                <h6>{{ record.ph }}</h6>
-                <div class="chart-wrapper">
-                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div class="callout callout-success">
-                <h6 class="text-muted">Image</h6>
-                <br>
-                <h6>{{ record.image }}</h6>
-                <div class="chart-wrapper">
-                  <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
   </div>
-  <!-- </div> -->
-
-</div>
 
 
 

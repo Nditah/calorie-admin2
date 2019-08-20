@@ -50,10 +50,10 @@
                     <div ngbDropdown class="dropdown btn-group" placement="bottom-right">
                       <button class="btn btn-info btn-sm dropdown-toggle-split" ngbDropdownToggle></button>
                       <div ngbDropdownMenu>
-                        <a class="dropdown-item text-primary" routerLink="/pml-billing/detail/{{record.id}}">
+                        <a class="dropdown-item text-primary" routerLink="/food/detail/{{record.id}}">
                           <i class="now-ui-icons tech_tv"></i> View Detail
                         </a>
-                       <a class="dropdown-item text-info" href="javascript:void(0)" (click)="openSidebarView('edit', record)">
+                       <a class="dropdown-item text-info" href="javascript:void(0)" (click)="goToEdit(record)">
                          <i class="now-ui-icons ui-2_settings-90"></i> Edit Record
                        </a>
                        <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="deleteModal(record)">

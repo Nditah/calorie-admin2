@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Foods } from '../../../providers';
-import { Food } from '../../../models';
+import { Foods, Nutrients } from '../../../providers';
+import { Food, SelectOption, Nutrient } from '../../../models';
 import { ToastrService } from 'ngx-toastr';
+import { deepPropsExist, isEqual } from '../../../helpers';
 
 @Component({
   selector: 'app-food-edit',
@@ -18,15 +19,21 @@ export class FoodEditComponent implements OnInit {
   date: any;
 
   loading = false;
-  notify: any;
+  nutrientRecords: Array<Nutrient>;
+  prevNutrientsRecord: Array<Nutrient>;
+  nutrientOptions: SelectOption[];
+  selectNutrient: Array<any>;
+  multiInputData: Array<SelectOption> = [];
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    public foods: Foods,
-    private toastr: ToastrService,) {
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              public foods: Foods,
+              private toastr: ToastrService,
+              public nutrients: Nutrients,) {
       const id = this.activatedRoute.snapshot.paramMap.get('id');
       const record = this.foods.query({ id })[0];
+      this.nutrientRecords = this.nutrients.query();
       if (!!record) {
         this.record = record;
       } else {
@@ -37,11 +44,12 @@ export class FoodEditComponent implements OnInit {
   ngOnInit() {
 
     this.editForm = this.formBuilder.group({
-      type: [''], // enum: ["DEFAULT", "CUSTOM"]
-      category: [''], // enum: ["FOOD", "DRINK"]
-      name: [''],
-      description: [''],
-      quantity: [''],
+      type: ['', Validators.required], // enum: ["DEFAULT", "CUSTOM"]
+      category: ['', Validators.required], // enum: ["FOOD", "DRINK"]
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      quantity: ['', Validators.required],
+      unit: ['', Validators.required],
       water: [''],
       calories: [''],
       carbohydrate: [''],
@@ -53,6 +61,21 @@ export class FoodEditComponent implements OnInit {
       nutrients: [''],
     });
 
+    this.editForm.patchValue({
+      type: deepPropsExist(this.record, 'type') ? this.record.type : '',
+      category: deepPropsExist(this.record, 'category') ? this.record.category : '',
+      name: deepPropsExist(this.record, 'name') ? this.record.name : '',
+      quantity: deepPropsExist(this.record, 'quantity') ? this.record.quantity : '',
+      water: deepPropsExist(this.record, 'water') ? this.record.water : '',
+      calories: deepPropsExist(this.record, 'calories') ? this.record.calories : '',
+      carbohydrate: deepPropsExist(this.record, 'carbohydrate') ? this.record.carbohydrate : '',
+      protein: deepPropsExist(this.record, 'protein') ? this.record.protein : '',
+      fats: deepPropsExist(this.record, 'fats') ? this.record.fats : '',
+      fibre: deepPropsExist(this.record, 'fibre') ? this.record.fibre : '',
+      ph: deepPropsExist(this.record, 'ph') ? this.record.ph : '',
+      image: deepPropsExist(this.record, 'image') ? this.record.image : '',
+      description: deepPropsExist(this.record, 'description') ? this.record.description : '',
+    });
     this.editForm.get('type').setValue(this.record.type || '');
     this.editForm.get('category').setValue(this.record.category || '');
     this.editForm.get('name').setValue(this.record.name || '');
@@ -69,6 +92,15 @@ export class FoodEditComponent implements OnInit {
     this.editForm.get('description').setValue(this.record.description || '');
 
     console.log('\nrecord ', typeof this.record, this.record);
+  }
+
+  ngDoCheck() {
+    console.log('Checking ============= !!!!!!!! ');
+    if (!isEqual(this.nutrientRecords, this.prevNutrientsRecord)) {
+      this.prevNutrientsRecord = [...this.nutrientRecords];
+      this.generateCurrentItems();
+      this.getNutrientOptions();
+    }
   }
 
   reset() {
@@ -106,6 +138,34 @@ export class FoodEditComponent implements OnInit {
 
   goBack() {
     window.history.back();
+  }
+
+  getNutrientOptions() {
+    this.nutrientOptions =  this.nutrientRecords.map( items => (
+      {
+        id: items.id,
+        text: items.name,
+        code: 0
+      }
+    ));
+  }
+
+  generateCurrentItems() {
+    this.multiInputData = deepPropsExist(this.record, 'nutrients') ?
+    this.record.nutrients.map(item => ({
+      id: item.nutrient.id,
+      text: item.nutrient.name,
+      code: item.quantity,
+    })) : [];
+  }
+
+  getMultipleRecords(event: SelectOption[]) {
+    this.selectNutrient = event.map(option => ({
+      nutrient: option.id,
+      quantity: option.code,
+    }));
+
+    console.log(this.selectNutrient);
   }
 
   showNotification(message) {

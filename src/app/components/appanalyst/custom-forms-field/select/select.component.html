@@ -1,8 +1,23 @@
+
+<div class="multiple-list" *ngIf="multiple">
+  <div class="multiple-item" *ngFor="let item of muiltpleRecords; let i = index">
+    <div class="content-wrapper">
+      <span>{{ item[bindLabel] }}</span>
+      <div  *ngIf="multipleInput">
+        <span>{{ muiltpleRecords[i][bindInput] || 0 }}</span>
+        <span class="add" (click)="addInput(i)">ADD</span>
+        <input type="number" #multipleList autoFocus  [value]="muiltpleRecords[i][bindInput]" /> <!-- [appAutoFocus]="currentIndex === i" -->
+      </div>
+    </div>
+    <span class="remove-item text-danger" (click)="onRemoveItem(item)">&times;</span>
+  </div>
+</div>
 <div
 class="list-group"
 [ngClass]="{active: openOptionList}"
 aaOutsideideClickable
 (aaOutsideClick)="onCloseOptionList()"
+
 >
   <div class="option-search"
   >
@@ -11,9 +26,10 @@ aaOutsideideClickable
       [placeholder]="placeholderValue"
       (click)="onOpenOptionList()"
       (input)="onSearch($event)"
-      [disabled]="appDisabled"
+      autocomplete="nbvhbhnfg"
       #search
     >
+    <span class="close" *ngIf="multiple" (click)="onCloseMultipleOption()">CLOSE</span>
   </div>
   <div class="options-group">
     <div

@@ -20,6 +20,8 @@ export class FoodAddComponent implements OnInit {
   nutrientOptions: SelectOption[];
   loading = false;
   notify: any;
+  selectNutrient: Array<any>;
+  multiInputData: Array<SelectOption> = [];
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -66,6 +68,7 @@ export class FoodAddComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     const payload = this.addForm.value;
+    payload.nutrients = this.selectNutrient;
     if (this.addForm.invalid) {
       this.loading = false;
       this.showNotification('Please fill out the form correctly');
@@ -106,9 +109,19 @@ export class FoodAddComponent implements OnInit {
     this.nutrientOptions =  this.nutrientRecords.map( items => (
       {
         id: items.id,
-        text: items.name
+        text: items.name,
+        code: 0
       }
     ));
+  }
+
+  getMultipleRecords(event: SelectOption[]) {
+    this.selectNutrient = event.map(option => ({
+      nutrient: option.id,
+      quantity: option.code,
+    }));
+
+    console.log(this.selectNutrient);
   }
 
   showNotification(message) {

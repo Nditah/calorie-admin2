@@ -20,7 +20,7 @@ export class FoodDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.foods.recordRetrieve(`_id=${id}`).then((res: ApiResponse) => {
+    this.foods.recordRetrieve(`?_id=${id}`).then((res: ApiResponse) => {
       if (res.success) {
         const record = res.payload[0];
         this.record = record || this.foods.defaultRecord;
