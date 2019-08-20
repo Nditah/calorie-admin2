@@ -1,4 +1,5 @@
 ﻿import { User } from './user';
+import { Nutrient } from './nutrient';
 
 export class Food {
     id: string;
@@ -13,7 +14,7 @@ export class Food {
     protein?: number;
     fats?: number;
     fibre?: number;
-    nutrients?: Array<{ nutrient_id: string, nutrient_value: number }>;
+    nutrients?: Array<{nutrient: Nutrient, quantity: number}>;
     image?: string;
     created_by?: User;
     created_at?: Date;

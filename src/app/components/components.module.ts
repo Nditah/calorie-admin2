@@ -10,6 +10,7 @@ import { ReceiptsComponent } from './receipts/receipts.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { AdvanceTableComponent } from './advance-table/advance-table.component';
 import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
+import { CustomFormsFieldModule } from './appanalyst/custom-forms-field/custom-forms-field.module';
 // import { CustomFormsFieldModule } from './appanalyst/custom-forms-field/custom-forms-field.module';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
     CommonModule,
     RouterModule,
     NgbModule,
+    CustomFormsFieldModule,
   ],
   declarations: [
     FooterComponent,
