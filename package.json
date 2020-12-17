@@ -41,7 +41,7 @@
     "core-js": "2.6.3",
     "country-list": "^2.1.0",
     "countryinfo": "^1.0.3",
-    "datatables.net": "^1.10.19",
+    "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.19",
     "datatables.net-responsive": "^2.2.3",
     "express": "^4.16.4",
