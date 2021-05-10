@@ -51,7 +51,7 @@
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
     "jw-bootstrap-switch-ng2": "2.0.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "ng-connection-service": "^1.0.4",
     "ng2-charts": "1.6.0",
     "ngx-toastr": "^9.1.1",
