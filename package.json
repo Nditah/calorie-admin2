@@ -30,7 +30,7 @@
     "@ng-bootstrap/ng-bootstrap": "4.0.2",
     "@ng-select/ng-select": "^2.20.0",
     "@types/lodash": "^4.14.130",
-    "ajv": "6.7.0",
+    "ajv": "6.12.3",
     "ajv-keywords": "3.3.0",
     "angular-datatables": "^6.0.1",
     "bootstrap": "^4.3.1",
